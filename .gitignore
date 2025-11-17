@@ -95,3 +95,8 @@ Thumbs.db
 
 # Vite build output
 dist/
+
+# tests
+tests/
+test-results/
+playwright-report/
