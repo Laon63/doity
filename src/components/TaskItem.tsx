@@ -1,4 +1,10 @@
-import { Card, CardContent, Typography, Checkbox, IconButton } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  Typography,
+  Checkbox,
+  IconButton,
+} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Task } from '../types'; // We'll create this type definition next
 
@@ -26,7 +32,11 @@ function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
         >
           {task.title}
         </Typography>
-        <IconButton edge="end" aria-label="delete" onClick={() => onDelete(task.id)}>
+        <IconButton
+          edge="end"
+          aria-label="delete"
+          onClick={() => onDelete(task.id)}
+        >
           <DeleteIcon />
         </IconButton>
       </CardContent>

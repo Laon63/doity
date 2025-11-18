@@ -58,9 +58,7 @@ function MainPage() {
       console.error('Error updating task:', error);
     } else {
       setTasks(
-        tasks.map((task) =>
-          task.id === id ? { ...task, is_completed } : task
-        )
+        tasks.map((task) => (task.id === id ? { ...task, is_completed } : task))
       );
     }
   };
@@ -81,7 +79,11 @@ function MainPage() {
         Today's Tasks
       </Typography>
 
-      <Box component="form" onSubmit={handleAddTask} sx={{ display: 'flex', gap: 1, mb: 3 }}>
+      <Box
+        component="form"
+        onSubmit={handleAddTask}
+        sx={{ display: 'flex', gap: 1, mb: 3 }}
+      >
         <TextField
           fullWidth
           variant="outlined"
@@ -94,7 +96,11 @@ function MainPage() {
         </Button>
       </Box>
 
-      <TaskList tasks={tasks} onToggle={handleToggleTask} onDelete={handleDeleteTask} />
+      <TaskList
+        tasks={tasks}
+        onToggle={handleToggleTask}
+        onDelete={handleDeleteTask}
+      />
     </Box>
   );
 }

@@ -27,5 +27,4 @@ supabase.auth.getSession().then(({ data: { session } }) => {
   useAuthStore.getState().setSession(session);
 });
 
-
 export default useAuthStore;

@@ -27,7 +27,9 @@ function SignupPage() {
     if (error) {
       alert(`회원가입 중 오류가 발생했습니다: ${error.message}`);
     } else if (data.user) {
-      alert('회원가입이 완료되었습니다. 이메일을 확인하여 계정을 활성화해주세요.');
+      alert(
+        '회원가입이 완료되었습니다. 이메일을 확인하여 계정을 활성화해주세요.'
+      );
       navigate('/login');
     }
   };
@@ -40,7 +42,12 @@ function SignupPage() {
       <Typography component="h1" variant="h5">
         회원가입
       </Typography>
-      <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, width: '100%' }}>
+      <Box
+        component="form"
+        noValidate
+        onSubmit={handleSubmit}
+        sx={{ mt: 3, width: '100%' }}
+      >
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <TextField
             required
@@ -83,7 +90,10 @@ function SignupPage() {
           가입하기
         </Button>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <RouterLink to="/login" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <RouterLink
+            to="/login"
+            style={{ textDecoration: 'none', color: 'inherit' }}
+          >
             <Typography variant="body2">
               이미 계정이 있으신가요? 로그인
             </Typography>

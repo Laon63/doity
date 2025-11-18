@@ -1,5 +1,12 @@
 import { useState } from 'react';
-import { Avatar, Box, Button, Grid, TextField, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Grid,
+  TextField,
+  Typography,
+} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import FormContainer from '../components/FormContainer';
@@ -20,7 +27,9 @@ function LoginPage() {
 
     if (error) {
       if (error.message === 'Email not confirmed') {
-        alert('이메일 인증이 필요합니다. 가입 시 사용한 이메일의 받은 편지함을 확인해주세요.');
+        alert(
+          '이메일 인증이 필요합니다. 가입 시 사용한 이메일의 받은 편지함을 확인해주세요.'
+        );
       } else {
         alert(`로그인 중 오류가 발생했습니다: ${error.message}`);
       }
@@ -72,7 +81,10 @@ function LoginPage() {
         </Button>
         <Grid container justifyContent="flex-end">
           <Grid item>
-            <RouterLink to="/signup" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <RouterLink
+              to="/signup"
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
               <Typography variant="body2">
                 계정이 없으신가요? 회원가입
               </Typography>

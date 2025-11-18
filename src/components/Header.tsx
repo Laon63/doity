@@ -9,11 +9,14 @@ function Header() {
     <AppBar position="static" color="transparent" elevation={1}>
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          <RouterLink to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-            Do-itY
+          <RouterLink
+            to="/"
+            style={{ textDecoration: 'none', color: 'inherit' }}
+          >
+            DoitY
           </RouterLink>
         </Typography>
-        
+
         {session && (
           <Box>
             <Button color="inherit" component={RouterLink} to="/">

@@ -9,7 +9,7 @@ function ProtectedRoute() {
   useEffect(() => {
     const checkSession = async () => {
       // Give Supabase a moment to initialize the session from storage
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
       setLoading(false);
     };
     checkSession();
