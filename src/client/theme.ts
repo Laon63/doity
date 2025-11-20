@@ -7,6 +7,7 @@ const theme = createTheme({
       main: '#8FE3CD', // Emerald pastel tone
       light: '#B2F0E0',
       dark: '#6ACDAF',
+      text: '#4A8C7B', // Darker emerald for text
     },
     secondary: {
       main: '#64748B', // A neutral gray
@@ -55,10 +56,10 @@ const theme = createTheme({
         root: ({ theme }) => ({
           borderRadius: '8px',
           '&.active': {
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.primary.contrastText,
+            backgroundColor: theme.palette.primary.light,
+            color: theme.palette.primary.text,
             '& .MuiListItemIcon-root': {
-              color: theme.palette.primary.contrastText,
+              color: theme.palette.primary.text,
             },
           },
         }),

@@ -10,4 +10,12 @@ declare module '@mui/material/styles' {
     pastelCoral?: PaletteOptions['primary'];
     border?: PaletteOptions['primary'];
   }
+
+  interface PaletteColor {
+    text?: string;
+  }
+
+  interface SimplePaletteColorOptions {
+    text?: string;
+  }
 }
