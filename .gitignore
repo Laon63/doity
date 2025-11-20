@@ -100,3 +100,5 @@ dist/
 tests/
 test-results/
 playwright-report/
+builderio/
+.gemini/

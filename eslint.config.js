@@ -8,7 +8,7 @@ import js from '@eslint/js';
 
 export default [
   {
-    ignores: ['dist/**', 'eslint.config.js'],
+    ignores: ['dist/**', 'eslint.config.js', 'builderio/**'],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,

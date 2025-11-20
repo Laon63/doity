@@ -5,4 +5,6 @@ export interface Task {
   title: string;
   is_completed: boolean;
   due_date: string | null;
+  description?: string;
+  category?: string;
 }

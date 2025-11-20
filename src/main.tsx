@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import theme from './theme';
+import theme from './client/theme'; // Updated path
 import { RouterProvider } from 'react-router-dom';
-import router from './router';
+import router from './client/router'; // Updated path
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
