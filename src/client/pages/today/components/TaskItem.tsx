@@ -67,27 +67,30 @@ function TaskItem({
 
   return (
     <Box
+      onClick={() => onTaskClick(task.id)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       sx={{
         display: 'flex',
         alignItems: 'center',
         p: 1.5,
-        mb: 1,
+        mb: 1.5,
         bgcolor: isFocused ? getCategoryLightColor(task.category) : 'background.paper',
         borderRadius: 1,
         border: isFocused ? `2px solid ${getCategoryColor(task.category)}` : '2px solid transparent',
-        boxShadow: isFocused ? `0 0 0 1px ${getCategoryColor(task.category)}20` : '0 1px 2px rgba(0,0,0,0.04)',
-        transition: 'all 0.2s ease',
+        cursor: 'pointer',
+        transition: 'background-color 0.2s ease, border-color 0.2s ease',
         '&:hover': {
           bgcolor: getCategoryLightColor(task.category),
-          boxShadow: '0 2px 4px rgba(0,0,0,0.06)',
         },
       }}
     >
       <Checkbox
         checked={task.is_completed}
-        onChange={() => onToggleTask(task.id)}
+        onChange={(e) => {
+          e.stopPropagation();
+          onToggleTask(task.id);
+        }}
         sx={{
           p: 0,
           mr: 1.5,
@@ -106,12 +109,10 @@ function TaskItem({
           fullWidth
           autoFocus
           InputProps={{ disableUnderline: true }}
+          onClick={(e) => e.stopPropagation()}
         />
       ) : (
-        <Box
-          sx={{ flexGrow: 1, cursor: 'pointer' }}
-          onClick={() => onTaskClick(task.id)}
-        >
+        <Box sx={{ flexGrow: 1 }}>
           <Typography
             sx={{
               textDecoration: task.is_completed ? 'line-through' : 'none',
@@ -128,11 +129,25 @@ function TaskItem({
         </Box>
       )}
       {(isHovered || isFocused) && !isEditing && (
-        <Box>
-          <IconButton onClick={() => setIsEditing(true)} size="small">
+        <Box sx={{ display: 'flex', gap: 0.5 }}>
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsEditing(true);
+            }}
+            size="small"
+            sx={{ color: 'text.secondary' }}
+          >
             <EditIcon fontSize="small" />
           </IconButton>
-          <IconButton onClick={() => onDeleteTask(task.id)} size="small">
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              onDeleteTask(task.id);
+            }}
+            size="small"
+            sx={{ color: 'text.secondary' }}
+          >
             <DeleteIcon fontSize="small" />
           </IconButton>
         </Box>
