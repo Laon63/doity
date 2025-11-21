@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box } from '@mui/material';
 import { Task } from 'client/types';
+import Scrollable from 'client/components/Scrollable';
 import TaskItem from 'client/pages/today/components/TaskItem';
 
 interface TaskListProps {
@@ -21,7 +21,7 @@ function TaskList({
   onTaskClick,
 }: TaskListProps) {
   return (
-    <Box>
+    <Scrollable sx={{ flex: 1, minHeight: 0 }}>
       {tasks.map((task, index) => (
         <TaskItem
           key={task.id}
@@ -33,7 +33,7 @@ function TaskList({
           onTaskClick={onTaskClick}
         />
       ))}
-    </Box>
+    </Scrollable>
   );
 }
 
