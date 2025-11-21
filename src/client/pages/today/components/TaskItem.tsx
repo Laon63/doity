@@ -42,13 +42,26 @@ function TaskItem({
   const getCategoryColor = (category?: string) => {
     switch (category) {
       case 'personal':
-        return 'primary.main';
+        return '#8FE3CD';
       case 'work':
-        return 'secondary.main';
+        return '#64748B';
       case 'other':
-        return 'warning.main';
+        return '#F59E0B';
       default:
-        return 'grey.500';
+        return '#CBD5E1';
+    }
+  };
+
+  const getCategoryLightColor = (category?: string) => {
+    switch (category) {
+      case 'personal':
+        return '#E0F9F5';
+      case 'work':
+        return '#F1F5F9';
+      case 'other':
+        return '#FFFBEB';
+      default:
+        return '#F1F5F9';
     }
   };
 
@@ -61,14 +74,14 @@ function TaskItem({
         alignItems: 'center',
         p: 1.5,
         mb: 1,
-        bgcolor: 'background.paper',
-        borderRadius: 2,
-        borderLeft: '4px solid',
-        borderColor: getCategoryColor(task.category),
-        backgroundColor: isFocused ? 'action.hover' : 'background.paper',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+        bgcolor: isFocused ? getCategoryLightColor(task.category) : 'background.paper',
+        borderRadius: 1,
+        border: isFocused ? `2px solid ${getCategoryColor(task.category)}` : '2px solid transparent',
+        boxShadow: isFocused ? `0 0 0 1px ${getCategoryColor(task.category)}20` : '0 1px 2px rgba(0,0,0,0.04)',
+        transition: 'all 0.2s ease',
         '&:hover': {
-          backgroundColor: 'action.hover',
+          bgcolor: getCategoryLightColor(task.category),
+          boxShadow: '0 2px 4px rgba(0,0,0,0.06)',
         },
       }}
     >
@@ -78,7 +91,6 @@ function TaskItem({
         sx={{
           p: 0,
           mr: 1.5,
-          borderRadius: 1, // Square checkbox
           '&.Mui-checked': {
             color: getCategoryColor(task.category),
           },
