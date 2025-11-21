@@ -14,8 +14,8 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import NotesIcon from '@mui/icons-material/Notes';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import { APP_NAME } from '../contants';
-import Logo from './Logo';
+import { APP_NAME } from 'client/contants';
+import Logo from 'client/components/Logo';
 
 const mainNavItems = [
   { text: 'Today', icon: <CheckCircleOutlineIcon />, to: '/today' },
@@ -49,7 +49,7 @@ function Sidebar() {
       </Box>
       <List sx={{ flexGrow: 1, px: 1 }}>
         {mainNavItems.map((item) => (
-          <ListItem key={item.text} disablePadding>
+          <ListItem key={item.text}>
             <ListItemButton component={NavLink} to={item.to}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
@@ -60,7 +60,7 @@ function Sidebar() {
       <Box sx={{ px: 1 }}>
         <List>
           {secondaryNavItems.map((item) => (
-            <ListItem key={item.text} disablePadding>
+            <ListItem key={item.text}>
               <ListItemButton component={NavLink} to={item.to}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />

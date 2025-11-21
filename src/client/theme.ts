@@ -51,10 +51,27 @@ const theme = createTheme({
         },
       },
     },
+    MuiListItem: {
+      styleOverrides: {
+        root: () => ({
+          borderRadius: '8px',
+          padding: '2px 8px',
+        }),
+      },
+    },
+    MuiListItemIcon: {
+      styleOverrides: {
+        root: () => ({
+          minWidth: '32px',
+        }),
+      },
+    },
     MuiListItemButton: {
       styleOverrides: {
         root: ({ theme }) => ({
           borderRadius: '8px',
+          padding: '8px',
+          height: '44px',
           '&.active': {
             backgroundColor: theme.palette.primary.light,
             color: theme.palette.primary.text,

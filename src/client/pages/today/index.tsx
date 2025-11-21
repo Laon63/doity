@@ -1,19 +1,28 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Box, Container } from '@mui/material';
-import { Task } from '../../types';
+import { Box, Container, Typography } from '@mui/material'; // Added Typography
+import { Task } from 'client/types';
 import DateNavigator from './components/DateNavigator';
 import CategoryFilter from './components/CategoryFilter';
 import TaskQuickAdd from './components/TaskQuickAdd';
 import TaskList from './components/TaskList';
-import { supabase } from '../../lib/supabaseClient';
-import useAuthStore from '../../store/authStore';
+import { supabase } from 'client/lib/supabaseClient';
+import useAuthStore from 'client/store/authStore';
+import { useSearchParams } from 'react-router-dom'; // Changed useMatch to useSearchParams
+import TaskDetailPage from 'client/pages/task-detail';
+import LoadingSpinner from 'client/components/LoadingSpinner';
+import { getRangeOfDay } from 'client/utils/date';
 
 function TodayPage() {
   const session = useAuthStore((state) => state.session);
+  const [searchParams, setSearchParams] = useSearchParams(); // New
+  const taskId = searchParams.get('taskId'); // New
+
   const [tasks, setTasks] = useState<Task[]>([]);
   const [category, setCategory] = useState<string>('All');
   const [focusedIndex, setFocusedIndex] = useState<number>(-1);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [loadingTasks, setLoadingTasks] = useState(true);
 
   const handlePreviousDay = () => {
     setSelectedDate((prevDate) => {
@@ -31,24 +40,58 @@ function TodayPage() {
     });
   };
 
+  const handleTodayClick = useCallback(() => {
+    setSelectedDate(new Date());
+  }, []);
+
+  const handleDateChange = useCallback((date: Date | null) => {
+    if (date) {
+      setSelectedDate(date);
+      setIsCalendarOpen(false);
+    }
+  }, []);
+
+  const handleTaskClick = useCallback(
+    (id: string) => {
+      setSearchParams({ taskId: id }); // Changed navigation
+    },
+    [setSearchParams]
+  );
+
+  const handleCloseTaskDetail = useCallback(() => {
+    setSearchParams({}); // Clear taskId query parameter
+  }, [setSearchParams]);
+
   useEffect(() => {
     const fetchTasks = async () => {
-      if (!session) return;
+      setLoadingTasks(true);
+      if (!session) {
+        setTasks([]); // Clear tasks if no session
+        setLoadingTasks(false);
+        return;
+      }
+
+      const [startOfDay, endOfDay] = getRangeOfDay(selectedDate);
+
       const { data, error } = await supabase
         .from('tasks')
         .select('*')
         .eq('user_id', session.user.id)
+        .gte('created_at', startOfDay.toISOString()) // Filter by created_at >= start of selected day
+        .lt('created_at', endOfDay.toISOString()) // Filter by created_at < end of selected day
         .order('created_at', { ascending: false });
 
       if (error) {
         console.error('Error fetching tasks:', error);
+        setTasks([]);
       } else {
         setTasks(data);
       }
+      setLoadingTasks(false);
     };
 
     fetchTasks();
-  }, [session]);
+  }, [session, selectedDate]); // Add selectedDate to dependencies
 
   const filteredTasks = useMemo(() => {
     if (category === 'All') {
@@ -59,10 +102,18 @@ function TodayPage() {
   }, [tasks, category]);
 
   const handleAddTask = async (title: string) => {
-    if (!session) return;
+    if (!session) {
+      return;
+    }
     const { data, error } = await supabase
       .from('tasks')
-      .insert([{ title, user_id: session.user.id, category: 'personal' }])
+      .insert([
+        {
+          title,
+          user_id: session.user.id,
+          category: 'personal',
+        },
+      ])
       .select();
 
     if (error) {
@@ -103,7 +154,9 @@ function TodayPage() {
       } else {
         setTasks(
           tasks.map((task) =>
-            task.id === id ? { ...task, is_completed: !task.is_completed } : task
+            task.id === id
+              ? { ...task, is_completed: !task.is_completed }
+              : task
           )
         );
       }
@@ -145,29 +198,63 @@ function TodayPage() {
   );
 
   return (
-    <Container
-      maxWidth="md"
-      onKeyDown={handleKeyDown}
-      tabIndex={0}
-      sx={{ outline: 'none' }}
-    >
-      <DateNavigator
-        selectedDate={selectedDate}
-        onPreviousDay={handlePreviousDay}
-        onNextDay={handleNextDay}
-      />
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <CategoryFilter selectedCategory={category} setCategory={setCategory} />
-        <TaskQuickAdd onAddTask={handleAddTask} />
+    <Box sx={{ display: 'flex', height: '100%', overflow: 'hidden' }}>
+      <Container
+        maxWidth="sm" // Fixed width for the task list area
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
+        sx={{
+          outline: 'none',
+          flexShrink: 0,
+          width: '100%', // Occupy full width within its flex item
+          transition: 'width 0.3s ease-in-out',
+        }}
+      >
+        <DateNavigator
+          selectedDate={selectedDate}
+          onPreviousDay={handlePreviousDay}
+          onNextDay={handleNextDay}
+          onTodayClick={handleTodayClick}
+          isCalendarOpen={isCalendarOpen}
+          setIsCalendarOpen={setIsCalendarOpen}
+          onDateChange={handleDateChange}
+        />
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <CategoryFilter
+            selectedCategory={category}
+            setCategory={setCategory}
+          />
+          <TaskQuickAdd onAddTask={handleAddTask} />
+          {loadingTasks ? (
+            <LoadingSpinner />
+          ) : (
+            <TaskList
+              tasks={filteredTasks}
+              focusedIndex={focusedIndex}
+              onUpdateTask={handleUpdateTask}
+              onToggleTask={handleToggleTask}
+              onDeleteTask={handleDeleteTask}
+              onTaskClick={handleTaskClick}
+            />
+          )}
+        </Box>
+      </Container>
+      <Box
+        sx={{
+          width: '350px', // Fixed width for the task detail area
+          flexShrink: 0,
+          borderLeft: '1px solid',
+          borderColor: 'divider',
+          overflowY: 'auto',
+        }}
+      >
+        {taskId ? (
+          <TaskDetailPage taskId={taskId} onClose={handleCloseTaskDetail} />
+        ) : (
+          <Typography sx={{ p: 2 }}>Select a task to see details</Typography>
+        )}
       </Box>
-      <TaskList
-        tasks={filteredTasks}
-        focusedIndex={focusedIndex}
-        onUpdateTask={handleUpdateTask}
-        onToggleTask={handleToggleTask}
-        onDeleteTask={handleDeleteTask}
-      />
-    </Container>
+    </Box>
   );
 }
 

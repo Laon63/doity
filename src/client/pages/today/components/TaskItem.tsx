@@ -6,9 +6,10 @@ import {
   TextField,
   Checkbox,
 } from '@mui/material';
-import { Task } from '../../../types';
+import { Task } from 'client/types';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { formatDate } from 'client/utils/date';
 
 interface TaskItemProps {
   task: Task;
@@ -16,6 +17,7 @@ interface TaskItemProps {
   onUpdateTask: (id: string, newTitle: string) => void;
   onToggleTask: (id: string) => void;
   onDeleteTask: (id: string) => void;
+  onTaskClick: (id: string) => void;
 }
 
 function TaskItem({
@@ -24,6 +26,7 @@ function TaskItem({
   onUpdateTask,
   onToggleTask,
   onDeleteTask,
+  onTaskClick,
 }: TaskItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
@@ -64,6 +67,9 @@ function TaskItem({
         borderColor: getCategoryColor(task.category),
         backgroundColor: isFocused ? 'action.hover' : 'background.paper',
         boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+        '&:hover': {
+          backgroundColor: 'action.hover',
+        },
       }}
     >
       <Checkbox
@@ -92,7 +98,7 @@ function TaskItem({
       ) : (
         <Box
           sx={{ flexGrow: 1, cursor: 'pointer' }}
-          onClick={() => onToggleTask(task.id)}
+          onClick={() => onTaskClick(task.id)}
         >
           <Typography
             sx={{
@@ -104,10 +110,7 @@ function TaskItem({
           </Typography>
           {task.due_date && (
             <Typography variant="caption" color="text.secondary">
-              {new Date(task.due_date).toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric',
-              })}
+              {formatDate(task.due_date, 'MMM d')}
             </Typography>
           )}
         </Box>

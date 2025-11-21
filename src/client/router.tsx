@@ -1,12 +1,22 @@
 import { createBrowserRouter } from 'react-router-dom';
-import App from './App';
-import TodayPage from './pages/today';
-import CalendarPage from './pages/calendar';
-import MemoPage from './pages/memo';
-import SettingsPage from './pages/settings';
-import LogoutPage from './pages/logout';
+import App from 'client/App';
+import TodayPage from 'client/pages/today';
+import CalendarPage from 'client/pages/calendar';
+import MemoPage from 'client/pages/memo';
+import SettingsPage from 'client/pages/settings';
+import LogoutPage from 'client/pages/logout';
+import LoginPage from 'client/pages/login';
+import SignupPage from 'client/pages/signup';
 
 const router = createBrowserRouter([
+  {
+    path: '/login',
+    element: <LoginPage />,
+  },
+  {
+    path: '/signup',
+    element: <SignupPage />,
+  },
   {
     path: '/',
     element: <App />,

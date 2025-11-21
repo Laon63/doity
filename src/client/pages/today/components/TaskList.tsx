@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import { Task } from '../../../types';
-import TaskItem from './TaskItem';
+import { Task } from 'client/types';
+import TaskItem from 'client/pages/today/components/TaskItem';
 
 interface TaskListProps {
   tasks: Task[];
@@ -9,6 +9,7 @@ interface TaskListProps {
   onUpdateTask: (id: string, newTitle: string) => void;
   onToggleTask: (id: string) => void;
   onDeleteTask: (id: string) => void;
+  onTaskClick: (id: string) => void;
 }
 
 function TaskList({
@@ -17,6 +18,7 @@ function TaskList({
   onUpdateTask,
   onToggleTask,
   onDeleteTask,
+  onTaskClick,
 }: TaskListProps) {
   return (
     <Box>
@@ -28,6 +30,7 @@ function TaskList({
           onUpdateTask={onUpdateTask}
           onToggleTask={onToggleTask}
           onDeleteTask={onDeleteTask}
+          onTaskClick={onTaskClick}
         />
       ))}
     </Box>

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import useAuthStore from '../../store/authStore';
+import useAuthStore from 'client/store/authStore';
 
 function LogoutPage() {
   const navigate = useNavigate();

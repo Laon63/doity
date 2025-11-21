@@ -19,7 +19,11 @@ function Logo({ bgColor = 'transparent', size = 24 }: LogoProps) {
         borderRadius: '4px', // Optional: add some border-radius
       }}
     >
-      <img src="/favicon.svg" alt="logo" style={{ width: '100%', height: '100%' }} />
+      <img
+        src="/favicon.svg"
+        alt="logo"
+        style={{ width: '100%', height: '100%' }}
+      />
     </Box>
   );
 }
