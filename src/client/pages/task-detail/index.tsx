@@ -163,17 +163,17 @@ function TaskDetailPage({ taskId, onClose }: TaskDetailPageProps) {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            pb: 2,
-            borderBottom: '1px solid',
-            borderColor: 'divider',
+            px: 2,
+            pt: 2,
+            pb: 1.5,
           }}
         >
           <Typography
             variant="h6"
             component="h2"
-            sx={{ fontWeight: 600, fontSize: '1.1rem' }}
+            sx={{ fontWeight: 600, fontSize: '1rem' }}
           >
-            Task Details
+            Details
           </Typography>
           <IconButton
             onClick={handleClose}
