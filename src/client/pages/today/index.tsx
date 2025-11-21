@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Box, Container, Typography } from '@mui/material'; // Added Typography
+import { Box, Typography } from '@mui/material';
 import { Task } from 'client/types';
 import DateNavigator from './components/DateNavigator';
 import CategoryFilter from './components/CategoryFilter';
