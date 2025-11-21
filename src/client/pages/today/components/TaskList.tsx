@@ -21,7 +21,7 @@ function TaskList({
   onTaskClick,
 }: TaskListProps) {
   return (
-    <Scrollable sx={{ flex: 1, minHeight: 0 }}>
+    <Scrollable sx={{ flex: 1, minHeight: 0, pr: 1 }}>
       {tasks.map((task, index) => (
         <TaskItem
           key={task.id}
