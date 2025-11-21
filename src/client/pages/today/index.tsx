@@ -199,14 +199,15 @@ function TodayPage() {
 
   return (
     <Box sx={{ display: 'flex', height: '100%', overflow: 'hidden' }}>
-      <Container
-        maxWidth="sm" // Fixed width for the task list area
+      <Box
         onKeyDown={handleKeyDown}
         tabIndex={0}
         sx={{
           outline: 'none',
-          flexShrink: 0,
-          width: '100%', // Occupy full width within its flex item
+          flex: 1,
+          maxWidth: '600px',
+          display: 'flex',
+          flexDirection: 'column',
           transition: 'width 0.3s ease-in-out',
         }}
       >
@@ -219,7 +220,7 @@ function TodayPage() {
           setIsCalendarOpen={setIsCalendarOpen}
           onDateChange={handleDateChange}
         />
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1, minHeight: 0 }}>
           <CategoryFilter
             selectedCategory={category}
             setCategory={setCategory}
@@ -238,10 +239,10 @@ function TodayPage() {
             />
           )}
         </Box>
-      </Container>
+      </Box>
       <Box
         sx={{
-          width: '350px', // Fixed width for the task detail area
+          width: '350px',
           flexShrink: 0,
           borderLeft: '1px solid',
           borderColor: 'divider',
