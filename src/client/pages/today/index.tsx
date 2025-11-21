@@ -205,27 +205,38 @@ function TodayPage() {
         sx={{
           outline: 'none',
           flex: 1,
-          maxWidth: '600px',
+          maxWidth: '620px',
           display: 'flex',
           flexDirection: 'column',
           transition: 'width 0.3s ease-in-out',
         }}
       >
-        <DateNavigator
-          selectedDate={selectedDate}
-          onPreviousDay={handlePreviousDay}
-          onNextDay={handleNextDay}
-          onTodayClick={handleTodayClick}
-          isCalendarOpen={isCalendarOpen}
-          setIsCalendarOpen={setIsCalendarOpen}
-          onDateChange={handleDateChange}
-        />
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1, minHeight: 0 }}>
+        {/* Date Navigation */}
+        <Box sx={{ pb: 2.5, borderBottom: '1px solid', borderColor: 'divider' }}>
+          <DateNavigator
+            selectedDate={selectedDate}
+            onPreviousDay={handlePreviousDay}
+            onNextDay={handleNextDay}
+            onTodayClick={handleTodayClick}
+            isCalendarOpen={isCalendarOpen}
+            setIsCalendarOpen={setIsCalendarOpen}
+            onDateChange={handleDateChange}
+          />
+        </Box>
+
+        {/* Filters and Quick Add */}
+        <Box sx={{ py: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
           <CategoryFilter
             selectedCategory={category}
             setCategory={setCategory}
           />
-          <TaskQuickAdd onAddTask={handleAddTask} />
+          <Box sx={{ mt: 1.5 }}>
+            <TaskQuickAdd onAddTask={handleAddTask} />
+          </Box>
+        </Box>
+
+        {/* Task List */}
+        <Box sx={{ flex: 1, minHeight: 0, py: 2 }}>
           {loadingTasks ? (
             <LoadingSpinner />
           ) : (
@@ -240,19 +251,39 @@ function TodayPage() {
           )}
         </Box>
       </Box>
+
+      {/* Task Details Panel */}
       <Box
         sx={{
-          width: '350px',
+          width: '360px',
           flexShrink: 0,
           borderLeft: '1px solid',
           borderColor: 'divider',
-          overflowY: 'auto',
+          bgcolor: 'background.paper',
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
         {taskId ? (
           <TaskDetailPage taskId={taskId} onClose={handleCloseTaskDetail} />
         ) : (
-          <Typography sx={{ p: 2 }}>Select a task to see details</Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              flexDirection: 'column',
+              gap: 1,
+            }}
+          >
+            <Typography
+              variant="body2"
+              sx={{ color: 'text.secondary', textAlign: 'center' }}
+            >
+              Select a task to view details
+            </Typography>
+          </Box>
         )}
       </Box>
     </Box>
