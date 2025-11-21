@@ -198,7 +198,7 @@ function TodayPage() {
   );
 
   return (
-    <Box sx={{ display: 'flex', height: '100%', overflow: 'hidden' }}>
+    <Box sx={{ display: 'flex', height: '100%', overflow: 'hidden', gap: 3 }}>
       <Box
         onKeyDown={handleKeyDown}
         tabIndex={0}
@@ -212,7 +212,7 @@ function TodayPage() {
         }}
       >
         {/* Date Navigation */}
-        <Box sx={{ pb: 2.5, borderBottom: '1px solid', borderColor: 'divider' }}>
+        <Box sx={{ pb: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
           <DateNavigator
             selectedDate={selectedDate}
             onPreviousDay={handlePreviousDay}
@@ -225,7 +225,7 @@ function TodayPage() {
         </Box>
 
         {/* Filters and Quick Add */}
-        <Box sx={{ py: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
+        <Box sx={{ py: 2.5, borderBottom: '1px solid', borderColor: 'divider' }}>
           <CategoryFilter
             selectedCategory={category}
             setCategory={setCategory}
@@ -257,11 +257,11 @@ function TodayPage() {
         sx={{
           width: '360px',
           flexShrink: 0,
-          borderLeft: '1px solid',
-          borderColor: 'divider',
+          borderRadius: 1,
           bgcolor: 'background.paper',
           display: 'flex',
           flexDirection: 'column',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
         }}
       >
         {taskId ? (
