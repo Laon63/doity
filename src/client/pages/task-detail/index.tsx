@@ -185,9 +185,9 @@ function TaskDetailPage({ taskId, onClose }: TaskDetailPageProps) {
         </Box>
 
         {/* Content Area */}
-        <Box sx={{ flexGrow: 1, overflowY: 'auto', py: 2, px: 0 }}>
+        <Box sx={{ flexGrow: 1, overflowY: 'auto', py: 1.5, px: 2 }}>
           {/* Title Section */}
-          <Box sx={{ mb: 2.5 }}>
+          <Box sx={{ mb: 2 }}>
             <TextField
               label="Title"
               value={title}
@@ -200,7 +200,7 @@ function TaskDetailPage({ taskId, onClose }: TaskDetailPageProps) {
           </Box>
 
           {/* Category & Due Date Row */}
-          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1.5, mb: 2.5 }}>
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, mb: 2 }}>
             <FormControl fullWidth size="small">
               <InputLabel id="category-select-label">Category</InputLabel>
               <Select
@@ -233,8 +233,8 @@ function TaskDetailPage({ taskId, onClose }: TaskDetailPageProps) {
           </Box>
 
           {/* Description Section */}
-          <Box sx={{ mb: 2.5 }}>
-            <Typography variant="caption" sx={{ color: 'text.secondary', mb: 0.8, display: 'block' }}>
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="caption" sx={{ color: 'text.secondary', mb: 0.6, display: 'block', fontWeight: 500 }}>
               Description
             </Typography>
             <TextField
@@ -251,7 +251,7 @@ function TaskDetailPage({ taskId, onClose }: TaskDetailPageProps) {
           </Box>
 
           {/* Important Flag */}
-          <Box sx={{ mb: 1.5 }}>
+          <Box>
             <FormControlLabel
               control={
                 <Checkbox
@@ -272,10 +272,10 @@ function TaskDetailPage({ taskId, onClose }: TaskDetailPageProps) {
           sx={{
             display: 'flex',
             gap: 1,
-            pt: 2,
+            p: 2,
+            pt: 1.5,
             borderTop: '1px solid',
             borderColor: 'divider',
-            mt: 'auto',
           }}
         >
           <Button
