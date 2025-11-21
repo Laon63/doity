@@ -149,7 +149,13 @@ function TaskDetailPage({ taskId, onClose }: TaskDetailPageProps) {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box
-        sx={{ p: 3, display: 'flex', flexDirection: 'column', height: '100%' }}
+        sx={{
+          p: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          bgcolor: 'background.paper',
+        }}
       >
         {/* Header */}
         <Box
@@ -157,104 +163,140 @@ function TaskDetailPage({ taskId, onClose }: TaskDetailPageProps) {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            mb: 3,
+            pb: 2,
+            borderBottom: '1px solid',
+            borderColor: 'divider',
           }}
         >
-          <Typography variant="h6" component="h2" sx={{ fontWeight: 'bold' }}>
+          <Typography
+            variant="h6"
+            component="h2"
+            sx={{ fontWeight: 600, fontSize: '1.1rem' }}
+          >
             Task Details
           </Typography>
-          <IconButton onClick={handleClose} size="small">
-            <CloseIcon />
+          <IconButton
+            onClick={handleClose}
+            size="small"
+            sx={{ color: 'text.secondary' }}
+          >
+            <CloseIcon fontSize="small" />
           </IconButton>
         </Box>
 
         {/* Content Area */}
-        <Box sx={{ flexGrow: 1, overflowY: 'auto', pr: 1 }}>
-          <TextField
-            label="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            fullWidth
-            variant="outlined"
-            margin="normal"
-          />
+        <Box sx={{ flexGrow: 1, overflowY: 'auto', py: 2, px: 0 }}>
+          {/* Title Section */}
+          <Box sx={{ mb: 2.5 }}>
+            <TextField
+              label="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              fullWidth
+              variant="outlined"
+              size="small"
+              sx={{ bgcolor: 'background.default', borderRadius: 1 }}
+            />
+          </Box>
 
-          <FormControl fullWidth margin="normal">
-            <InputLabel id="category-select-label">Category</InputLabel>
-            <Select
-              labelId="category-select-label"
-              value={category}
-              label="Category"
-              onChange={(e) => setCategory(e.target.value as string)}
-            >
-              {categoryOptions.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option.charAt(0).toUpperCase() + option.slice(1)}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          {/* Category & Due Date Row */}
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1.5, mb: 2.5 }}>
+            <FormControl fullWidth size="small">
+              <InputLabel id="category-select-label">Category</InputLabel>
+              <Select
+                labelId="category-select-label"
+                value={category}
+                label="Category"
+                onChange={(e) => setCategory(e.target.value as string)}
+                sx={{ bgcolor: 'background.default', borderRadius: 1 }}
+              >
+                {categoryOptions.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option.charAt(0).toUpperCase() + option.slice(1)}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-          <DatePicker
-            label="Due Date"
-            value={dueDate}
-            onChange={(newValue) => setDueDate(newValue)}
-            slotProps={{ textField: { fullWidth: true, margin: 'normal' } }}
-          />
+            <DatePicker
+              label="Due Date"
+              value={dueDate}
+              onChange={(newValue) => setDueDate(newValue)}
+              slotProps={{
+                textField: {
+                  fullWidth: true,
+                  size: 'small',
+                  sx: { bgcolor: 'background.default', borderRadius: 1 },
+                },
+              }}
+            />
+          </Box>
 
-          <TextField
-            label="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            fullWidth
-            multiline
-            rows={4}
-            variant="outlined"
-            margin="normal"
-          />
+          {/* Description Section */}
+          <Box sx={{ mb: 2.5 }}>
+            <Typography variant="caption" sx={{ color: 'text.secondary', mb: 0.8, display: 'block' }}>
+              Description
+            </Typography>
+            <TextField
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              fullWidth
+              multiline
+              rows={4}
+              variant="outlined"
+              size="small"
+              placeholder="Add notes, details, or context..."
+              sx={{ bgcolor: 'background.default', borderRadius: 1 }}
+            />
+          </Box>
 
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={isImportant}
-                onChange={(e) => setIsImportant(e.target.checked)}
-              />
-            }
-            label="Mark as important"
-            sx={{ mt: 1 }}
-          />
+          {/* Important Flag */}
+          <Box sx={{ mb: 1.5 }}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={isImportant}
+                  onChange={(e) => setIsImportant(e.target.checked)}
+                  size="small"
+                />
+              }
+              label={
+                <Typography variant="body2">Mark as important</Typography>
+              }
+            />
+          </Box>
         </Box>
 
         {/* Footer */}
         <Box
           sx={{
             display: 'flex',
-            justifyContent: 'space-between',
-            p: 2,
+            gap: 1,
+            pt: 2,
             borderTop: '1px solid',
             borderColor: 'divider',
-            position: 'sticky', // Use sticky for footer
-            bottom: 0,
-            bgcolor: 'background.paper',
-            zIndex: 1,
-            mt: 2,
+            mt: 'auto',
           }}
         >
           <Button
             variant="contained"
             color="primary"
             onClick={handleUpdateTask}
-            sx={{ flexGrow: 1, mr: 1 }}
+            fullWidth
+            size="small"
+            sx={{ fontWeight: 500 }}
           >
-            Save Changes
+            Save
           </Button>
           <Button
             variant="outlined"
             color="error"
             onClick={handleDeleteTask}
-            sx={{ flexGrow: 1, ml: 1 }}
+            fullWidth
+            size="small"
+            sx={{ fontWeight: 500 }}
           >
-            Delete Task
+            Delete
           </Button>
         </Box>
       </Box>
