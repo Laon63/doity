@@ -133,16 +133,24 @@ function TaskItem({
         </Box>
       )}
       {(isHovered || isFocused) && !isEditing && (
-        <Box sx={{ display: 'flex', gap: 0.5 }}>
+        <Box sx={{ display: 'flex', gap: 0.5, height: '24px' }}>
           <IconButton
             onClick={(e) => {
               e.stopPropagation();
               setIsEditing(true);
             }}
             size="small"
-            sx={{ color: 'text.secondary' }}
+            sx={{
+              color: 'text.secondary',
+              p: '4px',
+              height: '24px',
+              width: '24px',
+              '&:hover': {
+                backgroundColor: 'transparent',
+              },
+            }}
           >
-            <EditIcon fontSize="small" />
+            <EditIcon fontSize="small" sx={{ width: '18px', height: '18px' }} />
           </IconButton>
           <IconButton
             onClick={(e) => {
@@ -150,9 +158,17 @@ function TaskItem({
               onDeleteTask(task.id);
             }}
             size="small"
-            sx={{ color: 'text.secondary' }}
+            sx={{
+              color: 'text.secondary',
+              p: '4px',
+              height: '24px',
+              width: '24px',
+              '&:hover': {
+                backgroundColor: 'transparent',
+              },
+            }}
           >
-            <DeleteIcon fontSize="small" />
+            <DeleteIcon fontSize="small" sx={{ width: '18px', height: '18px' }} />
           </IconButton>
         </Box>
       )}
