@@ -14,20 +14,22 @@ const Scrollable = React.forwardRef<HTMLDivElement, ScrollableProps>(
         sx={{
           overflowY: 'auto',
           overflowX: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
           '&::-webkit-scrollbar': {
-            width: '6px',
+            width: '8px',
           },
           '&::-webkit-scrollbar-track': {
             background: 'transparent',
           },
           '&::-webkit-scrollbar-thumb': {
-            background: '#d1d5db',
+            background: '#cbd5e1',
             borderRadius: '4px',
             '&:hover': {
-              background: '#9ca3af',
+              background: '#94a3b8',
             },
             '&:active': {
-              background: '#6b7280',
+              background: '#64748b',
             },
           },
           ...sx,
