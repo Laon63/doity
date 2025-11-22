@@ -75,9 +75,13 @@ function TaskItem({
         alignItems: 'center',
         p: 1.5,
         mb: 1.5,
-        bgcolor: isFocused ? getCategoryLightColor(task.category) : 'background.paper',
+        bgcolor: isFocused
+          ? getCategoryLightColor(task.category)
+          : 'background.paper',
         borderRadius: 1,
-        border: isFocused ? `2px solid ${getCategoryColor(task.category)}` : '2px solid transparent',
+        border: isFocused
+          ? `2px solid ${getCategoryColor(task.category)}`
+          : '2px solid transparent',
         cursor: 'pointer',
         transition: 'background-color 0.2s ease, border-color 0.2s ease',
         '&:hover': {

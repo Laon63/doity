@@ -225,7 +225,9 @@ function TodayPage() {
         </Box>
 
         {/* Filters and Quick Add */}
-        <Box sx={{ py: 2.5, borderBottom: '1px solid', borderColor: 'divider' }}>
+        <Box
+          sx={{ py: 2.5, borderBottom: '1px solid', borderColor: 'divider' }}
+        >
           <CategoryFilter
             selectedCategory={category}
             setCategory={setCategory}

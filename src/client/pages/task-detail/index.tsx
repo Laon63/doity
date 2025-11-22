@@ -200,7 +200,14 @@ function TaskDetailPage({ taskId, onClose }: TaskDetailPageProps) {
           </Box>
 
           {/* Category & Due Date Row */}
-          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, mb: 2 }}>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: 1,
+              mb: 2,
+            }}
+          >
             <FormControl fullWidth size="small">
               <InputLabel id="category-select-label">Category</InputLabel>
               <Select
@@ -234,7 +241,15 @@ function TaskDetailPage({ taskId, onClose }: TaskDetailPageProps) {
 
           {/* Description Section */}
           <Box sx={{ mb: 2 }}>
-            <Typography variant="caption" sx={{ color: 'text.secondary', mb: 0.6, display: 'block', fontWeight: 500 }}>
+            <Typography
+              variant="caption"
+              sx={{
+                color: 'text.secondary',
+                mb: 0.6,
+                display: 'block',
+                fontWeight: 500,
+              }}
+            >
               Description
             </Typography>
             <TextField
@@ -260,9 +275,7 @@ function TaskDetailPage({ taskId, onClose }: TaskDetailPageProps) {
                   size="small"
                 />
               }
-              label={
-                <Typography variant="body2">Mark as important</Typography>
-              }
+              label={<Typography variant="body2">Mark as important</Typography>}
             />
           </Box>
         </Box>
