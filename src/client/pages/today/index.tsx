@@ -198,7 +198,7 @@ function TodayPage() {
   );
 
   return (
-    <Box sx={{ display: 'flex', height: '100%', overflow: 'hidden', gap: 3 }}>
+    <Box sx={{ display: 'flex', flex: 1, minHeight: 0, overflow: 'hidden', gap: 3 }}>
       <Box
         onKeyDown={handleKeyDown}
         tabIndex={0}
@@ -206,6 +206,7 @@ function TodayPage() {
           outline: 'none',
           flex: 1,
           maxWidth: '620px',
+          minHeight: 0,
           display: 'flex',
           flexDirection: 'column',
           transition: 'width 0.3s ease-in-out',
