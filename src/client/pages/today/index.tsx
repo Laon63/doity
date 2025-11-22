@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Box, Container, Typography } from '@mui/material'; // Added Typography
+import { Box, Typography } from '@mui/material';
 import { Task } from 'client/types';
 import DateNavigator from './components/DateNavigator';
 import CategoryFilter from './components/CategoryFilter';
@@ -198,33 +198,47 @@ function TodayPage() {
   );
 
   return (
-    <Box sx={{ display: 'flex', height: '100%', overflow: 'hidden' }}>
-      <Container
-        maxWidth="sm" // Fixed width for the task list area
+    <Box sx={{ display: 'flex', height: '100%', overflow: 'hidden', gap: 3 }}>
+      <Box
         onKeyDown={handleKeyDown}
         tabIndex={0}
         sx={{
           outline: 'none',
-          flexShrink: 0,
-          width: '100%', // Occupy full width within its flex item
+          flex: 1,
+          maxWidth: '620px',
+          display: 'flex',
+          flexDirection: 'column',
           transition: 'width 0.3s ease-in-out',
         }}
       >
-        <DateNavigator
-          selectedDate={selectedDate}
-          onPreviousDay={handlePreviousDay}
-          onNextDay={handleNextDay}
-          onTodayClick={handleTodayClick}
-          isCalendarOpen={isCalendarOpen}
-          setIsCalendarOpen={setIsCalendarOpen}
-          onDateChange={handleDateChange}
-        />
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        {/* Date Navigation */}
+        <Box sx={{ pb: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
+          <DateNavigator
+            selectedDate={selectedDate}
+            onPreviousDay={handlePreviousDay}
+            onNextDay={handleNextDay}
+            onTodayClick={handleTodayClick}
+            isCalendarOpen={isCalendarOpen}
+            setIsCalendarOpen={setIsCalendarOpen}
+            onDateChange={handleDateChange}
+          />
+        </Box>
+
+        {/* Filters and Quick Add */}
+        <Box
+          sx={{ py: 2.5, borderBottom: '1px solid', borderColor: 'divider' }}
+        >
           <CategoryFilter
             selectedCategory={category}
             setCategory={setCategory}
           />
-          <TaskQuickAdd onAddTask={handleAddTask} />
+          <Box sx={{ mt: 1.5 }}>
+            <TaskQuickAdd onAddTask={handleAddTask} />
+          </Box>
+        </Box>
+
+        {/* Task List */}
+        <Box sx={{ flex: 1, minHeight: 0, py: 2 }}>
           {loadingTasks ? (
             <LoadingSpinner />
           ) : (
@@ -238,20 +252,40 @@ function TodayPage() {
             />
           )}
         </Box>
-      </Container>
+      </Box>
+
+      {/* Task Details Panel */}
       <Box
         sx={{
-          width: '350px', // Fixed width for the task detail area
+          width: '360px',
           flexShrink: 0,
-          borderLeft: '1px solid',
-          borderColor: 'divider',
-          overflowY: 'auto',
+          borderRadius: 1,
+          bgcolor: 'background.paper',
+          display: 'flex',
+          flexDirection: 'column',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
         }}
       >
         {taskId ? (
           <TaskDetailPage taskId={taskId} onClose={handleCloseTaskDetail} />
         ) : (
-          <Typography sx={{ p: 2 }}>Select a task to see details</Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              flexDirection: 'column',
+              gap: 1,
+            }}
+          >
+            <Typography
+              variant="body2"
+              sx={{ color: 'text.secondary', textAlign: 'center' }}
+            >
+              Select a task to view details
+            </Typography>
+          </Box>
         )}
       </Box>
     </Box>

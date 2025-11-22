@@ -50,14 +50,13 @@ function App() {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
-          backgroundColor: '#f7f8fa', // Light lavender background
-          overflowY: 'auto',
+          p: 2,
+          backgroundColor: '#f7f8fa',
+          overflow: 'hidden',
         }}
       >
         <Outlet />
       </Box>
-      {/* TODO: Add TaskDetails panel, which will be conditionally rendered */}
     </Box>
   );
 }

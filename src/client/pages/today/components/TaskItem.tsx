@@ -42,43 +42,62 @@ function TaskItem({
   const getCategoryColor = (category?: string) => {
     switch (category) {
       case 'personal':
-        return 'primary.main';
+        return '#8FE3CD';
       case 'work':
-        return 'secondary.main';
+        return '#64748B';
       case 'other':
-        return 'warning.main';
+        return '#F59E0B';
       default:
-        return 'grey.500';
+        return '#CBD5E1';
+    }
+  };
+
+  const getCategoryLightColor = (category?: string) => {
+    switch (category) {
+      case 'personal':
+        return '#E0F9F5';
+      case 'work':
+        return '#F1F5F9';
+      case 'other':
+        return '#FFFBEB';
+      default:
+        return '#F1F5F9';
     }
   };
 
   return (
     <Box
+      onClick={() => onTaskClick(task.id)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       sx={{
         display: 'flex',
         alignItems: 'center',
         p: 1.5,
-        mb: 1,
-        bgcolor: 'background.paper',
-        borderRadius: 2,
-        borderLeft: '4px solid',
-        borderColor: getCategoryColor(task.category),
-        backgroundColor: isFocused ? 'action.hover' : 'background.paper',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+        mb: 1.5,
+        bgcolor: isFocused
+          ? getCategoryLightColor(task.category)
+          : 'background.paper',
+        borderRadius: 1,
+        border: isFocused
+          ? `2px solid ${getCategoryColor(task.category)}`
+          : '2px solid transparent',
+        cursor: 'pointer',
+        transition: 'background-color 0.2s ease, border-color 0.2s ease',
         '&:hover': {
-          backgroundColor: 'action.hover',
+          bgcolor: getCategoryLightColor(task.category),
         },
       }}
     >
       <Checkbox
         checked={task.is_completed}
-        onChange={() => onToggleTask(task.id)}
+        onChange={(e) => {
+          e.stopPropagation();
+          onToggleTask(task.id);
+        }}
         sx={{
           p: 0,
           mr: 1.5,
-          borderRadius: 1, // Square checkbox
           '&.Mui-checked': {
             color: getCategoryColor(task.category),
           },
@@ -94,12 +113,10 @@ function TaskItem({
           fullWidth
           autoFocus
           InputProps={{ disableUnderline: true }}
+          onClick={(e) => e.stopPropagation()}
         />
       ) : (
-        <Box
-          sx={{ flexGrow: 1, cursor: 'pointer' }}
-          onClick={() => onTaskClick(task.id)}
-        >
+        <Box sx={{ flexGrow: 1 }}>
           <Typography
             sx={{
               textDecoration: task.is_completed ? 'line-through' : 'none',
@@ -116,11 +133,25 @@ function TaskItem({
         </Box>
       )}
       {(isHovered || isFocused) && !isEditing && (
-        <Box>
-          <IconButton onClick={() => setIsEditing(true)} size="small">
+        <Box sx={{ display: 'flex', gap: 0.5 }}>
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsEditing(true);
+            }}
+            size="small"
+            sx={{ color: 'text.secondary' }}
+          >
             <EditIcon fontSize="small" />
           </IconButton>
-          <IconButton onClick={() => onDeleteTask(task.id)} size="small">
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              onDeleteTask(task.id);
+            }}
+            size="small"
+            sx={{ color: 'text.secondary' }}
+          >
             <DeleteIcon fontSize="small" />
           </IconButton>
         </Box>
