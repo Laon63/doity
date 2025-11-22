@@ -198,7 +198,15 @@ function TodayPage() {
   );
 
   return (
-    <Box sx={{ display: 'flex', flex: 1, minHeight: 0, overflow: 'hidden', gap: 3 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flex: 1,
+        minHeight: 0,
+        overflow: 'hidden',
+        gap: 3,
+      }}
+    >
       <Box
         onKeyDown={handleKeyDown}
         tabIndex={0}
@@ -239,7 +247,14 @@ function TodayPage() {
         </Box>
 
         {/* Task List */}
-        <Box sx={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+        <Box
+          sx={{
+            flex: 1,
+            minHeight: 0,
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
           {loadingTasks ? (
             <LoadingSpinner />
           ) : (
