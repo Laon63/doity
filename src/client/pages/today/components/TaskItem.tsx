@@ -75,6 +75,7 @@ function TaskItem({
         alignItems: 'center',
         p: 1.5,
         mb: 1.5,
+        minHeight: '56px',
         bgcolor: isFocused
           ? getCategoryLightColor(task.category)
           : 'background.paper',
