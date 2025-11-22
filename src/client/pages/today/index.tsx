@@ -239,7 +239,7 @@ function TodayPage() {
         </Box>
 
         {/* Task List */}
-        <Box sx={{ flex: 1, minHeight: 0, py: 2 }}>
+        <Box sx={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
           {loadingTasks ? (
             <LoadingSpinner />
           ) : (
