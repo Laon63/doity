@@ -1,0 +1,23 @@
+/* For Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px; /* width of the scrollbar */
+  height: 8px; /* height of the horizontal scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* color of the tracking area */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; /* color of the scroll thumb */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* color when hovering over the scroll thumb */
+}
+
+/* For Firefox (requires -moz-scrollbar, but generally not supported for custom styling) */
+/* For a more compact scrollbar in Firefox, you might need to rely on browser defaults or a JavaScript solution */
+/* This is a basic example, more advanced styling might require more specific selectors */

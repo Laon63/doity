@@ -155,6 +155,8 @@ function TaskDetailPage({ taskId, onClose }: TaskDetailPageProps) {
           flexDirection: 'column',
           height: '100%',
           bgcolor: 'background.paper',
+          borderRadius: 1,
+          gap: 1,
         }}
       >
         {/* Header */}
@@ -163,9 +165,6 @@ function TaskDetailPage({ taskId, onClose }: TaskDetailPageProps) {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            px: 2,
-            pt: 2,
-            pb: 1.5,
           }}
         >
           <Typography
@@ -185,7 +184,7 @@ function TaskDetailPage({ taskId, onClose }: TaskDetailPageProps) {
         </Box>
 
         {/* Content Area */}
-        <Box sx={{ flexGrow: 1, overflowY: 'auto', py: 1.5, px: 2 }}>
+        <Box sx={{ flexGrow: 1, overflowY: 'auto', pt: 1 }}>
           {/* Title Section */}
           <Box sx={{ mb: 2 }}>
             <TextField
@@ -285,10 +284,6 @@ function TaskDetailPage({ taskId, onClose }: TaskDetailPageProps) {
           sx={{
             display: 'flex',
             gap: 1,
-            p: 2,
-            pt: 1.5,
-            borderTop: '1px solid',
-            borderColor: 'divider',
           }}
         >
           <Button

@@ -7,13 +7,14 @@ import {
   Checkbox,
 } from '@mui/material';
 import { Task } from 'client/types';
-import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { formatDate } from 'client/utils/date';
+import { useTheme } from '@mui/material';
 
 interface TaskItemProps {
   task: Task;
   isFocused: boolean;
+  isSelected: boolean; // Added
   onUpdateTask: (id: string, newTitle: string) => void;
   onToggleTask: (id: string) => void;
   onDeleteTask: (id: string) => void;
@@ -23,6 +24,7 @@ interface TaskItemProps {
 function TaskItem({
   task,
   isFocused,
+  isSelected, // Added
   onUpdateTask,
   onToggleTask,
   onDeleteTask,
@@ -31,6 +33,7 @@ function TaskItem({
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
   const [isHovered, setIsHovered] = useState(false);
+  const theme = useTheme();
 
   const handleUpdate = () => {
     if (title.trim()) {
@@ -73,15 +76,16 @@ function TaskItem({
       sx={{
         display: 'flex',
         alignItems: 'center',
-        p: 1.5,
+        p: 1,
         mb: 1.5,
+        height: '48px',
         bgcolor: isFocused
           ? getCategoryLightColor(task.category)
           : 'background.paper',
         borderRadius: 1,
-        border: isFocused
+        border: isSelected // Changed
           ? `2px solid ${getCategoryColor(task.category)}`
-          : '2px solid transparent',
+          : `1px solid ${theme.palette.divider}`,
         cursor: 'pointer',
         transition: 'background-color 0.2s ease, border-color 0.2s ease',
         '&:hover': {
@@ -116,7 +120,7 @@ function TaskItem({
           onClick={(e) => e.stopPropagation()}
         />
       ) : (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1 }} onClick={() => setIsEditing(true)}>
           <Typography
             sx={{
               textDecoration: task.is_completed ? 'line-through' : 'none',
@@ -134,16 +138,6 @@ function TaskItem({
       )}
       {(isHovered || isFocused) && !isEditing && (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <IconButton
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsEditing(true);
-            }}
-            size="small"
-            sx={{ color: 'text.secondary' }}
-          >
-            <EditIcon fontSize="small" />
-          </IconButton>
           <IconButton
             onClick={(e) => {
               e.stopPropagation();

@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import theme from './client/theme'; // Updated path
 import { RouterProvider } from 'react-router-dom';
 import router from './client/router'; // Updated path
+import './client/styles/scrollbar.css'; // scroll css
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

@@ -5,19 +5,33 @@ import TaskItem from 'client/pages/today/components/TaskItem';
 
 interface TaskListProps {
   tasks: Task[];
+
   focusedIndex: number;
+
+  selectedTaskId: string | null; // Added
+
   onUpdateTask: (id: string, newTitle: string) => void;
+
   onToggleTask: (id: string) => void;
+
   onDeleteTask: (id: string) => void;
+
   onTaskClick: (id: string) => void;
 }
 
 function TaskList({
   tasks,
+
   focusedIndex,
+
+  selectedTaskId, // Added
+
   onUpdateTask,
+
   onToggleTask,
+
   onDeleteTask,
+
   onTaskClick,
 }: TaskListProps) {
   return (
@@ -27,6 +41,7 @@ function TaskList({
           key={task.id}
           task={task}
           isFocused={index === focusedIndex}
+          isSelected={task.id === selectedTaskId} // Added
           onUpdateTask={onUpdateTask}
           onToggleTask={onToggleTask}
           onDeleteTask={onDeleteTask}

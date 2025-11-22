@@ -198,7 +198,13 @@ function TodayPage() {
   );
 
   return (
-    <Box sx={{ display: 'flex', height: '100%', overflow: 'hidden', gap: 3 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        height: '100%',
+        justifyContent: 'flex-start',
+      }}
+    >
       <Box
         onKeyDown={handleKeyDown}
         tabIndex={0}
@@ -209,6 +215,7 @@ function TodayPage() {
           display: 'flex',
           flexDirection: 'column',
           transition: 'width 0.3s ease-in-out',
+          mr: 3, // Added margin-right for spacing
         }}
       >
         {/* Date Navigation */}
@@ -225,9 +232,7 @@ function TodayPage() {
         </Box>
 
         {/* Filters and Quick Add */}
-        <Box
-          sx={{ py: 2.5, borderBottom: '1px solid', borderColor: 'divider' }}
-        >
+        <Box sx={{ py: 2.5 }}>
           <CategoryFilter
             selectedCategory={category}
             setCategory={setCategory}
@@ -238,20 +243,19 @@ function TodayPage() {
         </Box>
 
         {/* Task List */}
-        <Box sx={{ flex: 1, minHeight: 0, py: 2 }}>
-          {loadingTasks ? (
-            <LoadingSpinner />
-          ) : (
-            <TaskList
-              tasks={filteredTasks}
-              focusedIndex={focusedIndex}
-              onUpdateTask={handleUpdateTask}
-              onToggleTask={handleToggleTask}
-              onDeleteTask={handleDeleteTask}
-              onTaskClick={handleTaskClick}
-            />
-          )}
-        </Box>
+        {loadingTasks ? (
+          <LoadingSpinner />
+        ) : (
+          <TaskList
+            tasks={filteredTasks}
+            focusedIndex={focusedIndex}
+            selectedTaskId={taskId}
+            onUpdateTask={handleUpdateTask}
+            onToggleTask={handleToggleTask}
+            onDeleteTask={handleDeleteTask}
+            onTaskClick={handleTaskClick}
+          />
+        )}
       </Box>
 
       {/* Task Details Panel */}
