@@ -30,6 +30,8 @@ function MonthlyCalendar({
 }: MonthlyCalendarProps) {
   const today = new Date();
   const queryClient = useQueryClient();
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   const { days, firstDayOfWeek, daysInMonth, year, month } = useMemo(() => {
     const year = currentDate.getFullYear();
