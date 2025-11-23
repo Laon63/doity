@@ -71,7 +71,7 @@ function CalendarDay({
     <Box
       onClick={handleDayClick}
       sx={{
-        p: 1.25,
+        p: 1,
         bgcolor: isCurrentMonth
           ? isToday
             ? '#e3f2fd'
@@ -90,7 +90,6 @@ function CalendarDay({
         flexDirection: 'column',
         width: '100%',
         height: '100%',
-        minHeight: 0,
       }}
     >
       <Box
@@ -99,7 +98,8 @@ function CalendarDay({
           justifyContent: 'space-between',
           alignItems: 'flex-start',
           mb: 0.5,
-          minHeight: '24px',
+          height: '24px',
+          flexShrink: 0,
         }}
       >
         <Typography
@@ -119,6 +119,7 @@ function CalendarDay({
               borderRadius: '50%',
               bgcolor: '#1976d2',
               color: '#fff',
+              mb: 0,
             }),
           }}
         >
@@ -126,7 +127,7 @@ function CalendarDay({
         </Typography>
       </Box>
 
-      <Stack spacing={0.25} sx={{ flex: 1, minWidth: 0, width: '100%', minHeight: 0 }}>
+      <Stack spacing={0.3} sx={{ flex: 1, minWidth: 0, width: '100%', overflow: 'hidden' }}>
         {displayedTasks.map((task) => (
           <Tooltip
             key={task.id}
