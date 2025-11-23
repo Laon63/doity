@@ -21,11 +21,25 @@ function TodayPage() {
   const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
   const taskId = searchParams.get('taskId');
+  const location = useLocation();
 
   const [category, setCategory] = useState<string>('All');
   const [focusedIndex, setFocusedIndex] = useState<number>(-1);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date>(() => {
+    const state = location.state as { selectedDate?: Date } | null;
+    if (state?.selectedDate) {
+      return new Date(state.selectedDate);
+    }
+    return new Date();
+  });
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
+  useEffect(() => {
+    const state = location.state as { selectedDate?: Date } | null;
+    if (state?.selectedDate) {
+      setSelectedDate(new Date(state.selectedDate));
+    }
+  }, [location.state]);
 
   const { data: tasks = [], isLoading: loadingTasks } =
     useTasksQuery(selectedDate);
