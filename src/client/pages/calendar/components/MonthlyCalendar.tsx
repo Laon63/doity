@@ -256,6 +256,7 @@ function MonthlyCalendar({
               flex: 1,
               display: 'grid',
               gridTemplateColumns: 'repeat(7, 1fr)',
+              gridAutoRows: '1fr',
               minHeight: 0,
             }}
           >
