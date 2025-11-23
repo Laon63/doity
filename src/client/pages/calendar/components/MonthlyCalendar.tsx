@@ -104,6 +104,23 @@ function MonthlyCalendar({
     queryClient.invalidateQueries({ queryKey: ['tasks'] });
   };
 
+  const handleCalendarOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+    setIsCalendarOpen(true);
+  };
+
+  const handleCalendarClose = () => {
+    setIsCalendarOpen(false);
+  };
+
+  const handleDateSelect = (date: Date | null) => {
+    if (date) {
+      onDateChange(date);
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      setIsCalendarOpen(false);
+    }
+  };
+
   const monthName = new Intl.DateTimeFormat('en-US', {
     month: 'long',
     year: 'numeric',
