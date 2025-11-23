@@ -125,7 +125,7 @@ function CalendarDay({
         </Typography>
       </Box>
 
-      <Stack spacing={0.4} sx={{ flex: 1, minWidth: 0 }}>
+      <Stack spacing={0.4} sx={{ flex: 1, minWidth: 0, width: '100%' }}>
         {displayedTasks.map((task) => (
           <Tooltip
             key={task.id}
@@ -152,6 +152,7 @@ function CalendarDay({
             }}
           >
             <Box
+              onClick={(e) => handleTaskClick(task.id, e)}
               onMouseEnter={() => setHoveredTaskId(task.id)}
               onMouseLeave={() => setHoveredTaskId(null)}
               sx={{
@@ -159,11 +160,12 @@ function CalendarDay({
                 alignItems: 'center',
                 gap: 0.6,
                 minWidth: 0,
-                minHeight: '16px',
+                height: '18px',
                 p: 0.5,
                 borderRadius: '4px',
                 bgcolor: hoveredTaskId === task.id ? getCategoryLightColor(task.category) : 'transparent',
                 transition: 'all 0.15s ease',
+                cursor: 'pointer',
               }}
             >
               <Box
@@ -201,7 +203,7 @@ function CalendarDay({
               color: '#1976d2',
               fontWeight: '600',
               lineHeight: '12px',
-              mt: 0.25,
+              height: '12px',
             }}
           >
             +{remainingCount} more
