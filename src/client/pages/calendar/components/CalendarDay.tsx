@@ -88,9 +88,9 @@ function CalendarDay({
         },
         display: 'flex',
         flexDirection: 'column',
+        width: '100%',
         height: '100%',
-        border: '1px solid',
-        borderColor: '#e0e0e0',
+        minHeight: 0,
       }}
     >
       <Box
