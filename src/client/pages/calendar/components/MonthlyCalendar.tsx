@@ -129,134 +129,165 @@ function MonthlyCalendar({
   const dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   return (
-    <Box sx={{ p: 2.5, height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2.5 }}>
-        <Typography variant="h5" component="h1" sx={{ fontWeight: '700', letterSpacing: '-0.5px' }}>
-          {monthName}
-        </Typography>
-        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-          <IconButton
-            onClick={handlePreviousMonth}
-            size="small"
-            sx={{
-              color: 'text.secondary',
-              '&:hover': {
-                bgcolor: 'action.hover',
-              },
-            }}
-          >
-            <ArrowBackIosNewIcon fontSize="small" />
-          </IconButton>
-          <Button
-            variant="outlined"
-            size="small"
-            onClick={handleTodayClick}
-            sx={{
-              textTransform: 'none',
-              fontWeight: '500',
-              color: 'text.secondary',
-              borderColor: 'divider',
-              '&:hover': {
-                bgcolor: 'action.hover',
-                borderColor: 'divider',
-              },
-            }}
-          >
-            Today
-          </Button>
-          <IconButton
-            onClick={handleNextMonth}
-            size="small"
-            sx={{
-              color: 'text.secondary',
-              '&:hover': {
-                bgcolor: 'action.hover',
-              },
-            }}
-          >
-            <ArrowForwardIosIcon fontSize="small" />
-          </IconButton>
-        </Box>
-      </Box>
-
-      <Paper
-        sx={{
-          bgcolor: 'background.paper',
-          overflow: 'hidden',
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
-        }}
-      >
-        <Grid container sx={{ borderBottom: '1px solid', borderColor: 'divider' }}>
-          {dayLabels.map((label) => (
-            <Grid
-              item
-              xs={12 / 7}
-              key={label}
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <Box sx={{ p: 2.5, height: '100%', display: 'flex', flexDirection: 'column', bgcolor: '#fafafa' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2.5 }}>
+          <Typography variant="h5" component="h1" sx={{ fontWeight: '700', letterSpacing: '-0.5px', color: '#000' }}>
+            {monthName}
+          </Typography>
+          <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+            <IconButton
+              onClick={handlePreviousMonth}
+              size="small"
               sx={{
-                p: 1.5,
-                textAlign: 'center',
-                bgcolor: '#fafbfc',
-                borderRight: '1px solid',
-                borderColor: 'divider',
-                '&:last-child': {
-                  borderRight: 'none',
+                color: '#666',
+                '&:hover': {
+                  bgcolor: '#e0e0e0',
                 },
               }}
             >
-              <Typography
-                sx={{
-                  fontSize: '0.75rem',
-                  fontWeight: '700',
-                  color: 'text.secondary',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px',
-                }}
-              >
-                {label}
-              </Typography>
-            </Grid>
-          ))}
-        </Grid>
+              <ArrowBackIosNewIcon fontSize="small" />
+            </IconButton>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={handleTodayClick}
+              sx={{
+                textTransform: 'none',
+                fontWeight: '500',
+                color: '#666',
+                borderColor: '#ccc',
+                '&:hover': {
+                  bgcolor: '#e0e0e0',
+                  borderColor: '#ccc',
+                },
+              }}
+            >
+              Today
+            </Button>
+            <IconButton
+              onClick={handleCalendarOpen}
+              size="small"
+              sx={{
+                color: '#666',
+                border: '1px solid #ccc',
+                borderRadius: '4px',
+                '&:hover': {
+                  bgcolor: '#e0e0e0',
+                },
+              }}
+            >
+              <CalendarMonthIcon fontSize="small" />
+            </IconButton>
+            <DatePicker
+              open={isCalendarOpen}
+              onClose={handleCalendarClose}
+              value={currentDate}
+              onChange={handleDateSelect}
+              views={['month', 'year']}
+              slotProps={{
+                popper: {
+                  anchorEl,
+                },
+                textField: {
+                  style: { display: 'none' },
+                },
+              }}
+            />
+            <IconButton
+              onClick={handleNextMonth}
+              size="small"
+              sx={{
+                color: '#666',
+                '&:hover': {
+                  bgcolor: '#e0e0e0',
+                },
+              }}
+            >
+              <ArrowForwardIosIcon fontSize="small" />
+            </IconButton>
+          </Box>
+        </Box>
 
-        <Grid container sx={{ flex: 1 }}>
-          {days.map((dayObj, index) => {
-            const tasksList = getTasksForDate(dayObj.date);
-            const isToday =
-              dayObj.date.toDateString() === today.toDateString();
-
-            return (
+        <Paper
+          sx={{
+            bgcolor: '#ffffff',
+            overflow: 'hidden',
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            boxShadow: '0 1px 2px rgba(0,0,0,0.08)',
+            border: '1px solid #e0e0e0',
+          }}
+        >
+          <Grid container sx={{ borderBottom: '2px solid #d0d0d0' }}>
+            {dayLabels.map((label) => (
               <Grid
                 item
                 xs={12 / 7}
-                key={index}
+                key={label}
                 sx={{
-                  borderRight: '1px solid',
-                  borderBottom: '1px solid',
-                  borderColor: 'divider',
-                  '&:nth-child(7n)': {
+                  p: 1.5,
+                  textAlign: 'center',
+                  bgcolor: '#2c3e50',
+                  borderRight: '1px solid #ccc',
+                  '&:last-child': {
                     borderRight: 'none',
-                  },
-                  '&:nth-last-child(-n+7)': {
-                    borderBottom: 'none',
                   },
                 }}
               >
-                <CalendarDay
-                  day={dayObj.day}
-                  isCurrentMonth={dayObj.isCurrentMonth}
-                  isToday={isToday}
-                  tasks={tasksList}
-                  onDayClick={() => onDateChange(dayObj.date)}
-                />
+                <Typography
+                  sx={{
+                    fontSize: '0.75rem',
+                    fontWeight: '700',
+                    color: '#ffffff',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                  }}
+                >
+                  {label}
+                </Typography>
               </Grid>
-            );
-          })}
-        </Grid>
-      </Paper>
-    </Box>
+            ))}
+          </Grid>
+
+          <Grid container sx={{ flex: 1 }}>
+            {days.map((dayObj, index) => {
+              const tasksList = getTasksForDate(dayObj.date);
+              const isToday =
+                dayObj.date.toDateString() === today.toDateString();
+              const rowIndex = Math.floor(index / 7);
+              const isLastRow = rowIndex === 5;
+
+              return (
+                <Grid
+                  item
+                  xs={12 / 7}
+                  key={index}
+                  sx={{
+                    borderRight: '1px solid #e0e0e0',
+                    borderBottom: isLastRow ? 'none' : '1px solid #e0e0e0',
+                    '&:nth-child(7n)': {
+                      borderRight: 'none',
+                    },
+                    flex: 1,
+                  }}
+                >
+                  <CalendarDay
+                    day={dayObj.day}
+                    isCurrentMonth={dayObj.isCurrentMonth}
+                    isToday={isToday}
+                    tasks={tasksList}
+                    date={dayObj.date}
+                    onDayClick={() => onDateChange(dayObj.date)}
+                  />
+                </Grid>
+              );
+            })}
+          </Grid>
+        </Paper>
+      </Box>
+    </LocalizationProvider>
   );
 }
 
