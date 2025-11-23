@@ -41,6 +41,26 @@ export const fetchTasks = async (
   return data || [];
 };
 
+export const fetchTasksForDateRange = async (
+  userId: string,
+  startDate: Date,
+  endDate: Date
+): Promise<Task[]> => {
+  const { data, error } = await supabase
+    .from('tasks')
+    .select('*')
+    .eq('user_id', userId)
+    .gte('created_at', startDate.toISOString())
+    .lt('created_at', endDate.toISOString())
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data || [];
+};
+
 type TaskUpdatePayload = Partial<Omit<Task, 'id' | 'user_id' | 'created_at'>>;
 
 export const updateTask = async ({
