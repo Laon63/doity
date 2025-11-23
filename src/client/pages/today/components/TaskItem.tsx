@@ -36,10 +36,10 @@ function TaskItem({
   const theme = useTheme();
 
   const handleUpdate = () => {
-    if (title.trim()) {
+    if (title.trim() && title !== task.title) {
       onUpdateTask(task.id, title);
-      setIsEditing(false);
     }
+    setIsEditing(false);
   };
 
   const getCategoryColor = (category?: string) => {
@@ -120,7 +120,13 @@ function TaskItem({
           onClick={(e) => e.stopPropagation()}
         />
       ) : (
-        <Box sx={{ flexGrow: 1 }} onClick={() => setIsEditing(true)}>
+        <Box
+          sx={{ flexGrow: 1 }}
+          onClick={() => {
+            // 임시제거. TODO: history (undo redo) 구축 후 작업
+            // setIsEditing(true);
+          }}
+        >
           <Typography
             sx={{
               textDecoration: task.is_completed ? 'line-through' : 'none',

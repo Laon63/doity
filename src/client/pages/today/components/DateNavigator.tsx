@@ -26,6 +26,20 @@ function DateNavigator({
   setIsCalendarOpen,
   onDateChange,
 }: DateNavigatorProps) {
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+
+  const handleCalendarOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+    setIsCalendarOpen(true);
+  };
+
+  const handleCalendarClose = () => {
+    setIsCalendarOpen(false);
+    // setAnchorEl(null);
+  };
+
   const formatDate = (date: Date) => {
     return new Intl.DateTimeFormat('en-US', {
       year: 'numeric',
@@ -71,18 +85,21 @@ function DateNavigator({
               borderColor: 'divider',
               borderRadius: 2,
             }}
-            onClick={() => setIsCalendarOpen(true)}
+            onClick={handleCalendarOpen}
           >
             <CalendarMonthIcon fontSize="small" />
           </IconButton>
           <DatePicker
             open={isCalendarOpen}
-            onClose={() => setIsCalendarOpen(false)}
+            onClose={handleCalendarClose}
             value={selectedDate}
             onChange={onDateChange}
             slotProps={{
+              popper: {
+                anchorEl,
+              },
               textField: {
-                style: { display: 'none' }, // Hide the text field
+                style: { display: 'none' },
               },
             }}
           />

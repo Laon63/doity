@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Typography,
@@ -13,138 +13,65 @@ import {
   InputLabel,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { supabase } from 'client/lib/supabaseClient';
-import { Task } from 'client/types';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import LoadingSpinner from 'client/components/LoadingSpinner';
 import { formatDate } from 'client/utils/date';
+import { useTaskQuery } from 'client/hooks/queries/useTaskQuery';
+import { Task } from 'client/types';
+import {
+  useUpdateTaskMutation,
+  useDeleteTaskMutation,
+} from 'client/hooks/mutations/useTaskMutations';
+import { useQueryClient } from '@tanstack/react-query';
 
-interface TaskDetailPageProps {
-  taskId: string | null;
-  onClose: () => void; // New prop
-}
-
-function TaskDetailPage({ taskId, onClose }: TaskDetailPageProps) {
-  // Accepted onClose
-  const [task, setTask] = useState<Task | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+// New Inner Form Component
+function TaskDetailForm({
+  task,
+  onClose,
+  onToggleTask,
+}: {
+  task: Task;
+  onClose: () => void;
+  onToggleTask: (id: string) => void;
+}) {
+  const queryClient = useQueryClient();
+  const [title, setTitle] = useState(task.title);
+  const [description, setDescription] = useState(task.description || '');
   const categoryOptions = ['personal', 'work', 'other'];
-  const [category, setCategory] = useState<string>('personal');
-  const [dueDate, setDueDate] = useState<Date | null>(null);
-  const [isImportant, setIsImportant] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(false);
+  const [category, setCategory] = useState(task.category || 'personal');
+  const [dueDate, setDueDate] = useState<Date | null>(
+    task.due_date ? new Date(task.due_date) : null
+  );
 
-  useEffect(() => {
-    const fetchTask = async () => {
-      setLoading(true);
-      if (!taskId) {
-        // Use taskId prop
-        setError('Task ID is missing.');
-        setLoading(false);
-        setTask(null); // Clear task if no ID
-        return;
-      }
+  const updateTaskMutation = useUpdateTaskMutation();
+  const deleteTaskMutation = useDeleteTaskMutation();
 
-      const { data, error: fetchError } = await supabase
-        .from('tasks')
-        .select('*')
-        .eq('id', taskId) // Use taskId prop
-        .single();
-
-      if (fetchError) {
-        setError(fetchError.message);
-        console.error('Error fetching task:', fetchError);
-        setTask(null);
-      } else if (data) {
-        setTask(data);
-        setTitle(data.title);
-        setDescription(data.description || '');
-        setCategory(data.category || 'personal');
-        setDueDate(data.due_date ? new Date(data.due_date) : null);
-        setIsImportant(data.is_important || false);
-        setIsCompleted(data.is_completed || false);
-      } else {
-        setError('Task not found.');
-        setTask(null);
-      }
-      setLoading(false);
-    };
-
-    fetchTask();
-  }, [taskId]); // Changed dependency to taskId
-
-  const handleClose = () => {
-    onClose(); // Call the onClose prop
-  };
-
-  const handleUpdateTask = async () => {
-    if (!task) return;
-
-    const { error: updateError } = await supabase
-      .from('tasks')
-      .update({
+  const handleUpdateTask = () => {
+    updateTaskMutation.mutate({
+      taskId: task.id,
+      payload: {
         title,
         description,
         category,
         due_date: dueDate ? formatDate(dueDate, 'yyyy-MM-dd') : null,
-        is_important: isImportant,
-        is_completed: isCompleted,
-      })
-      .eq('id', task.id);
-
-    if (updateError) {
-      console.error('Error updating task:', updateError);
-      setError(updateError.message);
-    } else {
-      // Optionally, refresh tasks in TodayPage or show a success message
-      console.log('Task updated successfully!');
-    }
+      },
+    });
   };
 
-  const handleDeleteTask = async () => {
-    if (!task) return;
-
-    const { error: deleteError } = await supabase
-      .from('tasks')
-      .delete()
-      .eq('id', task.id);
-
-    if (deleteError) {
-      console.error('Error deleting task:', deleteError);
-      setError(deleteError.message);
-    } else {
-      console.log('Task deleted successfully!');
-      handleClose(); // Close the detail page after deletion
-    }
+  const handleDeleteTask = () => {
+    deleteTaskMutation.mutate(task.id, {
+      onSuccess: () => {
+        onClose();
+        queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      },
+    });
   };
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-
-  if (error) {
-    return (
-      <Box sx={{ p: 3 }}>
-        <Typography color="error">Error: {error}</Typography>
-        <Button onClick={handleClose}>Close</Button>
-      </Box>
-    );
-  }
-
-  if (!task) {
-    return (
-      <Box sx={{ p: 3 }}>
-        <Typography>Task not found.</Typography>
-        <Button onClick={handleClose}>Close</Button>
-      </Box>
-    );
-  }
+  const handleToggleCompleted = () => {
+    onToggleTask(task.id);
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -175,7 +102,7 @@ function TaskDetailPage({ taskId, onClose }: TaskDetailPageProps) {
             Details
           </Typography>
           <IconButton
-            onClick={handleClose}
+            onClick={onClose}
             size="small"
             sx={{ color: 'text.secondary' }}
           >
@@ -264,17 +191,17 @@ function TaskDetailPage({ taskId, onClose }: TaskDetailPageProps) {
             />
           </Box>
 
-          {/* Important Flag */}
+          {/* Completed Flag */}
           <Box>
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={isImportant}
-                  onChange={(e) => setIsImportant(e.target.checked)}
+                  checked={task.is_completed}
+                  onChange={handleToggleCompleted}
                   size="small"
                 />
               }
-              label={<Typography variant="body2">Mark as important</Typography>}
+              label={<Typography variant="body2">Mark as completed</Typography>}
             />
           </Box>
         </Box>
@@ -293,8 +220,9 @@ function TaskDetailPage({ taskId, onClose }: TaskDetailPageProps) {
             fullWidth
             size="small"
             sx={{ fontWeight: 500 }}
+            disabled={updateTaskMutation.isPending}
           >
-            Save
+            {updateTaskMutation.isPending ? 'Saving...' : 'Save'}
           </Button>
           <Button
             variant="outlined"
@@ -303,12 +231,59 @@ function TaskDetailPage({ taskId, onClose }: TaskDetailPageProps) {
             fullWidth
             size="small"
             sx={{ fontWeight: 500 }}
+            disabled={deleteTaskMutation.isPending}
           >
-            Delete
+            {deleteTaskMutation.isPending ? 'Deleting...' : 'Delete'}
           </Button>
         </Box>
       </Box>
     </LocalizationProvider>
+  );
+}
+
+// Wrapper Component
+interface TaskDetailPageProps {
+  taskId: string | null;
+  onClose: () => void;
+  onToggleTask: (id: string) => void;
+}
+
+function TaskDetailPage({
+  taskId,
+  onClose,
+  onToggleTask,
+}: TaskDetailPageProps) {
+  const { data: task, isLoading, isError, error } = useTaskQuery(taskId);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (isError) {
+    return (
+      <Box sx={{ p: 3 }}>
+        <Typography color="error">Error: {error?.message}</Typography>
+        <Button onClick={onClose}>Close</Button>
+      </Box>
+    );
+  }
+
+  if (!task) {
+    // This can happen if the query is disabled or if it returns no data
+    return (
+      <Box sx={{ p: 3 }}>
+        <Typography>Select a task to view details.</Typography>
+      </Box>
+    );
+  }
+
+  return (
+    <TaskDetailForm
+      key={taskId}
+      task={task}
+      onClose={onClose}
+      onToggleTask={onToggleTask}
+    />
   );
 }
 

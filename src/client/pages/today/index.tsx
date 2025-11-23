@@ -1,28 +1,34 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
-import { Task } from 'client/types';
 import DateNavigator from './components/DateNavigator';
 import CategoryFilter from './components/CategoryFilter';
 import TaskQuickAdd from './components/TaskQuickAdd';
 import TaskList from './components/TaskList';
 import { supabase } from 'client/lib/supabaseClient';
 import useAuthStore from 'client/store/authStore';
-import { useSearchParams } from 'react-router-dom'; // Changed useMatch to useSearchParams
+import { useSearchParams } from 'react-router-dom';
 import TaskDetailPage from 'client/pages/task-detail';
 import LoadingSpinner from 'client/components/LoadingSpinner';
-import { getRangeOfDay } from 'client/utils/date';
+import { useTasksQuery } from 'client/hooks/queries/useTasksQuery';
+import { useQueryClient } from '@tanstack/react-query';
+import {
+  useToggleTaskMutation,
+  useUpdateTaskTitleMutation,
+} from 'client/hooks/mutations/useTaskMutations';
 
 function TodayPage() {
   const session = useAuthStore((state) => state.session);
-  const [searchParams, setSearchParams] = useSearchParams(); // New
-  const taskId = searchParams.get('taskId'); // New
+  const queryClient = useQueryClient();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const taskId = searchParams.get('taskId');
 
-  const [tasks, setTasks] = useState<Task[]>([]);
   const [category, setCategory] = useState<string>('All');
   const [focusedIndex, setFocusedIndex] = useState<number>(-1);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [loadingTasks, setLoadingTasks] = useState(true);
+
+  const { data: tasks = [], isLoading: loadingTasks } =
+    useTasksQuery(selectedDate);
 
   const handlePreviousDay = () => {
     setSelectedDate((prevDate) => {
@@ -53,45 +59,14 @@ function TodayPage() {
 
   const handleTaskClick = useCallback(
     (id: string) => {
-      setSearchParams({ taskId: id }); // Changed navigation
+      setSearchParams({ taskId: id });
     },
     [setSearchParams]
   );
 
   const handleCloseTaskDetail = useCallback(() => {
-    setSearchParams({}); // Clear taskId query parameter
+    setSearchParams({});
   }, [setSearchParams]);
-
-  useEffect(() => {
-    const fetchTasks = async () => {
-      setLoadingTasks(true);
-      if (!session) {
-        setTasks([]); // Clear tasks if no session
-        setLoadingTasks(false);
-        return;
-      }
-
-      const [startOfDay, endOfDay] = getRangeOfDay(selectedDate);
-
-      const { data, error } = await supabase
-        .from('tasks')
-        .select('*')
-        .eq('user_id', session.user.id)
-        .gte('created_at', startOfDay.toISOString()) // Filter by created_at >= start of selected day
-        .lt('created_at', endOfDay.toISOString()) // Filter by created_at < end of selected day
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        console.error('Error fetching tasks:', error);
-        setTasks([]);
-      } else {
-        setTasks(data);
-      }
-      setLoadingTasks(false);
-    };
-
-    fetchTasks();
-  }, [session, selectedDate]); // Add selectedDate to dependencies
 
   const filteredTasks = useMemo(() => {
     if (category === 'All') {
@@ -100,6 +75,16 @@ function TodayPage() {
       return tasks.filter((task) => task.category === category);
     }
   }, [tasks, category]);
+
+  React.useEffect(() => {
+    if (
+      taskId &&
+      !loadingTasks &&
+      !filteredTasks.some((task) => task.id === taskId)
+    ) {
+      handleCloseTaskDetail();
+    }
+  }, [taskId, filteredTasks, loadingTasks, handleCloseTaskDetail]);
 
   const handleAddTask = async (title: string) => {
     if (!session) {
@@ -119,49 +104,34 @@ function TodayPage() {
     if (error) {
       console.error('Error adding task:', error);
     } else if (data) {
-      setTasks((prev) => [data[0], ...prev]);
+      const newTask = data[0];
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      setSearchParams({ taskId: newTask.id });
     }
   };
 
-  const handleUpdateTask = async (id: string, newTitle: string) => {
-    const { error } = await supabase
-      .from('tasks')
-      .update({ title: newTitle })
-      .eq('id', id);
-    if (error) {
-      console.error('Error updating task:', error);
-    } else {
-      setTasks(
-        tasks.map((task) =>
-          task.id === id ? { ...task, title: newTitle } : task
-        )
-      );
-    }
-  };
+  const updateTaskTitleMutation = useUpdateTaskTitleMutation();
+
+  const handleUpdateTask = useCallback(
+    (id: string, newTitle: string) => {
+      updateTaskTitleMutation.mutate({ taskId: id, newTitle });
+    },
+    [updateTaskTitleMutation]
+  );
+
+  const toggleTaskMutation = useToggleTaskMutation();
 
   const handleToggleTask = useCallback(
-    async (id: string) => {
+    (id: string) => {
       const taskToToggle = tasks.find((task) => task.id === id);
       if (!taskToToggle) return;
 
-      const { error } = await supabase
-        .from('tasks')
-        .update({ is_completed: !taskToToggle.is_completed })
-        .eq('id', id);
-
-      if (error) {
-        console.error('Error toggling task:', error);
-      } else {
-        setTasks(
-          tasks.map((task) =>
-            task.id === id
-              ? { ...task, is_completed: !task.is_completed }
-              : task
-          )
-        );
-      }
+      toggleTaskMutation.mutate({
+        taskId: id,
+        isCompleted: !taskToToggle.is_completed,
+      });
     },
-    [tasks]
+    [tasks, toggleTaskMutation]
   );
 
   const handleDeleteTask = useCallback(
@@ -170,10 +140,10 @@ function TodayPage() {
       if (error) {
         console.error('Error deleting task:', error);
       } else {
-        setTasks(tasks.filter((task) => task.id !== id));
+        queryClient.invalidateQueries({ queryKey: ['tasks'] });
       }
     },
-    [tasks]
+    [queryClient]
   );
 
   const handleKeyDown = useCallback(
@@ -215,10 +185,9 @@ function TodayPage() {
           display: 'flex',
           flexDirection: 'column',
           transition: 'width 0.3s ease-in-out',
-          mr: 3, // Added margin-right for spacing
+          mr: 3,
         }}
       >
-        {/* Date Navigation */}
         <Box sx={{ pb: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
           <DateNavigator
             selectedDate={selectedDate}
@@ -231,7 +200,6 @@ function TodayPage() {
           />
         </Box>
 
-        {/* Filters and Quick Add */}
         <Box sx={{ py: 2.5 }}>
           <CategoryFilter
             selectedCategory={category}
@@ -242,7 +210,6 @@ function TodayPage() {
           </Box>
         </Box>
 
-        {/* Task List */}
         {loadingTasks ? (
           <LoadingSpinner />
         ) : (
@@ -258,7 +225,6 @@ function TodayPage() {
         )}
       </Box>
 
-      {/* Task Details Panel */}
       <Box
         sx={{
           width: '360px',
@@ -271,7 +237,11 @@ function TodayPage() {
         }}
       >
         {taskId ? (
-          <TaskDetailPage taskId={taskId} onClose={handleCloseTaskDetail} />
+          <TaskDetailPage
+            taskId={taskId}
+            onClose={handleCloseTaskDetail}
+            onToggleTask={handleToggleTask}
+          />
         ) : (
           <Box
             sx={{
