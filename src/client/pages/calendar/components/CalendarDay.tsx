@@ -75,14 +75,14 @@ function CalendarDay({
             ? '#e3f2fd'
             : '#ffffff'
           : '#f5f5f5',
-        cursor: isCurrentMonth ? 'pointer' : 'default',
+        cursor: 'pointer',
         transition: 'all 0.15s ease',
         '&:hover': {
           bgcolor: isCurrentMonth
             ? isToday
               ? '#bbdefb'
               : '#f5f5f5'
-            : '#f5f5f5',
+            : '#efefef',
         },
         display: 'flex',
         flexDirection: 'column',
