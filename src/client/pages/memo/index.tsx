@@ -19,6 +19,7 @@ import {
   useToggleMemoPinMutation,
   useDeleteMemoMutation,
   useDeleteMultipleMemosMutation,
+  useUpdateMemoMutation,
 } from 'client/hooks/mutations/useMemoDutations';
 import LoadingSpinner from 'client/components/LoadingSpinner';
 import { Memo } from 'client/hooks/api/memos';
@@ -33,6 +34,7 @@ function MemoPage() {
   const togglePinMutation = useToggleMemoPinMutation();
   const deleteMemoMutation = useDeleteMemoMutation();
   const deleteMultipleMemosMutation = useDeleteMultipleMemosMutation();
+  const updateMemoMutation = useUpdateMemoMutation();
 
   const filteredMemos = useMemo(() => {
     if (selectedTab === 'All') {
@@ -59,7 +61,18 @@ function MemoPage() {
     try {
       await createMemoMutation.mutateAsync(content);
     } catch (error) {
-      console.error('Error creating memo:', error);
+      console.error('메모 생성 오류:', error);
+    }
+  };
+
+  const handleUpdateMemo = async (memoId: string, newContent: string) => {
+    try {
+      await updateMemoMutation.mutateAsync({
+        memoId,
+        payload: { content: newContent },
+      });
+    } catch (error) {
+      console.error('메모 업데이트 오류:', error);
     }
   };
 
@@ -70,7 +83,7 @@ function MemoPage() {
         isPinned: memo.is_pinned,
       });
     } catch (error) {
-      console.error('Error toggling pin:', error);
+      console.error('핀 토글 오류:', error);
     }
   };
 
@@ -78,7 +91,7 @@ function MemoPage() {
     try {
       await deleteMemoMutation.mutateAsync(memoId);
     } catch (error) {
-      console.error('Error deleting memo:', error);
+      console.error('메모 삭제 오류:', error);
     }
   };
 
@@ -93,7 +106,7 @@ function MemoPage() {
       await deleteMultipleMemosMutation.mutateAsync(memoIdsToDelete);
       setSelectedMemos(new Set());
     } catch (error) {
-      console.error('Error deleting memos:', error);
+      console.error('메모 삭제 오류:', error);
     }
   };
 
@@ -111,7 +124,8 @@ function MemoPage() {
     createMemoMutation.isPending ||
     togglePinMutation.isPending ||
     deleteMemoMutation.isPending ||
-    deleteMultipleMemosMutation.isPending;
+    deleteMultipleMemosMutation.isPending ||
+    updateMemoMutation.isPending;
 
   return (
     <Box
@@ -121,30 +135,37 @@ function MemoPage() {
         height: '100%',
       }}
     >
-      {/* Header with Tab Filter and Selection Info */}
+      {/* 헤더 - 탭 필터 */}
       <Box
         sx={{
           pb: 2,
+        }}
+      >
+        <TabFilter selectedTab={selectedTab} setTab={handleTabChange} />
+      </Box>
+
+      {/* 선택 정보 표시 영역 - 고정 높이로 레이아웃 안정화 */}
+      <Box
+        sx={{
+          minHeight: selectedMemos.size > 0 ? '60px' : '0px',
+          transition: 'min-height 0.2s ease-in-out',
           borderBottom: selectedMemos.size > 0 ? '1px solid' : 'none',
           borderColor: 'divider',
         }}
       >
-        <TabFilter selectedTab={selectedTab} setTab={handleTabChange} />
-
         {selectedMemos.size > 0 && (
           <Stack
             direction="row"
             spacing={2}
             sx={{
               alignItems: 'center',
-              mt: 2,
-              padding: '12px',
+              p: 1.5,
               bgcolor: '#f5f5f5',
               borderRadius: 1,
             }}
           >
             <Typography variant="body2" sx={{ fontWeight: 500 }}>
-              {selectedMemos.size} selected
+              {selectedMemos.size}개 선택됨
             </Typography>
             <Button
               variant="contained"
@@ -153,13 +174,13 @@ function MemoPage() {
               onClick={handleDeleteSelected}
               disabled={isLoading_}
             >
-              Delete
+              삭제
             </Button>
           </Stack>
         )}
       </Box>
 
-      {/* Memos Grid */}
+      {/* 메모 그리드 */}
       <Box
         sx={{
           flex: 1,
@@ -179,13 +200,13 @@ function MemoPage() {
               alignContent: 'flex-start',
             }}
           >
-            {/* New Memo Card */}
+            {/* 새 메모 카드 */}
             <NewMemoCard
               onSave={handleCreateMemo}
               isLoading={createMemoMutation.isPending}
             />
 
-            {/* Existing Memos */}
+            {/* 기존 메모들 */}
             {filteredMemos.map((memo) => (
               <MemoCard
                 key={memo.id}
@@ -194,10 +215,11 @@ function MemoPage() {
                 onSelect={handleSelectMemo}
                 onTogglePin={handleTogglePin}
                 onDelete={handleDeleteMemo}
+                onUpdate={handleUpdateMemo}
               />
             ))}
 
-            {/* Empty State */}
+            {/* 빈 상태 표시 */}
             {filteredMemos.length === 0 && (
               <Box
                 sx={{
@@ -210,8 +232,8 @@ function MemoPage() {
               >
                 <Typography variant="body2" color="text.secondary">
                   {selectedTab === 'Pinned'
-                    ? 'No pinned memos yet'
-                    : 'No memos yet. Create your first memo!'}
+                    ? '고정된 메모가 없습니다'
+                    : '아직 메모가 없습니다. 첫 번째 메모를 작성해보세요!'}
                 </Typography>
               </Box>
             )}
@@ -219,17 +241,16 @@ function MemoPage() {
         )}
       </Box>
 
-      {/* Delete Confirmation Dialog */}
+      {/* 삭제 확인 다이얼로그 */}
       <Dialog open={deleteDialogOpen} onClose={handleCancelDelete}>
-        <DialogTitle>Delete Memos</DialogTitle>
+        <DialogTitle>메모 삭제</DialogTitle>
         <DialogContent>
           <Typography>
-            Are you sure you want to delete {selectedMemos.size} memo
-            {selectedMemos.size !== 1 ? 's' : ''}?
+            {selectedMemos.size}개의 메모를 삭제하시겠습니까?
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancelDelete}>Cancel</Button>
+          <Button onClick={handleCancelDelete}>취소</Button>
           <Button
             onClick={handleConfirmDeleteSelected}
             color="error"
@@ -239,7 +260,7 @@ function MemoPage() {
             {deleteMultipleMemosMutation.isPending ? (
               <CircularProgress size={20} />
             ) : (
-              'Delete'
+              '삭제'
             )}
           </Button>
         </DialogActions>
