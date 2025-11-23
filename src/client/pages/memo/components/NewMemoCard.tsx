@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Box, TextField, Button, Stack } from '@mui/material';
 
 interface NewMemoCardProps {
@@ -9,6 +9,7 @@ interface NewMemoCardProps {
 function NewMemoCard({ onSave, isLoading = false }: NewMemoCardProps) {
   const [content, setContent] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const textFieldRef = useRef<HTMLTextAreaElement>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
@@ -28,11 +29,32 @@ function NewMemoCard({ onSave, isLoading = false }: NewMemoCardProps) {
     setIsEditing(false);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // Ctrl/Cmd + Enter로 저장
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      e.preventDefault();
+      handleSave();
+    }
+    // ESC로 취소
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      handleCancel();
+    }
+  };
+
+  const handleBoxClick = () => {
+    if (textFieldRef.current) {
+      textFieldRef.current.focus();
+      setIsEditing(true);
+    }
+  };
+
   return (
     <Box
+      onClick={handleBoxClick}
       sx={{
-        width: '200px',
-        minHeight: '200px',
+        width: '250px',
+        height: '300px',
         bgcolor: '#fffef0',
         borderRadius: 1,
         boxShadow: '0 1px 4px rgba(0,0,0,0.1)',
@@ -41,15 +63,22 @@ function NewMemoCard({ onSave, isLoading = false }: NewMemoCardProps) {
         flexDirection: 'column',
         position: 'relative',
         border: '1px solid #e0e0e0',
+        cursor: 'text',
+        transition: 'all 0.2s ease-in-out',
+        '&:hover': {
+          boxShadow: '0 4px 8px rgba(0,0,0,0.15)',
+        },
       }}
     >
       <TextField
+        inputRef={textFieldRef}
         multiline
-        maxRows={6}
+        maxRows={10}
         fullWidth
-        placeholder="Write a new memo..."
+        placeholder="새 메모를 작성하세요..."
         value={content}
         onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
         variant="standard"
         InputProps={{
           disableUnderline: true,
@@ -89,7 +118,7 @@ function NewMemoCard({ onSave, isLoading = false }: NewMemoCardProps) {
             disabled={isLoading}
             sx={{ textTransform: 'none' }}
           >
-            Cancel
+            취소
           </Button>
           <Button
             size="small"
@@ -98,7 +127,7 @@ function NewMemoCard({ onSave, isLoading = false }: NewMemoCardProps) {
             disabled={!content.trim() || isLoading}
             sx={{ textTransform: 'none' }}
           >
-            Save
+            저장
           </Button>
         </Stack>
       )}
