@@ -106,30 +106,66 @@ function MonthlyCalendar({
   const dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Typography variant="h5" component="h1" sx={{ fontWeight: 'bold' }}>
+    <Box sx={{ p: 2.5, height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2.5 }}>
+        <Typography variant="h5" component="h1" sx={{ fontWeight: '700', letterSpacing: '-0.5px' }}>
           {monthName}
         </Typography>
-        <Box sx={{ display: 'flex', gap: 1 }}>
-          <IconButton onClick={handlePreviousMonth} size="small">
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <IconButton
+            onClick={handlePreviousMonth}
+            size="small"
+            sx={{
+              color: 'text.secondary',
+              '&:hover': {
+                bgcolor: 'action.hover',
+              },
+            }}
+          >
             <ArrowBackIosNewIcon fontSize="small" />
           </IconButton>
           <Button
             variant="outlined"
             size="small"
             onClick={handleTodayClick}
-            sx={{ color: 'text.secondary', borderColor: 'divider' }}
+            sx={{
+              textTransform: 'none',
+              fontWeight: '500',
+              color: 'text.secondary',
+              borderColor: 'divider',
+              '&:hover': {
+                bgcolor: 'action.hover',
+                borderColor: 'divider',
+              },
+            }}
           >
             Today
           </Button>
-          <IconButton onClick={handleNextMonth} size="small">
+          <IconButton
+            onClick={handleNextMonth}
+            size="small"
+            sx={{
+              color: 'text.secondary',
+              '&:hover': {
+                bgcolor: 'action.hover',
+              },
+            }}
+          >
             <ArrowForwardIosIcon fontSize="small" />
           </IconButton>
         </Box>
       </Box>
 
-      <Paper sx={{ bgcolor: 'background.paper', overflow: 'hidden' }}>
+      <Paper
+        sx={{
+          bgcolor: 'background.paper',
+          overflow: 'hidden',
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+        }}
+      >
         <Grid container sx={{ borderBottom: '1px solid', borderColor: 'divider' }}>
           {dayLabels.map((label) => (
             <Grid
@@ -137,9 +173,9 @@ function MonthlyCalendar({
               xs={12 / 7}
               key={label}
               sx={{
-                p: 1,
+                p: 1.5,
                 textAlign: 'center',
-                bgcolor: '#fafafa',
+                bgcolor: '#fafbfc',
                 borderRight: '1px solid',
                 borderColor: 'divider',
                 '&:last-child': {
@@ -149,9 +185,11 @@ function MonthlyCalendar({
             >
               <Typography
                 sx={{
-                  fontSize: '0.875rem',
-                  fontWeight: '600',
+                  fontSize: '0.75rem',
+                  fontWeight: '700',
                   color: 'text.secondary',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
                 }}
               >
                 {label}
@@ -160,7 +198,7 @@ function MonthlyCalendar({
           ))}
         </Grid>
 
-        <Grid container>
+        <Grid container sx={{ flex: 1 }}>
           {days.map((dayObj, index) => {
             const tasksList = getTasksForDate(dayObj.date);
             const isToday =
