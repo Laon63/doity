@@ -1,0 +1,202 @@
+import React, { useMemo, useState } from 'react';
+import {
+  Box,
+  Typography,
+  IconButton,
+  Button,
+  Grid,
+  Paper,
+} from '@mui/material';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { Task } from 'client/types';
+import CalendarDay from './CalendarDay';
+import { useQueryClient } from '@tanstack/react-query';
+
+interface MonthlyCalendarProps {
+  currentDate: Date;
+  onDateChange: (date: Date) => void;
+  tasks: Task[];
+}
+
+function MonthlyCalendar({
+  currentDate,
+  onDateChange,
+  tasks,
+}: MonthlyCalendarProps) {
+  const today = new Date();
+  const queryClient = useQueryClient();
+
+  const { days, firstDayOfWeek, daysInMonth, year, month } = useMemo(() => {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+
+    const firstDayOfWeek = firstDay.getDay();
+    const daysInMonth = lastDay.getDate();
+
+    const days = [];
+    // Previous month days
+    const prevMonthLastDay = new Date(year, month, 0).getDate();
+    for (let i = firstDayOfWeek - 1; i >= 0; i--) {
+      days.push({
+        day: prevMonthLastDay - i,
+        isCurrentMonth: false,
+        date: new Date(year, month - 1, prevMonthLastDay - i),
+      });
+    }
+
+    // Current month days
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push({
+        day: i,
+        isCurrentMonth: true,
+        date: new Date(year, month, i),
+      });
+    }
+
+    // Next month days
+    const remainingDays = 42 - days.length; // 6 rows * 7 days
+    for (let i = 1; i <= remainingDays; i++) {
+      days.push({
+        day: i,
+        isCurrentMonth: false,
+        date: new Date(year, month + 1, i),
+      });
+    }
+
+    return { days, firstDayOfWeek, daysInMonth, year, month };
+  }, [currentDate]);
+
+  const getTasksForDate = (date: Date): Task[] => {
+    const dateString = date.toDateString();
+    return tasks.filter((task) => {
+      const taskDate = new Date(task.created_at).toDateString();
+      return taskDate === dateString;
+    });
+  };
+
+  const handlePreviousMonth = () => {
+    const newDate = new Date(currentDate);
+    newDate.setMonth(newDate.getMonth() - 1);
+    onDateChange(newDate);
+    queryClient.invalidateQueries({ queryKey: ['tasks'] });
+  };
+
+  const handleNextMonth = () => {
+    const newDate = new Date(currentDate);
+    newDate.setMonth(newDate.getMonth() + 1);
+    onDateChange(newDate);
+    queryClient.invalidateQueries({ queryKey: ['tasks'] });
+  };
+
+  const handleTodayClick = () => {
+    const newDate = new Date(today);
+    onDateChange(newDate);
+    queryClient.invalidateQueries({ queryKey: ['tasks'] });
+  };
+
+  const monthName = new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    year: 'numeric',
+  }).format(currentDate);
+
+  const dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  return (
+    <Box sx={{ p: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Typography variant="h5" component="h1" sx={{ fontWeight: 'bold' }}>
+          {monthName}
+        </Typography>
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          <IconButton onClick={handlePreviousMonth} size="small">
+            <ArrowBackIosNewIcon fontSize="small" />
+          </IconButton>
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={handleTodayClick}
+            sx={{ color: 'text.secondary', borderColor: 'divider' }}
+          >
+            Today
+          </Button>
+          <IconButton onClick={handleNextMonth} size="small">
+            <ArrowForwardIosIcon fontSize="small" />
+          </IconButton>
+        </Box>
+      </Box>
+
+      <Paper sx={{ bgcolor: 'background.paper', overflow: 'hidden' }}>
+        <Grid container sx={{ borderBottom: '1px solid', borderColor: 'divider' }}>
+          {dayLabels.map((label) => (
+            <Grid
+              item
+              xs={12 / 7}
+              key={label}
+              sx={{
+                p: 1,
+                textAlign: 'center',
+                bgcolor: '#fafafa',
+                borderRight: '1px solid',
+                borderColor: 'divider',
+                '&:last-child': {
+                  borderRight: 'none',
+                },
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: '0.875rem',
+                  fontWeight: '600',
+                  color: 'text.secondary',
+                }}
+              >
+                {label}
+              </Typography>
+            </Grid>
+          ))}
+        </Grid>
+
+        <Grid container>
+          {days.map((dayObj, index) => {
+            const tasksList = getTasksForDate(dayObj.date);
+            const isToday =
+              dayObj.date.toDateString() === today.toDateString();
+
+            return (
+              <Grid
+                item
+                xs={12 / 7}
+                key={index}
+                sx={{
+                  borderRight: '1px solid',
+                  borderBottom: '1px solid',
+                  borderColor: 'divider',
+                  '&:nth-child(7n)': {
+                    borderRight: 'none',
+                  },
+                  '&:nth-last-child(-n+7)': {
+                    borderBottom: 'none',
+                  },
+                }}
+              >
+                <CalendarDay
+                  day={dayObj.day}
+                  isCurrentMonth={dayObj.isCurrentMonth}
+                  isToday={isToday}
+                  tasks={tasksList}
+                  onDayClick={() => onDateChange(dayObj.date)}
+                />
+              </Grid>
+            );
+          })}
+        </Grid>
+      </Paper>
+    </Box>
+  );
+}
+
+export default MonthlyCalendar;
