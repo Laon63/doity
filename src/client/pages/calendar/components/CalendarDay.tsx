@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Box, Typography, Tooltip, Stack } from '@mui/material';
 import { Task } from 'client/types';
 import { useNavigate } from 'react-router-dom';
+import { getCategoryColor, getCategoryLightColor } from 'client/utils/colors';
 
 interface CalendarDayProps {
   day: number;
@@ -9,8 +10,11 @@ interface CalendarDayProps {
   isToday: boolean;
   tasks: Task[];
   date: Date;
-  onDayClick: (date: Date) => void;
 }
+
+const TASK_ITEM_HEIGHT = 16; // Approximate height of a single task item
+const TASK_ITEM_MARGIN_BOTTOM = 2.4; // Approximate margin-bottom from Stack spacing={0.3} (0.3 * 8px)
+const TYPOGRAPHY_MORE_HEIGHT = 12; // Height of the "+ more" typography
 
 function CalendarDay({
   day,
@@ -18,10 +22,49 @@ function CalendarDay({
   isToday,
   tasks,
   date,
-  onDayClick,
 }: CalendarDayProps) {
   const navigate = useNavigate();
   const [hoveredTaskId, setHoveredTaskId] = useState<string | null>(null);
+  const stackRef = useRef<HTMLDivElement>(null);
+  const [maxTasksToShow, setMaxTasksToShow] = useState(3); // Default to 3
+  const [contentHeight, setContentHeight] = useState(0); // State to store observed height
+
+  // Observe the height of the stackRef element
+  useEffect(() => {
+    const currentRef = stackRef.current;
+    if (!currentRef) return;
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        // Changed 'let entry' to 'const entry'
+        if (entry.target === currentRef) {
+          setContentHeight(entry.contentRect.height);
+        }
+      }
+    });
+
+    resizeObserver.observe(currentRef);
+
+    return () => {
+      resizeObserver.unobserve(currentRef);
+    };
+  }, []); // Empty dependency array to run once on mount
+
+  // Calculate maxTasksToShow when tasks or contentHeight changes
+  useEffect(() => {
+    if (contentHeight > 0) {
+      // Subtract the potential height of the "+ more" text if it were to appear
+      const effectiveAvailableHeight = contentHeight - TYPOGRAPHY_MORE_HEIGHT;
+      const calculatedMax = Math.floor(
+        effectiveAvailableHeight / (TASK_ITEM_HEIGHT + TASK_ITEM_MARGIN_BOTTOM)
+      );
+      if (calculatedMax !== maxTasksToShow) {
+        // Only update if different
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setMaxTasksToShow(Math.max(0, calculatedMax)); // Ensure it's not negative
+      }
+    }
+  }, [tasks, contentHeight, maxTasksToShow]);
 
   const handleTaskClick = (taskId: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -30,34 +73,9 @@ function CalendarDay({
     });
   };
 
-  const getCategoryColor = (category?: string) => {
-    switch (category) {
-      case 'personal':
-        return '#8FE3CD';
-      case 'work':
-        return '#64748B';
-      case 'other':
-        return '#F59E0B';
-      default:
-        return '#CBD5E1';
-    }
-  };
-
-  const getCategoryLightColor = (category?: string) => {
-    switch (category) {
-      case 'personal':
-        return '#E0F9F5';
-      case 'work':
-        return '#F1F5F9';
-      case 'other':
-        return '#FFFBEB';
-      default:
-        return '#F1F5F9';
-    }
-  };
-
-  const displayedTasks = tasks.slice(0, 3);
-  const remainingCount = tasks.length > 3 ? tasks.length - 3 : 0;
+  const displayedTasks = tasks.slice(0, maxTasksToShow);
+  const remainingCount =
+    tasks.length > maxTasksToShow ? tasks.length - maxTasksToShow : 0;
 
   const handleDayClick = () => {
     navigate('/today', {
@@ -122,6 +140,7 @@ function CalendarDay({
       </Box>
 
       <Stack
+        ref={stackRef} // Attach ref here
         spacing={0.3}
         sx={{ flex: 1, minWidth: 0, width: '100%', overflow: 'hidden' }}
       >

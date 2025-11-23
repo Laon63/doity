@@ -1,11 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import { Box, Typography, IconButton, Button, Paper } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'; // Corrected import
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'; // Import CalendarMonthIcon
 import { Task } from 'client/types';
 import CalendarDay from './CalendarDay';
-import { useQueryClient } from '@tanstack/react-query';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -22,11 +21,10 @@ function MonthlyCalendar({
   tasks,
 }: MonthlyCalendarProps) {
   const today = new Date();
-  const queryClient = useQueryClient();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
-  const { days, firstDayOfWeek, daysInMonth, year, month } = useMemo(() => {
+  const { days } = useMemo(() => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
 
@@ -66,7 +64,7 @@ function MonthlyCalendar({
       });
     }
 
-    return { days, firstDayOfWeek, daysInMonth, year, month };
+    return { days };
   }, [currentDate]);
 
   const getTasksForDate = (date: Date): Task[] => {
@@ -81,20 +79,17 @@ function MonthlyCalendar({
     const newDate = new Date(currentDate);
     newDate.setMonth(newDate.getMonth() - 1);
     onDateChange(newDate);
-    queryClient.invalidateQueries({ queryKey: ['tasks'] });
   };
 
   const handleNextMonth = () => {
     const newDate = new Date(currentDate);
     newDate.setMonth(newDate.getMonth() + 1);
     onDateChange(newDate);
-    queryClient.invalidateQueries({ queryKey: ['tasks'] });
   };
 
   const handleTodayClick = () => {
     const newDate = new Date(today);
     onDateChange(newDate);
-    queryClient.invalidateQueries({ queryKey: ['tasks'] });
   };
 
   const handleCalendarOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -109,7 +104,6 @@ function MonthlyCalendar({
   const handleDateSelect = (date: Date | null) => {
     if (date) {
       onDateChange(date);
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
       setIsCalendarOpen(false);
     }
   };
@@ -297,7 +291,6 @@ function MonthlyCalendar({
                     isToday={isToday}
                     tasks={tasksList}
                     date={dayObj.date}
-                    onDayClick={() => onDateChange(dayObj.date)}
                   />
                 </Box>
               );

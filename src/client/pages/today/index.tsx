@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
 import DateNavigator from './components/DateNavigator';
 import CategoryFilter from './components/CategoryFilter';
@@ -34,12 +34,8 @@ function TodayPage() {
   });
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
-  useEffect(() => {
-    const state = location.state as { selectedDate?: Date } | null;
-    if (state?.selectedDate) {
-      setSelectedDate(new Date(state.selectedDate));
-    }
-  }, [location.state]);
+  // No useEffect here for selectedDate from location.state, as it's handled by useState initializer
+  // and subsequent changes are handled by internal navigation.
 
   const { data: tasks = [], isLoading: loadingTasks } =
     useTasksQuery(selectedDate);

@@ -1,6 +1,6 @@
 import { supabase } from 'client/lib/supabaseClient';
 import { Task } from 'client/types';
-import { getRangeOfDay, getRangeOfMonth } from 'client/utils/date';
+import { getRangeOfDay } from 'client/utils/date';
 
 export const fetchTask = async (taskId: string): Promise<Task> => {
   const { data, error } = await supabase
