@@ -60,11 +60,9 @@ function CalendarDay({
   const remainingCount = tasks.length > 3 ? tasks.length - 3 : 0;
 
   const handleDayClick = () => {
-    if (isCurrentMonth) {
-      navigate('/today', {
-        state: { selectedDate: date },
-      });
-    }
+    navigate('/today', {
+      state: { selectedDate: date },
+    });
   };
 
   return (
