@@ -53,7 +53,10 @@ function MemoCard({
     setDeleteDialogOpen(false);
   };
 
-  const handleStartEdit = () => {
+  const handleStartEdit = (e?: React.MouseEvent) => {
+    if (e) {
+      e.stopPropagation();
+    }
     setIsEditing(true);
     setEditContent(memo.content);
     setTimeout(() => {
@@ -96,9 +99,9 @@ function MemoCard({
       <Box
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onClick={() => {
-          if (!isEditing) {
-            handleStartEdit();
+        onClick={(e) => {
+          if (!isEditing && e.target === e.currentTarget) {
+            handleStartEdit(e);
           }
         }}
         sx={{
@@ -120,50 +123,78 @@ function MemoCard({
       >
         {/* Absolute 오버레이: Checkbox (좌측 상단) */}
         {isHovered && !isEditing && (
-          <Checkbox
-            checked={isSelected}
-            onChange={(e) => {
-              e.stopPropagation();
-              onSelect(memo.id, e.target.checked);
-            }}
+          <Box
             sx={{
               position: 'absolute',
-              top: '4px',
-              left: '2px',
+              top: 0,
+              left: 0,
+              width: 40,
+              height: 40,
               zIndex: 10,
-              padding: '4px',
-              '&:hover': {
-                bgcolor: 'rgba(0, 0, 0, 0.05)',
-              },
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
             }}
-          />
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <Checkbox
+              checked={isSelected}
+              onChange={(e) => {
+                e.stopPropagation();
+                onSelect(memo.id, e.target.checked);
+              }}
+              sx={{
+                padding: '8px',
+                '&:hover': {
+                  bgcolor: 'rgba(0, 0, 0, 0.05)',
+                },
+              }}
+            />
+          </Box>
         )}
 
         {/* Absolute 오버레이: Pin 버튼 (우측 상단) */}
         {isHovered && !isEditing && (
-          <IconButton
-            size="small"
-            onClick={(e) => {
-              e.stopPropagation();
-              onTogglePin(memo);
-            }}
+          <Box
             sx={{
               position: 'absolute',
-              top: '4px',
-              right: '2px',
+              top: 0,
+              right: 0,
+              width: 40,
+              height: 40,
               zIndex: 10,
-              padding: '4px',
-              '&:hover': {
-                bgcolor: 'rgba(0, 0, 0, 0.08)',
-              },
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
             }}
           >
-            {memo.is_pinned ? (
-              <PushPinIcon sx={{ fontSize: '20px' }} />
-            ) : (
-              <PushPinOutlinedIcon sx={{ fontSize: '20px' }} />
-            )}
-          </IconButton>
+            <IconButton
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation();
+                onTogglePin(memo);
+              }}
+              sx={{
+                padding: '8px',
+                '&:hover': {
+                  bgcolor: 'rgba(0, 0, 0, 0.08)',
+                },
+              }}
+            >
+              {memo.is_pinned ? (
+                <PushPinIcon sx={{ fontSize: '20px' }} />
+              ) : (
+                <PushPinOutlinedIcon sx={{ fontSize: '20px' }} />
+              )}
+            </IconButton>
+          </Box>
         )}
 
         {/* 메모 내용 - 원래 위치에 표시 */}
