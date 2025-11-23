@@ -42,64 +42,85 @@ function CalendarDay({
     <Box
       onClick={handleDayClick}
       sx={{
-        minHeight: '100px',
-        p: 1,
-        border: '1px solid',
-        borderColor: 'divider',
+        minHeight: '120px',
+        p: 1.25,
         bgcolor: isCurrentMonth
           ? isToday
             ? '#f0f7ff'
             : 'background.paper'
-          : '#fafafa',
+          : '#fafbfc',
         cursor: 'pointer',
-        transition: 'all 0.2s ease',
+        transition: 'all 0.15s ease',
         '&:hover': {
           bgcolor: isCurrentMonth
             ? isToday
               ? '#e6f2ff'
-              : '#f5f5f5'
-            : '#f0f0f0',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+              : '#f8f9fa'
+            : '#f2f3f5',
         },
         display: 'flex',
         flexDirection: 'column',
+        height: '100%',
       }}
     >
-      <Typography
+      <Box
         sx={{
-          fontSize: '0.875rem',
-          fontWeight: isToday ? 'bold' : '500',
-          color: isCurrentMonth ? 'text.primary' : 'text.secondary',
-          mb: 0.5,
-          lineHeight: 1,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+          mb: 0.75,
         }}
       >
-        {day}
-      </Typography>
+        <Typography
+          sx={{
+            fontSize: '0.875rem',
+            fontWeight: isToday ? '700' : '600',
+            color: isCurrentMonth ? 'text.primary' : 'text.secondary',
+            lineHeight: '20px',
+            minWidth: '20px',
+            textAlign: 'center',
+            ...(isToday && {
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '24px',
+              height: '24px',
+              borderRadius: '50%',
+              bgcolor: 'primary.main',
+              color: '#fff',
+            }),
+          }}
+        >
+          {day}
+        </Typography>
+      </Box>
 
-      <Stack spacing={0.25} sx={{ flex: 1, minWidth: 0 }}>
+      <Stack spacing={0.4} sx={{ flex: 1, minWidth: 0 }}>
         {displayedTasks.map((task) => (
           <Tooltip key={task.id} title={task.title} arrow>
             <Box
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 0.5,
+                gap: 0.6,
                 minWidth: 0,
+                minHeight: '16px',
               }}
             >
               <Box
                 sx={{
-                  width: '6px',
-                  height: '6px',
+                  width: '5px',
+                  height: '5px',
                   borderRadius: '50%',
                   backgroundColor: getCategoryColor(task.category),
                   flexShrink: 0,
+                  marginTop: '1px',
                 }}
               />
               <Typography
                 sx={{
-                  fontSize: '0.75rem',
+                  fontSize: '0.7rem',
+                  lineHeight: '14px',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
@@ -117,9 +138,11 @@ function CalendarDay({
         {remainingCount > 0 && (
           <Typography
             sx={{
-              fontSize: '0.7rem',
+              fontSize: '0.65rem',
               color: 'primary.main',
               fontWeight: '600',
+              lineHeight: '12px',
+              mt: 0.25,
             }}
           >
             +{remainingCount} more
