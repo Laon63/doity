@@ -68,21 +68,23 @@ function CalendarDay({
         p: 1.25,
         bgcolor: isCurrentMonth
           ? isToday
-            ? '#f0f7ff'
-            : 'background.paper'
-          : '#fafbfc',
-        cursor: 'pointer',
+            ? '#e3f2fd'
+            : '#ffffff'
+          : '#f5f5f5',
+        cursor: isCurrentMonth ? 'pointer' : 'default',
         transition: 'all 0.15s ease',
         '&:hover': {
           bgcolor: isCurrentMonth
             ? isToday
-              ? '#e6f2ff'
-              : '#f8f9fa'
-            : '#f2f3f5',
+              ? '#bbdefb'
+              : '#f5f5f5'
+            : '#f5f5f5',
         },
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
+        border: '1px solid',
+        borderColor: '#e0e0e0',
       }}
     >
       <Box
@@ -97,7 +99,7 @@ function CalendarDay({
           sx={{
             fontSize: '0.875rem',
             fontWeight: isToday ? '700' : '600',
-            color: isCurrentMonth ? 'text.primary' : 'text.secondary',
+            color: isCurrentMonth ? '#000' : '#999',
             lineHeight: '20px',
             minWidth: '20px',
             textAlign: 'center',
@@ -108,7 +110,7 @@ function CalendarDay({
               width: '24px',
               height: '24px',
               borderRadius: '50%',
-              bgcolor: 'primary.main',
+              bgcolor: '#1976d2',
               color: '#fff',
             }),
           }}
@@ -119,14 +121,43 @@ function CalendarDay({
 
       <Stack spacing={0.4} sx={{ flex: 1, minWidth: 0 }}>
         {displayedTasks.map((task) => (
-          <Tooltip key={task.id} title={task.title} arrow>
+          <Tooltip
+            key={task.id}
+            title={task.title}
+            arrow
+            slotProps={{
+              tooltip: {
+                sx: {
+                  bgcolor: 'rgba(0, 0, 0, 0.87)',
+                  color: 'rgba(255, 255, 255, 0.87)',
+                  fontSize: '0.75rem',
+                },
+              },
+              popper: {
+                modifiers: [
+                  {
+                    name: 'offset',
+                    options: {
+                      offset: [0, -8],
+                    },
+                  },
+                ],
+              },
+            }}
+          >
             <Box
+              onMouseEnter={() => setHoveredTaskId(task.id)}
+              onMouseLeave={() => setHoveredTaskId(null)}
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: 0.6,
                 minWidth: 0,
                 minHeight: '16px',
+                p: 0.5,
+                borderRadius: '4px',
+                bgcolor: hoveredTaskId === task.id ? getCategoryLightColor(task.category) : 'transparent',
+                transition: 'all 0.15s ease',
               }}
             >
               <Box
@@ -146,7 +177,7 @@ function CalendarDay({
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
-                  color: task.is_completed ? 'text.secondary' : 'text.primary',
+                  color: task.is_completed ? '#999' : '#000',
                   textDecoration: task.is_completed
                     ? 'line-through'
                     : 'none',
@@ -161,7 +192,7 @@ function CalendarDay({
           <Typography
             sx={{
               fontSize: '0.65rem',
-              color: 'primary.main',
+              color: '#1976d2',
               fontWeight: '600',
               lineHeight: '12px',
               mt: 0.25,
