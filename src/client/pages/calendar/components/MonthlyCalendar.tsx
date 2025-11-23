@@ -251,7 +251,14 @@ function MonthlyCalendar({
             ))}
           </Grid>
 
-          <Grid container sx={{ flex: 1, display: 'flex' }}>
+          <Box
+            sx={{
+              flex: 1,
+              display: 'grid',
+              gridTemplateColumns: 'repeat(7, 1fr)',
+              minHeight: 0,
+            }}
+          >
             {days.map((dayObj, index) => {
               const tasksList = getTasksForDate(dayObj.date);
               const isToday =
@@ -261,15 +268,13 @@ function MonthlyCalendar({
               const isLastCol = (index + 1) % 7 === 0;
 
               return (
-                <Grid
-                  item
-                  xs={12 / 7}
+                <Box
                   key={index}
                   sx={{
                     borderRight: isLastCol ? 'none' : '0.5px solid #ddd',
                     borderBottom: isLastRow ? 'none' : '0.5px solid #ddd',
-                    flex: 1,
                     display: 'flex',
+                    minHeight: 0,
                   }}
                 >
                   <CalendarDay
@@ -280,10 +285,10 @@ function MonthlyCalendar({
                     date={dayObj.date}
                     onDayClick={() => onDateChange(dayObj.date)}
                   />
-                </Grid>
+                </Box>
               );
             })}
-          </Grid>
+          </Box>
         </Paper>
       </Box>
     </LocalizationProvider>
