@@ -118,69 +118,57 @@ function MemoCard({
           },
         }}
       >
-        {/* 컨트롤 바 - 체크박스와 핀 버튼 */}
-        {(isHovered || isEditing) && (
-          <Box
+        {/* Absolute 오버레이: Checkbox (좌측 상단) */}
+        {isHovered && !isEditing && (
+          <Checkbox
+            checked={isSelected}
+            onChange={(e) => {
+              e.stopPropagation();
+              onSelect(memo.id, e.target.checked);
+            }}
             sx={{
               position: 'absolute',
-              top: '8px',
-              left: '8px',
-              right: '8px',
+              top: '4px',
+              left: '2px',
               zIndex: 10,
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              height: '40px',
+              padding: '4px',
+              '&:hover': {
+                bgcolor: 'rgba(0, 0, 0, 0.05)',
+              },
             }}
-          >
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                bgcolor: 'rgba(255, 255, 240, 0.95)',
-                borderRadius: '4px',
-                padding: '4px',
-              }}
-            >
-              <Checkbox
-                checked={isSelected}
-                onChange={(e) => onSelect(memo.id, e.target.checked)}
-                sx={{
-                  p: 0,
-                  '&:hover': {
-                    bgcolor: 'rgba(0, 0, 0, 0.05)',
-                  },
-                }}
-              />
-            </Box>
-
-            <IconButton
-              size="small"
-              onClick={(e) => {
-                e.stopPropagation();
-                onTogglePin(memo);
-              }}
-              sx={{
-                bgcolor: 'rgba(255, 255, 240, 0.95)',
-                borderRadius: '4px',
-                padding: '4px',
-                '&:hover': {
-                  bgcolor: 'rgba(0, 0, 0, 0.08)',
-                },
-              }}
-            >
-              {memo.is_pinned ? (
-                <PushPinIcon sx={{ fontSize: '20px' }} />
-              ) : (
-                <PushPinOutlinedIcon sx={{ fontSize: '20px' }} />
-              )}
-            </IconButton>
-          </Box>
+          />
         )}
 
-        {/* 메모 내용 */}
+        {/* Absolute 오버레이: Pin 버튼 (우측 상단) */}
+        {isHovered && !isEditing && (
+          <IconButton
+            size="small"
+            onClick={(e) => {
+              e.stopPropagation();
+              onTogglePin(memo);
+            }}
+            sx={{
+              position: 'absolute',
+              top: '4px',
+              right: '2px',
+              zIndex: 10,
+              padding: '4px',
+              '&:hover': {
+                bgcolor: 'rgba(0, 0, 0, 0.08)',
+              },
+            }}
+          >
+            {memo.is_pinned ? (
+              <PushPinIcon sx={{ fontSize: '20px' }} />
+            ) : (
+              <PushPinOutlinedIcon sx={{ fontSize: '20px' }} />
+            )}
+          </IconButton>
+        )}
+
+        {/* 메모 내용 - 원래 위치에 표시 */}
         {isEditing ? (
-          <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', pt: 5 }}>
+          <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             <TextField
               inputRef={textFieldRef}
               multiline
@@ -218,7 +206,6 @@ function MemoCard({
               overflow: 'hidden',
               whiteSpace: 'pre-wrap',
               lineHeight: '1.4',
-              pt: 5,
             }}
           >
             {memo.content}
