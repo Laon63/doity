@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import DateNavigator from './components/DateNavigator';
 import CategoryFilter from './components/CategoryFilter';
@@ -6,7 +6,7 @@ import TaskQuickAdd from './components/TaskQuickAdd';
 import TaskList from './components/TaskList';
 import { supabase } from 'client/lib/supabaseClient';
 import useAuthStore from 'client/store/authStore';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import TaskDetailPage from 'client/pages/task-detail';
 import LoadingSpinner from 'client/components/LoadingSpinner';
 import { useTasksQuery } from 'client/hooks/queries/useTasksQuery';
