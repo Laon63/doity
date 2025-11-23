@@ -37,7 +37,7 @@ function MemoCard({
   };
 
   const createdDate = new Date(memo.created_at);
-  const formattedDate = formatDate(createdDate);
+  const formattedDate = formatDate(createdDate, 'MMM d, HH:mm');
 
   return (
     <>
