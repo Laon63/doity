@@ -98,7 +98,8 @@ function CalendarDay({
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'flex-start',
-          mb: 0.75,
+          mb: 0.5,
+          minHeight: '24px',
         }}
       >
         <Typography
@@ -125,7 +126,7 @@ function CalendarDay({
         </Typography>
       </Box>
 
-      <Stack spacing={0.4} sx={{ flex: 1, minWidth: 0, width: '100%' }}>
+      <Stack spacing={0.25} sx={{ flex: 1, minWidth: 0, width: '100%', minHeight: 0 }}>
         {displayedTasks.map((task) => (
           <Tooltip
             key={task.id}
