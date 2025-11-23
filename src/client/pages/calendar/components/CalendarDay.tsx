@@ -71,7 +71,6 @@ function CalendarDay({
     <Box
       onClick={handleDayClick}
       sx={{
-        minHeight: '120px',
         p: 1.25,
         bgcolor: isCurrentMonth
           ? isToday
