@@ -220,7 +220,7 @@ function MonthlyCalendar({
             border: '1px solid #e0e0e0',
           }}
         >
-          <Grid container sx={{ borderBottom: '2px solid #d0d0d0' }}>
+          <Grid container sx={{ borderBottom: '1px solid #d0d0d0' }}>
             {dayLabels.map((label) => (
               <Grid
                 item
@@ -230,7 +230,7 @@ function MonthlyCalendar({
                   p: 1.5,
                   textAlign: 'center',
                   bgcolor: '#2c3e50',
-                  borderRight: '1px solid #ccc',
+                  borderRight: '0.5px solid #bbb',
                   '&:last-child': {
                     borderRight: 'none',
                   },
@@ -251,13 +251,14 @@ function MonthlyCalendar({
             ))}
           </Grid>
 
-          <Grid container sx={{ flex: 1 }}>
+          <Grid container sx={{ flex: 1, display: 'flex' }}>
             {days.map((dayObj, index) => {
               const tasksList = getTasksForDate(dayObj.date);
               const isToday =
                 dayObj.date.toDateString() === today.toDateString();
               const rowIndex = Math.floor(index / 7);
               const isLastRow = rowIndex === 5;
+              const isLastCol = (index + 1) % 7 === 0;
 
               return (
                 <Grid
@@ -265,12 +266,10 @@ function MonthlyCalendar({
                   xs={12 / 7}
                   key={index}
                   sx={{
-                    borderRight: '1px solid #e0e0e0',
-                    borderBottom: isLastRow ? 'none' : '1px solid #e0e0e0',
-                    '&:nth-child(7n)': {
-                      borderRight: 'none',
-                    },
+                    borderRight: isLastCol ? 'none' : '0.5px solid #ddd',
+                    borderBottom: isLastRow ? 'none' : '0.5px solid #ddd',
                     flex: 1,
+                    display: 'flex',
                   }}
                 >
                   <CalendarDay
