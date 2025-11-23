@@ -135,33 +135,31 @@ function MemoPage() {
         height: '100%',
       }}
     >
-      {/* 헤더 - 탭 필터 */}
+      {/* 헤더 - 탭 필터와 선택 정보를 같은 행에 배치 */}
       <Box
         sx={{
           pb: 2,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: 2,
         }}
       >
-        <TabFilter selectedTab={selectedTab} setTab={handleTabChange} />
-      </Box>
+        <Box sx={{ flex: 1 }}>
+          <TabFilter selectedTab={selectedTab} setTab={handleTabChange} />
+        </Box>
 
-      {/* 선택 정보 표시 영역 - 고정 높이로 레이아웃 안정화 */}
-      <Box
-        sx={{
-          minHeight: selectedMemos.size > 0 ? '60px' : '0px',
-          transition: 'min-height 0.2s ease-in-out',
-          borderBottom: selectedMemos.size > 0 ? '1px solid' : 'none',
-          borderColor: 'divider',
-        }}
-      >
+        {/* 선택 정보 - 우측에 배치 */}
         {selectedMemos.size > 0 && (
           <Stack
             direction="row"
-            spacing={2}
+            spacing={1}
             sx={{
               alignItems: 'center',
-              p: 1.5,
+              p: 1,
               bgcolor: '#f5f5f5',
               borderRadius: 1,
+              whiteSpace: 'nowrap',
             }}
           >
             <Typography variant="body2" sx={{ fontWeight: 500 }}>
