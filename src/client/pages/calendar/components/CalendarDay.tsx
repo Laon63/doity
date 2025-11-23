@@ -162,12 +162,14 @@ function CalendarDay({
                 alignItems: 'center',
                 gap: 0.6,
                 minWidth: 0,
-                height: '18px',
-                p: 0.5,
+                height: '16px',
+                px: 0.5,
+                py: 0.25,
                 borderRadius: '4px',
                 bgcolor: hoveredTaskId === task.id ? getCategoryLightColor(task.category) : 'transparent',
                 transition: 'all 0.15s ease',
                 cursor: 'pointer',
+                flexShrink: 0,
               }}
             >
               <Box
