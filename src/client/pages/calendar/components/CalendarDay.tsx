@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Typography, Tooltip, Stack } from '@mui/material';
 import { Task } from 'client/types';
+import { useNavigate } from 'react-router-dom';
 
 interface CalendarDayProps {
   day: number;
   isCurrentMonth: boolean;
   isToday: boolean;
   tasks: Task[];
+  date: Date;
   onDayClick: (date: Date) => void;
 }
 
