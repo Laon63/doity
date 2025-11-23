@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import DateNavigator from './components/DateNavigator';
 import CategoryFilter from './components/CategoryFilter';
@@ -6,7 +6,7 @@ import TaskQuickAdd from './components/TaskQuickAdd';
 import TaskList from './components/TaskList';
 import { supabase } from 'client/lib/supabaseClient';
 import useAuthStore from 'client/store/authStore';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import TaskDetailPage from 'client/pages/task-detail';
 import LoadingSpinner from 'client/components/LoadingSpinner';
 import { useTasksQuery } from 'client/hooks/queries/useTasksQuery';
@@ -21,11 +21,25 @@ function TodayPage() {
   const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
   const taskId = searchParams.get('taskId');
+  const location = useLocation();
 
   const [category, setCategory] = useState<string>('All');
   const [focusedIndex, setFocusedIndex] = useState<number>(-1);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date>(() => {
+    const state = location.state as { selectedDate?: Date } | null;
+    if (state?.selectedDate) {
+      return new Date(state.selectedDate);
+    }
+    return new Date();
+  });
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
+  useEffect(() => {
+    const state = location.state as { selectedDate?: Date } | null;
+    if (state?.selectedDate) {
+      setSelectedDate(new Date(state.selectedDate));
+    }
+  }, [location.state]);
 
   const { data: tasks = [], isLoading: loadingTasks } =
     useTasksQuery(selectedDate);

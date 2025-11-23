@@ -1,15 +1,24 @@
-import React from 'react';
-import { Box, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { Box } from '@mui/material';
+import MonthlyCalendar from './components/MonthlyCalendar';
+import { useCalendarTasksQuery } from 'client/hooks/queries/useCalendarTasksQuery';
+import LoadingSpinner from 'client/components/LoadingSpinner';
 
 function CalendarPage() {
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const { data: tasks = [], isLoading } = useCalendarTasksQuery(currentDate);
+
   return (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Calendar Page
-      </Typography>
-      <Typography variant="body1">
-        This is a placeholder for the Calendar page.
-      </Typography>
+    <Box sx={{ height: '100%', overflow: 'auto' }}>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <MonthlyCalendar
+          currentDate={currentDate}
+          onDateChange={setCurrentDate}
+          tasks={tasks}
+        />
+      )}
     </Box>
   );
 }
