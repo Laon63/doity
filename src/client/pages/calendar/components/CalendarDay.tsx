@@ -70,11 +70,7 @@ function CalendarDay({
       onClick={handleDayClick}
       sx={{
         p: 1,
-        bgcolor: isCurrentMonth
-          ? isToday
-            ? '#e3f2fd'
-            : '#ffffff'
-          : '#f5f5f5',
+        bgcolor: isCurrentMonth ? (isToday ? '#e3f2fd' : '#ffffff') : '#f5f5f5',
         cursor: 'pointer',
         transition: 'all 0.15s ease',
         '&:hover': {
@@ -125,7 +121,10 @@ function CalendarDay({
         </Typography>
       </Box>
 
-      <Stack spacing={0.3} sx={{ flex: 1, minWidth: 0, width: '100%', overflow: 'hidden' }}>
+      <Stack
+        spacing={0.3}
+        sx={{ flex: 1, minWidth: 0, width: '100%', overflow: 'hidden' }}
+      >
         {displayedTasks.map((task) => (
           <Tooltip
             key={task.id}
@@ -164,7 +163,10 @@ function CalendarDay({
                 px: 0.5,
                 py: 0.25,
                 borderRadius: '4px',
-                bgcolor: hoveredTaskId === task.id ? getCategoryLightColor(task.category) : 'transparent',
+                bgcolor:
+                  hoveredTaskId === task.id
+                    ? getCategoryLightColor(task.category)
+                    : 'transparent',
                 transition: 'all 0.15s ease',
                 cursor: 'pointer',
                 flexShrink: 0,
@@ -188,9 +190,7 @@ function CalendarDay({
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   color: task.is_completed ? '#999' : '#000',
-                  textDecoration: task.is_completed
-                    ? 'line-through'
-                    : 'none',
+                  textDecoration: task.is_completed ? 'line-through' : 'none',
                 }}
               >
                 {task.title}

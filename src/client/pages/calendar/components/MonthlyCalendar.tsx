@@ -1,11 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import {
-  Box,
-  Typography,
-  IconButton,
-  Button,
-  Paper,
-} from '@mui/material';
+import { Box, Typography, IconButton, Button, Paper } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -129,9 +123,28 @@ function MonthlyCalendar({
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Box sx={{ p: 2.5, height: '100%', display: 'flex', flexDirection: 'column', bgcolor: '#fafafa' }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2.5 }}>
-          <Typography variant="h5" component="h1" sx={{ fontWeight: '700', letterSpacing: '-0.5px', color: '#000' }}>
+      <Box
+        sx={{
+          p: 2.5,
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          bgcolor: '#fafafa',
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            mb: 2.5,
+          }}
+        >
+          <Typography
+            variant="h5"
+            component="h1"
+            sx={{ fontWeight: '700', letterSpacing: '-0.5px', color: '#000' }}
+          >
             {monthName}
           </Typography>
           <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
