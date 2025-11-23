@@ -220,20 +220,21 @@ function MonthlyCalendar({
             border: '1px solid #e0e0e0',
           }}
         >
-          <Grid container sx={{ borderBottom: '1px solid #d0d0d0' }}>
-            {dayLabels.map((label) => (
-              <Grid
-                item
-                xs={12 / 7}
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(7, 1fr)',
+              borderBottom: '1px solid #d0d0d0',
+            }}
+          >
+            {dayLabels.map((label, idx) => (
+              <Box
                 key={label}
                 sx={{
                   p: 1.5,
                   textAlign: 'center',
                   bgcolor: '#2c3e50',
-                  borderRight: '0.5px solid #bbb',
-                  '&:last-child': {
-                    borderRight: 'none',
-                  },
+                  borderRight: idx === 6 ? 'none' : '0.5px solid #bbb',
                 }}
               >
                 <Typography
@@ -247,9 +248,9 @@ function MonthlyCalendar({
                 >
                   {label}
                 </Typography>
-              </Grid>
+              </Box>
             ))}
-          </Grid>
+          </Box>
 
           <Box
             sx={{
