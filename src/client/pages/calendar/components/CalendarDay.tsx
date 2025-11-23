@@ -17,8 +17,12 @@ function CalendarDay({
   isCurrentMonth,
   isToday,
   tasks,
+  date,
   onDayClick,
 }: CalendarDayProps) {
+  const navigate = useNavigate();
+  const [hoveredTaskId, setHoveredTaskId] = useState<string | null>(null);
+
   const getCategoryColor = (category?: string) => {
     switch (category) {
       case 'personal':
@@ -32,12 +36,28 @@ function CalendarDay({
     }
   };
 
+  const getCategoryLightColor = (category?: string) => {
+    switch (category) {
+      case 'personal':
+        return '#E0F9F5';
+      case 'work':
+        return '#F1F5F9';
+      case 'other':
+        return '#FFFBEB';
+      default:
+        return '#F1F5F9';
+    }
+  };
+
   const displayedTasks = tasks.slice(0, 3);
   const remainingCount = tasks.length > 3 ? tasks.length - 3 : 0;
 
   const handleDayClick = () => {
-    // This would be used to navigate to the day view or show more details
-    // For now, we'll just trigger the callback
+    if (isCurrentMonth) {
+      navigate('/today', {
+        state: { selectedDate: date },
+      });
+    }
   };
 
   return (
