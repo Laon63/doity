@@ -265,7 +265,11 @@ function MemoCard({
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancelDelete}>취소</Button>
-          <Button onClick={handleConfirmDelete} color="error" variant="contained">
+          <Button
+            onClick={handleConfirmDelete}
+            color="error"
+            variant="contained"
+          >
             삭제
           </Button>
         </DialogActions>

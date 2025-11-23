@@ -45,17 +45,20 @@ function MemoPage() {
     return memos;
   }, [memos, selectedTab]);
 
-  const handleSelectMemo = useCallback((memoId: string, isSelected: boolean) => {
-    setSelectedMemos((prev) => {
-      const newSet = new Set(prev);
-      if (isSelected) {
-        newSet.add(memoId);
-      } else {
-        newSet.delete(memoId);
-      }
-      return newSet;
-    });
-  }, []);
+  const handleSelectMemo = useCallback(
+    (memoId: string, isSelected: boolean) => {
+      setSelectedMemos((prev) => {
+        const newSet = new Set(prev);
+        if (isSelected) {
+          newSet.add(memoId);
+        } else {
+          newSet.delete(memoId);
+        }
+        return newSet;
+      });
+    },
+    []
+  );
 
   const handleCreateMemo = async (content: string) => {
     try {

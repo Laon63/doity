@@ -85,13 +85,8 @@ export const useToggleMemoPinMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      memoId,
-      isPinned,
-    }: {
-      memoId: string;
-      isPinned: boolean;
-    }) => toggleMemoPin(memoId, isPinned),
+    mutationFn: ({ memoId, isPinned }: { memoId: string; isPinned: boolean }) =>
+      toggleMemoPin(memoId, isPinned),
     onMutate: async ({ memoId, isPinned }) => {
       await queryClient.cancelQueries({ queryKey: ['memos'] });
 
