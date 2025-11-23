@@ -208,6 +208,7 @@ function CalendarDay({
               fontWeight: '600',
               lineHeight: '12px',
               height: '12px',
+              flexShrink: 0,
             }}
           >
             +{remainingCount} more
