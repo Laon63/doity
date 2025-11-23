@@ -104,7 +104,7 @@ function CalendarDay({
           sx={{
             fontSize: '0.875rem',
             fontWeight: isToday ? '700' : '600',
-            color: isCurrentMonth ? '#000' : '#999',
+            color: isCurrentMonth ? '#000' : '#aaa',
             lineHeight: '20px',
             minWidth: '20px',
             textAlign: 'center',
