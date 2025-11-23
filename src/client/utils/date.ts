@@ -24,3 +24,16 @@ export function getRangeOfDay(date: Date): [Date, Date] {
 
   return [startOfDay, endOfDay];
 }
+
+export function getRangeOfMonth(date: Date): [Date, Date] {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+
+  const startOfMonth = new Date(year, month, 1);
+  startOfMonth.setHours(0, 0, 0, 0);
+
+  const endOfMonth = new Date(year, month + 1, 0);
+  endOfMonth.setHours(23, 59, 59, 999);
+
+  return [startOfMonth, endOfMonth];
+}

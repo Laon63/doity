@@ -1,6 +1,6 @@
 import { supabase } from 'client/lib/supabaseClient';
 import { Task } from 'client/types';
-import { getRangeOfDay } from 'client/utils/date';
+import { getRangeOfDay, getRangeOfMonth } from 'client/utils/date';
 
 export const fetchTask = async (taskId: string): Promise<Task> => {
   const { data, error } = await supabase
@@ -32,6 +32,26 @@ export const fetchTasks = async (
     .eq('user_id', userId)
     .gte('created_at', startOfDay.toISOString())
     .lt('created_at', endOfDay.toISOString())
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data || [];
+};
+
+export const fetchTasksForDateRange = async (
+  userId: string,
+  startDate: Date,
+  endDate: Date
+): Promise<Task[]> => {
+  const { data, error } = await supabase
+    .from('tasks')
+    .select('*')
+    .eq('user_id', userId)
+    .gte('created_at', startDate.toISOString())
+    .lt('created_at', endDate.toISOString())
     .order('created_at', { ascending: false });
 
   if (error) {
