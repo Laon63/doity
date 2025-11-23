@@ -10,6 +10,7 @@ import { Task } from 'client/types';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { formatDate } from 'client/utils/date';
 import { useTheme } from '@mui/material';
+import { getCategoryColor, getCategoryLightColor } from 'client/utils/colors';
 
 interface TaskItemProps {
   task: Task;
@@ -40,32 +41,6 @@ function TaskItem({
       onUpdateTask(task.id, title);
     }
     setIsEditing(false);
-  };
-
-  const getCategoryColor = (category?: string) => {
-    switch (category) {
-      case 'personal':
-        return '#8FE3CD';
-      case 'work':
-        return '#64748B';
-      case 'other':
-        return '#F59E0B';
-      default:
-        return '#CBD5E1';
-    }
-  };
-
-  const getCategoryLightColor = (category?: string) => {
-    switch (category) {
-      case 'personal':
-        return '#E0F9F5';
-      case 'work':
-        return '#F1F5F9';
-      case 'other':
-        return '#FFFBEB';
-      default:
-        return '#F1F5F9';
-    }
   };
 
   return (

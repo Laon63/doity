@@ -7,6 +7,7 @@ import SettingsPage from 'client/pages/settings';
 import LogoutPage from 'client/pages/logout';
 import LoginPage from 'client/pages/login';
 import SignupPage from 'client/pages/signup';
+import RootRedirect from 'client/components/RootRedirect'; // Import RootRedirect
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <TodayPage />,
+        element: <RootRedirect />,
       },
       {
         path: 'today',
