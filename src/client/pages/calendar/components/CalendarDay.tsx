@@ -23,6 +23,13 @@ function CalendarDay({
   const navigate = useNavigate();
   const [hoveredTaskId, setHoveredTaskId] = useState<string | null>(null);
 
+  const handleTaskClick = (taskId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigate(`/today?taskId=${taskId}`, {
+      state: { selectedDate: date },
+    });
+  };
+
   const getCategoryColor = (category?: string) => {
     switch (category) {
       case 'personal':
