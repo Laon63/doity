@@ -181,7 +181,7 @@ function Sidebar() {
       </List>
 
       {/* Settings & Profile Section */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', px: 1, pb: 2 }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', px: 1, pb: 0.5 }}>
         {/* Settings Menu */}
         <List>
           {secondaryNavItems.map((item) => (
@@ -215,7 +215,7 @@ function Sidebar() {
         {/* Divider with elevation */}
         <Divider
           sx={{
-            my: 1.5,
+            my: 0.5,
             boxShadow: '0 2px 4px rgba(0, 0, 0, 0.08)',
           }}
         />
@@ -227,7 +227,7 @@ function Sidebar() {
             alignItems: 'center',
             justifyContent: collapsed ? 'center' : 'space-between',
             gap: 1,
-            mt: 1,
+            mt: 0.5,
           }}
         >
           <Tooltip title={collapsed ? displayName || 'Profile' : ''} placement="right">
