@@ -144,36 +144,36 @@ function SettingsPage() {
   };
 
   return (
-    <Box sx={{ maxWidth: 800, mx: 'auto', py: 3 }}>
-      <Typography variant="h4" component="h1" sx={{ mb: 4, fontWeight: 'bold' }}>
+    <Box sx={{ maxWidth: 700, mx: 'auto', py: 2 }}>
+      <Typography variant="h5" component="h1" sx={{ mb: 3, fontWeight: 'bold' }}>
         {t(language, 'settings')}
       </Typography>
 
       {message && (
-        <Alert severity={message.type} sx={{ mb: 3 }} onClose={() => setMessage(null)}>
+        <Alert severity={message.type} sx={{ mb: 2 }} onClose={() => setMessage(null)}>
           {message.text}
         </Alert>
       )}
 
       {/* Profile Section */}
-      <Card sx={{ mb: 3, p: 3 }}>
-        <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold' }}>
+      <Card sx={{ mb: 2, p: 2 }}>
+        <Typography variant="subtitle1" sx={{ mb: 1.5, fontWeight: 'bold' }}>
           {t(language, 'profile')}
         </Typography>
-        <Divider sx={{ mb: 3 }} />
+        <Divider sx={{ mb: 2 }} />
 
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={4}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={3}>
             <Box sx={{ textAlign: 'center' }}>
               <Avatar
                 sx={{
-                  width: 100,
-                  height: 100,
+                  width: 80,
+                  height: 80,
                   mx: 'auto',
-                  mb: 1,
+                  mb: 0.5,
                   bgcolor: primaryColor,
                   color: '#fff',
-                  fontSize: '2.5rem',
+                  fontSize: '2rem',
                 }}
               >
                 {displayName ? displayName.charAt(0).toUpperCase() : session?.user?.email?.charAt(0).toUpperCase()}
@@ -182,40 +182,41 @@ function SettingsPage() {
             </Box>
           </Grid>
 
-          <Grid item xs={12} sm={8}>
+          <Grid item xs={12} sm={9}>
             <TextField
               fullWidth
               label={t(language, 'name')}
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
-              margin="normal"
+              margin="dense"
             />
             <TextField
               fullWidth
               label={t(language, 'email')}
               value={userEmail}
               disabled
-              margin="normal"
+              margin="dense"
               type="email"
             />
             <Button
               variant="contained"
               onClick={handleUpdateProfile}
               disabled={loading}
-              sx={{ mt: 2 }}
+              size="small"
+              sx={{ mt: 1 }}
             >
-              {loading ? <CircularProgress size={24} /> : t(language, 'save')}
+              {loading ? <CircularProgress size={20} /> : t(language, 'save')}
             </Button>
           </Grid>
         </Grid>
       </Card>
 
       {/* Password Change Section */}
-      <Card sx={{ mb: 3, p: 3 }}>
-        <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold' }}>
+      <Card sx={{ mb: 2, p: 2 }}>
+        <Typography variant="subtitle1" sx={{ mb: 1.5, fontWeight: 'bold' }}>
           {t(language, 'changePassword')}
         </Typography>
-        <Divider sx={{ mb: 3 }} />
+        <Divider sx={{ mb: 2 }} />
 
         <TextField
           fullWidth
@@ -223,7 +224,7 @@ function SettingsPage() {
           type="password"
           value={currentPassword}
           onChange={(e) => setCurrentPassword(e.target.value)}
-          margin="normal"
+          margin="dense"
         />
         <TextField
           fullWidth
@@ -231,7 +232,7 @@ function SettingsPage() {
           type="password"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
-          margin="normal"
+          margin="dense"
         />
         <TextField
           fullWidth
@@ -239,43 +240,44 @@ function SettingsPage() {
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          margin="normal"
+          margin="dense"
         />
         <Button
           variant="contained"
           onClick={handleChangePassword}
           disabled={loading}
-          sx={{ mt: 2 }}
+          size="small"
+          sx={{ mt: 1 }}
         >
-          {loading ? <CircularProgress size={24} /> : t(language, 'update')}
+          {loading ? <CircularProgress size={20} /> : t(language, 'update')}
         </Button>
       </Card>
 
       {/* Theme Settings Section */}
-      <Card sx={{ mb: 3, p: 3 }}>
-        <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold' }}>
+      <Card sx={{ mb: 2, p: 2 }}>
+        <Typography variant="subtitle1" sx={{ mb: 1.5, fontWeight: 'bold' }}>
           {t(language, 'themeSettings')}
         </Typography>
-        <Divider sx={{ mb: 3 }} />
+        <Divider sx={{ mb: 2 }} />
 
-        <Typography variant="subtitle2" sx={{ mb: 2 }}>
+        <Typography variant="body2" sx={{ mb: 1.5 }}>
           {t(language, 'primaryColor')}
         </Typography>
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           {Object.entries(COLOR_PALETTES).map(([name, color]) => (
             <Grid item key={name}>
               <Box
                 onClick={() => handlePrimaryColorChange(color)}
                 sx={{
-                  width: 50,
-                  height: 50,
+                  width: 40,
+                  height: 40,
                   bgcolor: color,
                   borderRadius: '8px',
                   cursor: 'pointer',
-                  border: primaryColor === color ? '3px solid #000' : 'none',
+                  border: primaryColor === color ? '3px solid #000' : '1px solid #ddd',
                   transition: 'all 0.2s ease',
                   '&:hover': {
-                    transform: 'scale(1.1)',
+                    transform: 'scale(1.05)',
                   },
                 }}
               />
@@ -285,19 +287,20 @@ function SettingsPage() {
       </Card>
 
       {/* Language Settings Section */}
-      <Card sx={{ p: 3 }}>
-        <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold' }}>
+      <Card sx={{ p: 2 }}>
+        <Typography variant="subtitle1" sx={{ mb: 1.5, fontWeight: 'bold' }}>
           {t(language, 'languageSettings')}
         </Typography>
-        <Divider sx={{ mb: 3 }} />
+        <Divider sx={{ mb: 2 }} />
 
-        <Typography variant="subtitle2" sx={{ mb: 2 }}>
+        <Typography variant="body2" sx={{ mb: 1.5 }}>
           {t(language, 'selectLanguage')}
         </Typography>
         <Select
           value={language}
           onChange={(e) => handleLanguageChange(e.target.value as Language)}
-          sx={{ minWidth: 200 }}
+          size="small"
+          sx={{ minWidth: 150 }}
         >
           <MenuItem value="en">English</MenuItem>
           <MenuItem value="ko">한국어</MenuItem>
