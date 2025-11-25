@@ -245,6 +245,7 @@ function Sidebar() {
                 },
               }}
               onClick={handleProfileMenuOpen}
+              onMouseEnter={handleProfileMenuOpen}
             >
               {displayName ? displayName.charAt(0).toUpperCase() : session?.user?.email?.charAt(0).toUpperCase()}
             </Avatar>
@@ -269,6 +270,7 @@ function Sidebar() {
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleProfileMenuClose}
+        onMouseLeave={handleProfileMenuClose}
         placement="top"
         anchorOrigin={{
           vertical: 'top',
