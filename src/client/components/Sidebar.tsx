@@ -13,7 +13,6 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import NotesIcon from '@mui/icons-material/Notes';
 import SettingsIcon from '@mui/icons-material/Settings';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { APP_NAME } from 'client/contants';
 import Logo from 'client/components/Logo';
 
@@ -25,7 +24,6 @@ const mainNavItems = [
 
 const secondaryNavItems = [
   { text: 'Settings', icon: <SettingsIcon />, to: '/settings' },
-  { text: 'Sign out', icon: <ExitToAppIcon />, to: '/logout' },
 ];
 
 function Sidebar() {
