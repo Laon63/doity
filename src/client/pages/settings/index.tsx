@@ -15,7 +15,10 @@ import {
 } from '@mui/material';
 import { supabase } from 'client/lib/supabaseClient';
 import useAuthStore from 'client/store/authStore';
-import useThemeStore, { COLOR_PALETTES, Language } from 'client/store/themeStore';
+import useThemeStore, {
+  COLOR_PALETTES,
+  Language,
+} from 'client/store/themeStore';
 import { t, translations } from 'client/lib/i18n';
 
 function SettingsPage() {
@@ -26,7 +29,10 @@ function SettingsPage() {
   const setLanguage = useThemeStore((state) => state.setLanguage);
 
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [message, setMessage] = useState<{
+    type: 'success' | 'error';
+    text: string;
+  } | null>(null);
 
   // Profile state
   const [displayName, setDisplayName] = useState('');
@@ -110,7 +116,10 @@ function SettingsPage() {
       });
 
       if (signInError) {
-        setMessage({ type: 'error', text: t(language, 'oldPasswordIncorrect') });
+        setMessage({
+          type: 'error',
+          text: t(language, 'oldPasswordIncorrect'),
+        });
         setLoading(false);
         return;
       }
@@ -145,12 +154,20 @@ function SettingsPage() {
 
   return (
     <Box sx={{ maxWidth: 700, py: 2 }}>
-      <Typography variant="h5" component="h1" sx={{ mb: 3, fontWeight: 'bold' }}>
+      <Typography
+        variant="h5"
+        component="h1"
+        sx={{ mb: 3, fontWeight: 'bold' }}
+      >
         {t(language, 'settings')}
       </Typography>
 
       {message && (
-        <Alert severity={message.type} sx={{ mb: 2 }} onClose={() => setMessage(null)}>
+        <Alert
+          severity={message.type}
+          sx={{ mb: 2 }}
+          onClose={() => setMessage(null)}
+        >
           {message.text}
         </Alert>
       )}
@@ -176,9 +193,13 @@ function SettingsPage() {
                   fontSize: '2rem',
                 }}
               >
-                {displayName ? displayName.charAt(0).toUpperCase() : session?.user?.email?.charAt(0).toUpperCase()}
+                {displayName
+                  ? displayName.charAt(0).toUpperCase()
+                  : session?.user?.email?.charAt(0).toUpperCase()}
               </Avatar>
-              <Typography variant="caption">{t(language, 'profilePicture')}</Typography>
+              <Typography variant="caption">
+                {t(language, 'profilePicture')}
+              </Typography>
             </Box>
           </Grid>
 
@@ -281,7 +302,10 @@ function SettingsPage() {
                   bgcolor: color,
                   borderRadius: '8px',
                   cursor: 'pointer',
-                  border: primaryColor === color ? '3px solid #000' : '1px solid #ddd',
+                  border:
+                    primaryColor === color
+                      ? '3px solid #000'
+                      : '1px solid #ddd',
                   transition: 'all 0.2s ease',
                   '&:hover': {
                     transform: 'scale(1.05)',
