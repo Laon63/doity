@@ -7,14 +7,18 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  IconButton,
 } from '@mui/material';
 import { NavLink, useNavigate } from 'react-router-dom';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import NotesIcon from '@mui/icons-material/Notes';
 import SettingsIcon from '@mui/icons-material/Settings';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { APP_NAME } from 'client/contants';
 import Logo from 'client/components/Logo';
+import useAuthStore from 'client/store/authStore';
 
 const mainNavItems = [
   { text: 'Today', icon: <CheckCircleOutlineIcon />, to: '/today' },
@@ -28,9 +32,19 @@ const secondaryNavItems = [
 
 function Sidebar() {
   const navigate = useNavigate();
+  const session = useAuthStore((state) => state.session);
 
   const handleLogoClick = () => {
     navigate('/');
+  };
+
+  const handleLogout = async () => {
+    await useAuthStore.getState().logout();
+    navigate('/login');
+  };
+
+  const handleLogin = () => {
+    navigate('/login');
   };
 
   return (
@@ -51,16 +65,45 @@ function Sidebar() {
           p: 2,
           display: 'flex',
           alignItems: 'center',
-          gap: 1,
+          justifyContent: 'space-between',
           cursor: 'pointer',
           transition: 'opacity 0.2s ease',
           '&:hover': { opacity: 0.8 },
         }}
       >
-        <Logo size={24} bgColor="primary.main" clickable={false} />
-        <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
-          {APP_NAME}
-        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Logo size={24} bgColor="primary.main" clickable={false} />
+          <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
+            {APP_NAME}
+          </Typography>
+        </Box>
+        <Box>
+          {session ? (
+            <IconButton
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleLogout();
+              }}
+              title="Logout"
+              sx={{ color: 'text.primary' }}
+            >
+              <LogoutIcon fontSize="small" />
+            </IconButton>
+          ) : (
+            <IconButton
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleLogin();
+              }}
+              title="Login"
+              sx={{ color: 'text.primary' }}
+            >
+              <LoginIcon fontSize="small" />
+            </IconButton>
+          )}
+        </Box>
       </Box>
       <List sx={{ flexGrow: 1, px: 1 }}>
         {mainNavItems.map((item) => (
