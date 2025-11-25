@@ -8,7 +8,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import NotesIcon from '@mui/icons-material/Notes';
@@ -27,6 +27,12 @@ const secondaryNavItems = [
 ];
 
 function Sidebar() {
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    navigate('/');
+  };
+
   return (
     <Box
       sx={{
@@ -39,8 +45,19 @@ function Sidebar() {
         flexDirection: 'column',
       }}
     >
-      <Box sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
-        <Logo size={24} bgColor="primary.main" />
+      <Box
+        onClick={handleLogoClick}
+        sx={{
+          p: 2,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1,
+          cursor: 'pointer',
+          transition: 'opacity 0.2s ease',
+          '&:hover': { opacity: 0.8 },
+        }}
+      >
+        <Logo size={24} bgColor="primary.main" clickable={false} />
         <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
           {APP_NAME}
         </Typography>
