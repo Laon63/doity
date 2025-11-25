@@ -52,7 +52,7 @@ function App() {
           flexGrow: 1,
           p: 2,
           backgroundColor: '#f7f8fa',
-          overflow: 'hidden',
+          overflow: 'auto',
         }}
       >
         <Outlet />

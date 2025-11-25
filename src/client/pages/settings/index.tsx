@@ -144,7 +144,7 @@ function SettingsPage() {
   };
 
   return (
-    <Box sx={{ maxWidth: 700, mx: 'auto', py: 2 }}>
+    <Box sx={{ maxWidth: 700, py: 2 }}>
       <Typography variant="h5" component="h1" sx={{ mb: 3, fontWeight: 'bold' }}>
         {t(language, 'settings')}
       </Typography>
