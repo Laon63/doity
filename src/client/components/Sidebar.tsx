@@ -12,6 +12,7 @@ import {
   Avatar,
   Menu,
   MenuItem,
+  Divider,
 } from '@mui/material';
 import { NavLink, useNavigate } from 'react-router-dom';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
@@ -180,7 +181,7 @@ function Sidebar() {
       </List>
 
       {/* Settings & Profile Section */}
-      <Box sx={{ px: 1, pb: 2 }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', px: 1, pb: 2 }}>
         {/* Settings Menu */}
         <List>
           {secondaryNavItems.map((item) => (
@@ -211,6 +212,14 @@ function Sidebar() {
           ))}
         </List>
 
+        {/* Divider with elevation */}
+        <Divider
+          sx={{
+            my: 1.5,
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.08)',
+          }}
+        />
+
         {/* Profile Section */}
         <Box
           sx={{
@@ -218,7 +227,7 @@ function Sidebar() {
             alignItems: 'center',
             justifyContent: collapsed ? 'center' : 'space-between',
             gap: 1,
-            mt: 2,
+            mt: 1,
           }}
         >
           <Tooltip title={collapsed ? displayName || 'Profile' : ''} placement="right">
