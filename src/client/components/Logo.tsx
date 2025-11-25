@@ -1,14 +1,25 @@
 import React from 'react';
 import { Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 interface LogoProps {
   bgColor?: string;
   size?: number;
+  clickable?: boolean;
 }
 
-function Logo({ bgColor = 'transparent', size = 24 }: LogoProps) {
+function Logo({ bgColor = 'transparent', size = 24, clickable = true }: LogoProps) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (clickable) {
+      navigate('/');
+    }
+  };
+
   return (
     <Box
+      onClick={handleClick}
       sx={{
         width: size,
         height: size,
@@ -16,7 +27,10 @@ function Logo({ bgColor = 'transparent', size = 24 }: LogoProps) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: '4px', // Optional: add some border-radius
+        borderRadius: '4px',
+        cursor: clickable ? 'pointer' : 'default',
+        transition: 'opacity 0.2s ease',
+        '&:hover': clickable ? { opacity: 0.8 } : {},
       }}
     >
       <img
