@@ -189,6 +189,7 @@ function SettingsPage() {
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
               margin="dense"
+              size="small"
             />
             <TextField
               fullWidth
@@ -196,17 +197,19 @@ function SettingsPage() {
               value={userEmail}
               disabled
               margin="dense"
+              size="small"
               type="email"
             />
-            <Button
-              variant="contained"
-              onClick={handleUpdateProfile}
-              disabled={loading}
-              size="small"
-              sx={{ mt: 1 }}
-            >
-              {loading ? <CircularProgress size={20} /> : t(language, 'save')}
-            </Button>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1.5 }}>
+              <Button
+                variant="contained"
+                onClick={handleUpdateProfile}
+                disabled={loading}
+                size="medium"
+              >
+                {loading ? <CircularProgress size={20} /> : t(language, 'save')}
+              </Button>
+            </Box>
           </Grid>
         </Grid>
       </Card>
@@ -225,6 +228,7 @@ function SettingsPage() {
           value={currentPassword}
           onChange={(e) => setCurrentPassword(e.target.value)}
           margin="dense"
+          size="small"
         />
         <TextField
           fullWidth
@@ -233,6 +237,7 @@ function SettingsPage() {
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
           margin="dense"
+          size="small"
         />
         <TextField
           fullWidth
@@ -241,16 +246,18 @@ function SettingsPage() {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           margin="dense"
-        />
-        <Button
-          variant="contained"
-          onClick={handleChangePassword}
-          disabled={loading}
           size="small"
-          sx={{ mt: 1 }}
-        >
-          {loading ? <CircularProgress size={20} /> : t(language, 'update')}
-        </Button>
+        />
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1.5 }}>
+          <Button
+            variant="contained"
+            onClick={handleChangePassword}
+            disabled={loading}
+            size="medium"
+          >
+            {loading ? <CircularProgress size={20} /> : t(language, 'update')}
+          </Button>
+        </Box>
       </Card>
 
       {/* Theme Settings Section */}
