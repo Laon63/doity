@@ -9,6 +9,7 @@ interface NewMemoCardProps {
 function NewMemoCard({ onSave, isLoading = false }: NewMemoCardProps) {
   const [content, setContent] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const [isComposing, setIsComposing] = useState(false); // IME composition state
   const textFieldRef = useRef<HTMLTextAreaElement>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -29,9 +30,11 @@ function NewMemoCard({ onSave, isLoading = false }: NewMemoCardProps) {
     setIsEditing(false);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    // Ctrl/Cmd + Enter로 저장
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLTextAreaElement | HTMLDivElement>
+  ) => {
+    // Ctrl/Cmd + Enter로 저장 (IME 조합 중이 아닐 때)
+    if (!isComposing && (e.ctrlKey || e.metaKey) && e.key === 'Enter') {
       e.preventDefault();
       handleSave();
     }
@@ -79,6 +82,8 @@ function NewMemoCard({ onSave, isLoading = false }: NewMemoCardProps) {
         value={content}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
+        onCompositionStart={() => setIsComposing(true)}
+        onCompositionEnd={() => setIsComposing(false)}
         variant="standard"
         InputProps={{
           disableUnderline: true,

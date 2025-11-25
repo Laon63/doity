@@ -102,6 +102,10 @@ function MemoPage() {
     setDeleteDialogOpen(true);
   };
 
+  const handleCancelSelected = () => {
+    setSelectedMemos(new Set());
+  };
+
   const handleConfirmDeleteSelected = async () => {
     setDeleteDialogOpen(false);
     try {
@@ -138,48 +142,62 @@ function MemoPage() {
         height: '100%',
       }}
     >
-      {/* 탭 필터 */}
-      <Box sx={{ pb: 2 }}>
-        <TabFilter selectedTab={selectedTab} setTab={handleTabChange} />
-      </Box>
-
-      {/* 선택 정보 - 고정 높이로 나타났다 사라졌다 함 */}
+      {/* 통합 헤더 영역 */}
       <Box
         sx={{
-          height: selectedMemos.size > 0 ? 56 : 0,
-          overflow: 'hidden',
-          transition: 'height 0.2s ease-in-out',
+          height: '56px', // 고정 높이
           display: 'flex',
           alignItems: 'center',
+          px: 2,
+          borderBottom: '1px solid',
+          borderColor: 'divider',
+          transition: 'background-color 0.3s',
+          bgcolor: selectedMemos.size > 0 ? '#fffde7' : 'transparent',
         }}
       >
-        {selectedMemos.size > 0 && (
+        {selectedMemos.size > 0 ? (
+          // 메모 선택 시: 'N개 선택됨' 및 '삭제' 버튼
           <Stack
             direction="row"
-            spacing={1}
+            spacing={2}
             sx={{
-              alignItems: 'center',
-              px: 0,
-              py: 1,
-              bgcolor: '#f5f5f5',
-              borderRadius: 1,
-              whiteSpace: 'nowrap',
               width: '100%',
+              justifyContent: 'space-between',
+              alignItems: 'center',
             }}
           >
-            <Typography variant="body2" sx={{ fontWeight: 500 }}>
-              {selectedMemos.size}개 선택됨
+            <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+              {selectedMemos.size} selected
             </Typography>
-            <Button
-              variant="contained"
-              color="error"
-              size="small"
-              onClick={handleDeleteSelected}
-              disabled={isLoading_}
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 1,
+              }}
             >
-              삭제
-            </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                size="small"
+                onClick={handleCancelSelected}
+                disabled={isLoading_}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                color="error"
+                size="small"
+                onClick={handleDeleteSelected}
+                disabled={isLoading_}
+              >
+                Delete
+              </Button>
+            </Box>
           </Stack>
+        ) : (
+          // 기본 상태: 탭 필터
+          <TabFilter selectedTab={selectedTab} setTab={handleTabChange} />
         )}
       </Box>
 
@@ -188,7 +206,7 @@ function MemoPage() {
         sx={{
           flex: 1,
           overflow: 'auto',
-          pt: 2,
+          p: 2, // Padding for the grid
         }}
       >
         {isLoading ? (
@@ -203,11 +221,13 @@ function MemoPage() {
               alignContent: 'flex-start',
             }}
           >
-            {/* 새 메모 카드 */}
-            <NewMemoCard
-              onSave={handleCreateMemo}
-              isLoading={createMemoMutation.isPending}
-            />
+            {/* 새 메모 카드 - 'All' 탭에서만 표시 */}
+            {selectedTab !== 'Pinned' && (
+              <NewMemoCard
+                onSave={handleCreateMemo}
+                isLoading={createMemoMutation.isPending}
+              />
+            )}
 
             {/* 기존 메모들 */}
             {filteredMemos.map((memo) => (
@@ -246,10 +266,10 @@ function MemoPage() {
 
       {/* 삭제 확인 다이얼로그 */}
       <Dialog open={deleteDialogOpen} onClose={handleCancelDelete}>
-        <DialogTitle>메모 삭제</DialogTitle>
+        <DialogTitle>Delete memo</DialogTitle>
         <DialogContent>
           <Typography>
-            {selectedMemos.size}개의 메모를 삭제하시겠습니까?
+            {`${selectedMemos.size} memo(s) will be deleted. This action cannot be undone.`}
           </Typography>
         </DialogContent>
         <DialogActions>
@@ -263,7 +283,7 @@ function MemoPage() {
             {deleteMultipleMemosMutation.isPending ? (
               <CircularProgress size={20} />
             ) : (
-              '삭제'
+              'Delete'
             )}
           </Button>
         </DialogActions>

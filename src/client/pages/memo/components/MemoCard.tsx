@@ -40,10 +40,6 @@ function MemoCard({
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const textFieldRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleDeleteClick = () => {
-    setDeleteDialogOpen(true);
-  };
-
   const handleConfirmDelete = () => {
     setDeleteDialogOpen(false);
     onDelete(memo.id);
@@ -78,7 +74,9 @@ function MemoCard({
     setEditContent(memo.content);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLTextAreaElement | HTMLDivElement>
+  ) => {
     // Ctrl/Cmd + Enter로 저장
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
       e.preventDefault();
@@ -99,8 +97,8 @@ function MemoCard({
       <Box
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onClick={(e) => {
-          if (!isEditing && e.target === e.currentTarget) {
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+          if (!isEditing) {
             handleStartEdit(e);
           }
         }}
@@ -116,85 +114,63 @@ function MemoCard({
           position: 'relative',
           transition: 'all 0.2s ease-in-out',
           cursor: isEditing ? 'text' : 'pointer',
+          border: '2px solid',
+          borderColor: isSelected ? 'primary.main' : 'transparent',
           '&:hover': {
             boxShadow: '0 4px 8px rgba(0,0,0,0.15)',
           },
         }}
       >
         {/* Absolute 오버레이: Checkbox (좌측 상단) */}
-        {isHovered && !isEditing && (
-          <Box
+        {(isHovered || isSelected) && !isEditing && (
+          <Checkbox
+            checked={isSelected}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              onSelect(memo.id, e.target.checked);
+            }}
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+              e.stopPropagation(); // Stop click event from bubbling
+            }}
             sx={{
               position: 'absolute',
-              top: 0,
-              left: 0,
-              width: 40,
-              height: 40,
+              top: '2px',
+              left: '2px',
               zIndex: 10,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
+              padding: '2px', // Minimize padding
+              bgcolor: 'rgba(255, 255, 255, 0.7)', // Add semi-transparent background
+              '&:hover': {
+                bgcolor: 'rgba(255, 255, 255, 0.9)',
+              },
             }}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          >
-            <Checkbox
-              checked={isSelected}
-              onChange={(e) => {
-                e.stopPropagation();
-                onSelect(memo.id, e.target.checked);
-              }}
-              sx={{
-                padding: '8px',
-                '&:hover': {
-                  bgcolor: 'rgba(0, 0, 0, 0.05)',
-                },
-              }}
-            />
-          </Box>
+          />
         )}
 
         {/* Absolute 오버레이: Pin 버튼 (우측 상단) */}
-        {isHovered && !isEditing && (
-          <Box
+        {(isHovered || memo.is_pinned) && !isEditing && (
+          <IconButton
+            size="small"
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+              e.stopPropagation();
+              onTogglePin(memo);
+            }}
             sx={{
               position: 'absolute',
-              top: 0,
-              right: 0,
-              width: 40,
-              height: 40,
+              top: '2px',
+              right: '2px',
               zIndex: 10,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-            }}
-            onClick={(e) => {
-              e.stopPropagation();
+              padding: '2px', // Minimize padding
+              bgcolor: 'rgba(255, 255, 255, 0.7)', // Add semi-transparent background
+              '&:hover': {
+                bgcolor: 'rgba(255, 255, 255, 0.9)',
+              },
             }}
           >
-            <IconButton
-              size="small"
-              onClick={(e) => {
-                e.stopPropagation();
-                onTogglePin(memo);
-              }}
-              sx={{
-                padding: '8px',
-                '&:hover': {
-                  bgcolor: 'rgba(0, 0, 0, 0.08)',
-                },
-              }}
-            >
-              {memo.is_pinned ? (
-                <PushPinIcon sx={{ fontSize: '20px' }} />
-              ) : (
-                <PushPinOutlinedIcon sx={{ fontSize: '20px' }} />
-              )}
-            </IconButton>
-          </Box>
+            {memo.is_pinned ? (
+              <PushPinIcon sx={{ fontSize: '20px' }} />
+            ) : (
+              <PushPinOutlinedIcon sx={{ fontSize: '20px' }} />
+            )}
+          </IconButton>
         )}
 
         {/* 메모 내용 - 원래 위치에 표시 */}
@@ -290,18 +266,18 @@ function MemoCard({
 
       {/* 삭제 확인 다이얼로그 */}
       <Dialog open={deleteDialogOpen} onClose={handleCancelDelete}>
-        <DialogTitle>메모 삭제</DialogTitle>
+        <DialogTitle>Delete confirm</DialogTitle>
         <DialogContent>
-          <Typography>이 메모를 삭제하시겠습니까?</Typography>
+          <Typography>Do you want to delete this memo?</Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancelDelete}>취소</Button>
+          <Button onClick={handleCancelDelete}>Cancel</Button>
           <Button
             onClick={handleConfirmDelete}
             color="error"
             variant="contained"
           >
-            삭제
+            Delete
           </Button>
         </DialogActions>
       </Dialog>
