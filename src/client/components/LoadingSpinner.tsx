@@ -6,36 +6,19 @@ interface LoadingSpinnerProps {
 }
 
 function LoadingSpinner({ fullScreen = false }: LoadingSpinnerProps) {
-  if (fullScreen) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          bgcolor: 'rgba(255, 255, 255, 0.8)',
-          zIndex: 9999,
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-
   return (
     <Box
       sx={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        height: fullScreen ? '100vh' : '100%',
         width: '100%',
-        height: '100%',
-        minHeight: '100px', // Ensure it takes up some space
+        position: fullScreen ? 'fixed' : 'relative',
+        top: 0,
+        left: 0,
+        backgroundColor: fullScreen ? 'rgba(255, 255, 255, 0.7)' : 'transparent',
+        zIndex: (theme) => (fullScreen ? theme.zIndex.drawer + 1 : 'auto'),
       }}
     >
       <CircularProgress />

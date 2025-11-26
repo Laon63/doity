@@ -8,28 +8,19 @@ import { supabase } from 'client/lib/supabaseClient';
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
-  const setSession = useAuthStore((state) => state.setSession);
+  const { setSession } = useAuthStore();
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
         setSession(session);
-        if (session) {
-          // User is logged in
-          if (
-            location.pathname === '/login' ||
-            location.pathname === '/signup'
-          ) {
-            navigate('/today');
-          }
-        } else {
-          // User is logged out
-          if (
-            location.pathname !== '/login' &&
-            location.pathname !== '/signup'
-          ) {
-            navigate('/login');
-          }
+        if (event === 'SIGNED_OUT') {
+          navigate('/login');
+        } else if (
+          event === 'SIGNED_IN' &&
+          (location.pathname === '/login' || location.pathname === '/signup')
+        ) {
+          navigate('/today');
         }
       }
     );
@@ -39,7 +30,6 @@ function App() {
     };
   }, [navigate, location.pathname, setSession]);
 
-  // Render Sidebar only if not on login/signup pages
   const showSidebar =
     location.pathname !== '/login' && location.pathname !== '/signup';
 
