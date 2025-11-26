@@ -61,6 +61,9 @@ export const translations = {
   },
 };
 
-export const t = (language: Language, key: keyof typeof translations.en): string => {
+export const t = (
+  language: Language,
+  key: keyof typeof translations.en
+): string => {
   return translations[language][key] || key;
 };

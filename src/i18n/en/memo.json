@@ -1,0 +1,11 @@
+{
+  "all": "All",
+  "pinned": "Pinned",
+  "newMemoPlaceholder": "Write a new memo...",
+  "selected": "{{count}} selected",
+  "deleteConfirmTitle": "Delete Memo",
+  "deleteConfirmMessage": "Are you sure you want to delete this memo?",
+  "deleteConfirmMessage_plural": "Are you sure you want to delete these {{count}} memos?",
+  "noMemos": "No memos yet. Write your first one!",
+  "noPinnedMemos": "No pinned memos."
+}

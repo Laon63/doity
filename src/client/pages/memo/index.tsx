@@ -22,9 +22,11 @@ import {
   useUpdateMemoMutation,
 } from 'client/hooks/mutations/useMemoDutations';
 import LoadingSpinner from 'client/components/LoadingSpinner';
+import { useTranslation } from 'react-i18next';
 import { Memo } from 'client/hooks/api/memos';
 
 function MemoPage() {
+  const { t } = useTranslation(['memo', 'common']);
   const [selectedTab, setSelectedTab] = useState('All');
   const [selectedMemos, setSelectedMemos] = useState<Set<string>>(new Set());
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -167,7 +169,7 @@ function MemoPage() {
             }}
           >
             <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-              {selectedMemos.size} selected
+              {t('memo:selected', { count: selectedMemos.size })}
             </Typography>
             <Box
               sx={{
@@ -182,7 +184,7 @@ function MemoPage() {
                 onClick={handleCancelSelected}
                 disabled={isLoading_}
               >
-                Cancel
+                {t('common:cancel')}
               </Button>
               <Button
                 variant="contained"
@@ -191,7 +193,7 @@ function MemoPage() {
                 onClick={handleDeleteSelected}
                 disabled={isLoading_}
               >
-                Delete
+                {t('common:delete')}
               </Button>
             </Box>
           </Stack>
@@ -243,37 +245,52 @@ function MemoPage() {
             ))}
 
             {/* 빈 상태 표시 */}
-            {filteredMemos.length === 0 && (
-              <Box
-                sx={{
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  py: 4,
-                }}
-              >
-                <Typography variant="body2" color="text.secondary">
-                  {selectedTab === 'Pinned'
-                    ? '고정된 메모가 없습니다'
-                    : '아직 메모가 없습니다. 첫 번째 메모를 작성해보세요!'}
-                </Typography>
-              </Box>
-            )}
+            {filteredMemos.length === 0 &&
+              (selectedTab === 'All' ? (
+                <Box
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    py: 4,
+                  }}
+                >
+                  <Typography variant="body2" color="text.secondary">
+                    {t('memo:noMemos')}
+                  </Typography>
+                </Box>
+              ) : (
+                <Box
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    py: 4,
+                  }}
+                >
+                  <Typography variant="body2" color="text.secondary">
+                    {t('memo:noPinnedMemos')}
+                  </Typography>
+                </Box>
+              ))}
           </Box>
         )}
       </Box>
 
       {/* 삭제 확인 다이얼로그 */}
       <Dialog open={deleteDialogOpen} onClose={handleCancelDelete}>
-        <DialogTitle>Delete memo</DialogTitle>
+        <DialogTitle>{t('memo:deleteConfirmTitle')}</DialogTitle>
         <DialogContent>
           <Typography>
-            {`${selectedMemos.size} memo(s) will be deleted. This action cannot be undone.`}
+            {t('memo:deleteConfirmMessage_plural', {
+              count: selectedMemos.size,
+            })}
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancelDelete}>취소</Button>
+          <Button onClick={handleCancelDelete}>{t('common:cancel')}</Button>
           <Button
             onClick={handleConfirmDeleteSelected}
             color="error"
@@ -283,7 +300,7 @@ function MemoPage() {
             {deleteMultipleMemosMutation.isPending ? (
               <CircularProgress size={20} />
             ) : (
-              'Delete'
+              t('common:delete')
             )}
           </Button>
         </DialogActions>

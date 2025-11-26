@@ -1,0 +1,11 @@
+{
+  "all": "전체",
+  "pinned": "고정됨",
+  "newMemoPlaceholder": "새 메모를 작성하세요...",
+  "selected": "{{count}}개 선택됨",
+  "deleteConfirmTitle": "메모 삭제",
+  "deleteConfirmMessage": "이 메모를 삭제하시겠습니까?",
+  "deleteConfirmMessage_plural": "{{count}}개의 메모를 삭제하시겠습니까?",
+  "noMemos": "아직 메모가 없습니다. 첫 번째 메모를 작성해보세요!",
+  "noPinnedMemos": "고정된 메모가 없습니다."
+}

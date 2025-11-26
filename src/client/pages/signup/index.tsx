@@ -13,6 +13,7 @@ import { supabase } from 'client/lib/supabaseClient';
 function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [displayName, setDisplayName] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -23,20 +24,34 @@ function SignupPage() {
     setError(null);
     setMessage(null);
 
-    const { error: authError } = await supabase.auth.signUp({
+    const { data, error: authError } = await supabase.auth.signUp({
       email,
       password,
     });
 
     if (authError) {
       setError(authError.message);
-    } else {
-      setMessage(
-        'Registration successful! Please check your email to confirm your account.'
-      );
-      // Optionally, navigate to login page after a short delay
-      // setTimeout(() => navigate('/login'), 3000);
+      setLoading(false);
+      return;
     }
+
+    if (data.user) {
+      // Update the profiles table with the display name
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .update({ display_name: displayName })
+        .eq('id', data.user.id);
+
+      if (profileError) {
+        setError(profileError.message);
+        setLoading(false);
+        return;
+      }
+    }
+
+    setMessage(
+      'Registration successful! Please check your email to confirm your account.'
+    );
     setLoading(false);
   };
 
@@ -69,6 +84,17 @@ function SignupPage() {
             autoFocus
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="displayName"
+            label="Display Name"
+            name="displayName"
+            autoComplete="name"
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
           />
           <TextField
             margin="normal"

@@ -8,7 +8,11 @@ interface LogoProps {
   clickable?: boolean;
 }
 
-function Logo({ bgColor = 'transparent', size = 24, clickable = true }: LogoProps) {
+function Logo({
+  bgColor = 'transparent',
+  size = 24,
+  clickable = true,
+}: LogoProps) {
   const navigate = useNavigate();
 
   const handleClick = () => {

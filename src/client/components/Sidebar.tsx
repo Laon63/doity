@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Typography,
@@ -24,7 +24,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { APP_NAME } from 'client/contants';
 import Logo from 'client/components/Logo';
 import useAuthStore from 'client/store/authStore';
-import { supabase } from 'client/lib/supabaseClient';
+import { useProfileQuery } from 'client/hooks/queries/useProfileQuery';
 
 const mainNavItems = [
   { text: 'Today', icon: <CheckCircleOutlineIcon />, to: '/today' },
@@ -43,33 +43,10 @@ function Sidebar() {
   const navigate = useNavigate();
   const session = useAuthStore((state) => state.session);
   const [collapsed, setCollapsed] = useState(false);
-  const [displayName, setDisplayName] = useState('');
-  const [userEmail, setUserEmail] = useState(session?.user?.email || '');
-  const [profilePictureUrl, setProfilePictureUrl] = useState('');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  useEffect(() => {
-    if (session?.user?.id) {
-      loadUserProfile();
-    }
-  }, [session?.user?.id]);
-
-  const loadUserProfile = async () => {
-    try {
-      const { data: userData, error: userError } = await supabase
-        .from('users')
-        .select('display_name, profile_picture_url')
-        .eq('id', session?.user?.id)
-        .single();
-
-      if (!userError && userData) {
-        setDisplayName(userData.display_name || '');
-        setProfilePictureUrl(userData.profile_picture_url || '');
-      }
-    } catch (error) {
-      console.error('Error loading profile:', error);
-    }
-  };
+  const { data: profile } = useProfileQuery(session?.user?.id);
+  const displayName = profile?.display_name || '';
 
   const handleLogoClick = () => {
     navigate('/');
@@ -89,7 +66,9 @@ function Sidebar() {
     setAnchorEl(null);
   };
 
-  const sidebarWidth = collapsed ? SIDEBAR_WIDTH_COLLAPSED : SIDEBAR_WIDTH_EXPANDED;
+  const sidebarWidth = collapsed
+    ? SIDEBAR_WIDTH_COLLAPSED
+    : SIDEBAR_WIDTH_EXPANDED;
 
   return (
     <Box
@@ -120,7 +99,15 @@ function Sidebar() {
         }}
       >
         {!collapsed && (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, minWidth: 0, flex: 1 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1,
+              minWidth: 0,
+              flex: 1,
+            }}
+          >
             <Logo size={24} bgColor="primary.main" clickable={false} />
             <Typography
               variant="h6"
@@ -153,7 +140,11 @@ function Sidebar() {
       {/* Main Navigation */}
       <List sx={{ flexGrow: 1, px: collapsed ? 1 : 1 }}>
         {mainNavItems.map((item) => (
-          <Tooltip key={item.text} title={collapsed ? item.text : ''} placement="right">
+          <Tooltip
+            key={item.text}
+            title={collapsed ? item.text : ''}
+            placement="right"
+          >
             <ListItem disablePadding>
               <ListItemButton
                 component={NavLink}
@@ -185,7 +176,11 @@ function Sidebar() {
         {/* Settings Menu */}
         <List>
           {secondaryNavItems.map((item) => (
-            <Tooltip key={item.text} title={collapsed ? item.text : ''} placement="right">
+            <Tooltip
+              key={item.text}
+              title={collapsed ? item.text : ''}
+              placement="right"
+            >
               <ListItem disablePadding>
                 <ListItemButton
                   component={NavLink}
@@ -230,7 +225,10 @@ function Sidebar() {
             mt: 0.5,
           }}
         >
-          <Tooltip title={collapsed ? displayName || 'Profile' : ''} placement="right">
+          <Tooltip
+            title={collapsed ? displayName || 'Profile' : ''}
+            placement="right"
+          >
             <Avatar
               sx={{
                 width: 40,
@@ -247,7 +245,9 @@ function Sidebar() {
               onClick={handleProfileMenuOpen}
               onMouseEnter={handleProfileMenuOpen}
             >
-              {displayName ? displayName.charAt(0).toUpperCase() : session?.user?.email?.charAt(0).toUpperCase()}
+              {displayName
+                ? displayName.charAt(0).toUpperCase()
+                : session?.user?.email?.charAt(0).toUpperCase()}
             </Avatar>
           </Tooltip>
 
@@ -271,7 +271,6 @@ function Sidebar() {
         open={Boolean(anchorEl)}
         onClose={handleProfileMenuClose}
         onMouseLeave={handleProfileMenuClose}
-        placement="top"
         anchorOrigin={{
           vertical: 'top',
           horizontal: 'right',
@@ -282,13 +281,8 @@ function Sidebar() {
         }}
       >
         <MenuItem disabled>
-          <Typography variant="body2" sx={{ fontWeight: 600 }}>
-            {displayName || 'User'}
-          </Typography>
-        </MenuItem>
-        <MenuItem disabled>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-            {userEmail}
+            {`${displayName} ${session?.user?.email || ''}`}
           </Typography>
         </MenuItem>
         <MenuItem onClick={handleLogout}>

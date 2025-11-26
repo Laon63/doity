@@ -8,3 +8,12 @@ export interface Task {
   description?: string;
   category?: string;
 }
+
+export interface Profile {
+  id: string;
+  updated_at: string;
+  display_name: string;
+  profile_picture_url: string | null;
+  theme_color: string;
+  language: string;
+}
