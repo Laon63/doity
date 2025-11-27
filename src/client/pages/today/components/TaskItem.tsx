@@ -35,8 +35,6 @@ function TaskItem({
   const [title, setTitle] = useState(task.title);
   const [isHovered, setIsHovered] = useState(false);
   const theme = useTheme();
-  const primaryColor = useThemeStore((state) => state.primaryColor);
-  const hoverBgColor = lightenColor(primaryColor, 0.20);
 
   const handleUpdate = () => {
     if (title.trim() && title !== task.title) {
