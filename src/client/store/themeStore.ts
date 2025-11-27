@@ -23,7 +23,7 @@ interface ThemeState {
 }
 
 const useThemeStore = create<ThemeState>((set) => ({
-  primaryColor: COLOR_PALETTES.blush,
+  primaryColor: COLOR_PALETTES.skyBlue,
   language: 'ko',
   setPrimaryColor: (color) => set({ primaryColor: color }),
   setLanguage: (language) => set({ language }),
