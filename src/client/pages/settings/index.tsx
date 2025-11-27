@@ -26,6 +26,7 @@ import { useUpdateProfileMutation } from 'client/hooks/mutations/useProfileMutat
 import { getContrastTextColor } from 'client/utils/colors';
 
 function SettingsPage() {
+  const theme = useTheme();
   const { t } = useTranslation('common');
   const session = useAuthStore((state) => state.session);
   const primaryColor = useThemeStore((state) => state.primaryColor);
