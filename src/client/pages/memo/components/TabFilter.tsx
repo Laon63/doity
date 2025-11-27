@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Chip, Stack, useTheme } from '@mui/material';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 interface TabFilterProps {
   selectedTab: string;
@@ -8,10 +9,11 @@ interface TabFilterProps {
 
 function TabFilter({ selectedTab, setTab }: TabFilterProps) {
   const theme = useTheme();
+  const { t } = useTranslation('memo'); // Initialize useTranslation
 
   const tabs = [
-    { name: 'All', label: 'All' },
-    { name: 'Pinned', label: 'Pinned' },
+    { name: 'All', label: t('all') },
+    { name: 'Pinned', label: t('pinned') },
   ];
   const handleTabClick = (tabName: string) => {
     setTab(tabName);

@@ -10,6 +10,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from 'client/lib/supabaseClient';
 import useAuthStore from 'client/store/authStore';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -18,6 +19,7 @@ function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const setSession = useAuthStore((state) => state.setSession);
+  const { t } = useTranslation('common'); // Initialize useTranslation
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +35,7 @@ function LoginPage() {
       setError(authError.message);
     } else if (data.session) {
       setSession(data.session);
-      navigate('/today');
+      navigate('/todo');
     }
     setLoading(false);
   };
@@ -53,7 +55,7 @@ function LoginPage() {
         }}
       >
         <Typography component="h1" variant="h5" sx={{ mb: 3 }}>
-          Login
+          {t('login')}
         </Typography>
         <Box component="form" onSubmit={handleLogin} sx={{ width: '100%' }}>
           <TextField
@@ -61,7 +63,7 @@ function LoginPage() {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label={t('emailAddress')}
             name="email"
             autoComplete="email"
             autoFocus
@@ -73,7 +75,7 @@ function LoginPage() {
             required
             fullWidth
             name="password"
-            label="Password"
+            label={t('password')}
             type="password"
             id="password"
             autoComplete="current-password"
@@ -87,7 +89,7 @@ function LoginPage() {
             sx={{ mt: 3, mb: 2 }}
             disabled={loading}
           >
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? t('loggingIn') : t('login')}
           </Button>
           {error && (
             <Alert severity="error" sx={{ mt: 2 }}>
@@ -96,7 +98,7 @@ function LoginPage() {
           )}
           <Link to="/signup" style={{ textDecoration: 'none' }}>
             <Typography variant="body2" color="primary" align="center">
-              Don&apos;t have an account? Sign Up
+              {t('dontHaveAccount')}
             </Typography>
           </Link>
         </Box>

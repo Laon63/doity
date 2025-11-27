@@ -1,23 +1,24 @@
 import React from 'react';
 import { Box, Chip, Stack, useTheme } from '@mui/material';
-import useThemeStore from 'client/store/themeStore';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 
-interface CategoryFilterProps {
+interface TodoCategoryFilterProps {
   selectedCategory: string;
   setCategory: (category: string) => void;
 }
 
-function CategoryFilter({
+function TodoCategoryFilter({
   selectedCategory,
   setCategory,
-}: CategoryFilterProps) {
+}: TodoCategoryFilterProps) {
   const theme = useTheme();
+  const { t } = useTranslation('common'); // Initialize useTranslation
 
   const categories = [
-    { name: 'All', label: 'All' },
-    { name: 'personal', label: 'Personal' },
-    { name: 'work', label: 'Work' },
-    { name: 'other', label: 'Other' },
+    { name: 'All', label: t('all') },
+    { name: 'personal', label: t('personal') },
+    { name: 'work', label: t('work') },
+    { name: 'other', label: t('other') },
   ];
 
   const handleChipClick = (categoryName: string) => {
@@ -66,4 +67,4 @@ function CategoryFilter({
   );
 }
 
-export default CategoryFilter;
+export default TodoCategoryFilter;

@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { supabase } from 'client/lib/supabaseClient';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 function SignupPage() {
   const [email, setEmail] = useState('');
@@ -17,6 +18,7 @@ function SignupPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const { t } = useTranslation('common'); // Initialize useTranslation
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,6 +29,11 @@ function SignupPage() {
     const { data, error: authError } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          display_name: displayName,
+        },
+      },
     });
 
     if (authError) {
@@ -36,22 +43,9 @@ function SignupPage() {
     }
 
     if (data.user) {
-      // Update the profiles table with the display name
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .update({ display_name: displayName })
-        .eq('id', data.user.id);
-
-      if (profileError) {
-        setError(profileError.message);
-        setLoading(false);
-        return;
-      }
+      // The display_name is now handled by the signUp call with options.data
+      setMessage(t('registrationSuccess'));
     }
-
-    setMessage(
-      'Registration successful! Please check your email to confirm your account.'
-    );
     setLoading(false);
   };
 
@@ -70,7 +64,7 @@ function SignupPage() {
         }}
       >
         <Typography component="h1" variant="h5" sx={{ mb: 3 }}>
-          Sign Up
+          {t('signUp')}
         </Typography>
         <Box component="form" onSubmit={handleSignup} sx={{ width: '100%' }}>
           <TextField
@@ -78,7 +72,7 @@ function SignupPage() {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label={t('emailAddress')}
             name="email"
             autoComplete="email"
             autoFocus
@@ -90,7 +84,7 @@ function SignupPage() {
             required
             fullWidth
             id="displayName"
-            label="Display Name"
+            label={t('displayName')}
             name="displayName"
             autoComplete="name"
             value={displayName}
@@ -101,7 +95,7 @@ function SignupPage() {
             required
             fullWidth
             name="password"
-            label="Password"
+            label={t('password')}
             type="password"
             id="password"
             autoComplete="new-password"
@@ -115,7 +109,7 @@ function SignupPage() {
             sx={{ mt: 3, mb: 2 }}
             disabled={loading}
           >
-            {loading ? 'Signing Up...' : 'Sign Up'}
+            {loading ? t('signingUp') : t('signUp')}
           </Button>
           {error && (
             <Alert severity="error" sx={{ mt: 2 }}>
@@ -129,7 +123,7 @@ function SignupPage() {
           )}
           <Link to="/login" style={{ textDecoration: 'none' }}>
             <Typography variant="body2" color="primary" align="center">
-              Already have an account? Login
+              {t('alreadyHaveAccount')}
             </Typography>
           </Link>
         </Box>

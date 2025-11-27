@@ -12,25 +12,25 @@ import { formatDate } from 'client/utils/date';
 import { useTheme } from '@mui/material';
 import { getCategoryColor, getCategoryLightColor } from 'client/utils/colors';
 
-interface TaskItemProps {
+interface TodoItemProps {
   task: Task;
   isFocused: boolean;
-  isSelected: boolean; // Added
+  isSelected: boolean;
   onUpdateTask: (id: string, newTitle: string) => void;
   onToggleTask: (id: string) => void;
   onDeleteTask: (id: string) => void;
   onTaskClick: (id: string) => void;
 }
 
-function TaskItem({
+function TodoItem({
   task,
   isFocused,
-  isSelected, // Added
+  isSelected,
   onUpdateTask,
   onToggleTask,
   onDeleteTask,
   onTaskClick,
-}: TaskItemProps) {
+}: TodoItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
   const [isHovered, setIsHovered] = useState(false);
@@ -58,7 +58,7 @@ function TaskItem({
           ? getCategoryLightColor(task.category)
           : 'background.paper',
         borderRadius: 1,
-        border: isSelected // Changed
+        border: isSelected
           ? `2px solid ${(theme.palette.primary as any).border}`
           : `1px solid ${theme.palette.divider}`,
         cursor: 'pointer',
@@ -135,4 +135,4 @@ function TaskItem({
   );
 }
 
-export default TaskItem;
+export default TodoItem;
