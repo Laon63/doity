@@ -10,7 +10,8 @@ import { Task } from 'client/types';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { formatDate } from 'client/utils/date';
 import { useTheme } from '@mui/material';
-import { getCategoryColor, getCategoryLightColor } from 'client/utils/colors';
+import { getCategoryColor, getCategoryLightColor, lightenColor } from 'client/utils/colors';
+import useThemeStore from 'client/store/authStore';
 
 interface TaskItemProps {
   task: Task;
