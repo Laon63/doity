@@ -77,9 +77,9 @@ function Sidebar() {
       sx={{
         width: sidebarWidth,
         flexShrink: 0,
-        bgcolor: 'background.paper',
+        bgcolor: 'primary.main',
         borderRight: '1px solid',
-        borderColor: 'divider',
+        borderColor: 'primary.dark',
         display: 'flex',
         flexDirection: 'column',
         transition: 'width 0.3s ease',
