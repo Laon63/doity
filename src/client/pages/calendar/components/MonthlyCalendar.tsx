@@ -20,6 +20,7 @@ function MonthlyCalendar({
   onDateChange,
   tasks,
 }: MonthlyCalendarProps) {
+  const theme = useTheme();
   const today = new Date();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
