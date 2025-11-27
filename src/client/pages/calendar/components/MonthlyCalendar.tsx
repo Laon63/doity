@@ -240,7 +240,7 @@ function MonthlyCalendar({
                 sx={{
                   p: 1.5,
                   textAlign: 'center',
-                  bgcolor: '#2c3e50',
+                  bgcolor: 'primary.main',
                   borderRight: idx === 6 ? 'none' : '0.5px solid #bbb',
                 }}
               >
@@ -248,7 +248,7 @@ function MonthlyCalendar({
                   sx={{
                     fontSize: '0.75rem',
                     fontWeight: '700',
-                    color: '#ffffff',
+                    color: 'primary.contrastText',
                     textTransform: 'uppercase',
                     letterSpacing: '0.5px',
                   }}
