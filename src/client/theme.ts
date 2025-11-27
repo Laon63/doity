@@ -19,13 +19,13 @@ const getTheme = (primaryColor: string) => {
         main: primaryColor,
         light: derivedColors.light,
         dark: derivedColors.dark,
-        text: derivedColors.text,
+        contrastText: derivedColors.text,
       },
       secondary: {
-        main: '#64748B', // A neutral gray
+        main: '#64748B',
       },
       background: {
-        default: '#F8FAFC', // The main content background
+        default: '#F8FAFC',
         paper: '#FFFFFF',
       },
       text: {
@@ -45,7 +45,7 @@ const getTheme = (primaryColor: string) => {
     components: {
       MuiContainer: {
         defaultProps: {
-          disableGutters: true, // 좌우여백 제거
+          disableGutters: true,
         },
       },
       MuiButton: {
@@ -53,6 +53,9 @@ const getTheme = (primaryColor: string) => {
           root: {
             textTransform: 'none',
             borderRadius: '8px',
+          },
+          contained: {
+            color: derivedColors.text,
           },
         },
       },
@@ -86,7 +89,7 @@ const getTheme = (primaryColor: string) => {
             height: '44px',
             '&.active': {
               backgroundColor: theme.palette.primary.light,
-              color: theme.palette.primary.text,
+              color: derivedColors.text,
             },
           }),
         },
