@@ -1,55 +1,12 @@
 import { createTheme } from '@mui/material/styles';
-import { COLOR_PALETTES } from 'client/store/themeStore'; // Import COLOR_PALETTES
+import { lightenColor, darkenColor, getContrastTextColor } from 'client/utils/colors';
 
 // Function to get light, dark, and text colors based on the main color
 const getDerivedColors = (mainColor: string) => {
-  // Find the matching palette entry
-  const paletteEntry = Object.entries(COLOR_PALETTES).find(([, color]) => color === mainColor);
-
-  if (paletteEntry) {
-    const [name] = paletteEntry;
-    // Assuming COLOR_PALETTES has a structure that allows deriving light, dark, and text
-    // For now, I'll hardcode some values based on the existing theme structure
-    // This part might need more sophisticated color manipulation if the palette is more complex
-    switch (name) {
-      case 'emerald': // Assuming '#8FE3CD' is 'emerald'
-        return {
-          light: '#B2F0E0',
-          dark: '#6ACDAF',
-          text: '#4A8C7B',
-        };
-      case 'mint': // Placeholder for mint
-        return {
-          light: '#C8F7DC',
-          dark: '#7AD9B2',
-          text: '#3D8C6A',
-        };
-      case 'lavender': // Placeholder for lavender
-        return {
-          light: '#E0C8F7',
-          dark: '#B27AD9',
-          text: '#6A3D8C',
-        };
-      case 'coral': // Placeholder for coral
-        return {
-          light: '#F7D0C8',
-          dark: '#D97A7A',
-          text: '#8C3D3D',
-        };
-      default:
-        return {
-          light: mainColor, // Fallback
-          dark: mainColor, // Fallback
-          text: '#1E293B', // Fallback
-        };
-    }
-  }
-
-  // Default fallback if color not found in palette
   return {
-    light: mainColor,
-    dark: mainColor,
-    text: '#1E293B',
+    light: lightenColor(mainColor, 0.3),
+    dark: darkenColor(mainColor, 0.3),
+    text: getContrastTextColor(mainColor),
   };
 };
 
