@@ -55,7 +55,7 @@ function App() {
           sx={{
             flexGrow: 1,
             p: 2,
-            backgroundColor: (theme) => theme.palette.grey[50],
+            backgroundColor: (theme) => theme.palette.background.default,
             overflow: 'auto',
           }}
         >
