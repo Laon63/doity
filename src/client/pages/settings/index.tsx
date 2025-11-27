@@ -294,28 +294,45 @@ function SettingsPage() {
               {t('primaryColor')}
             </Typography>
             <Grid container spacing={1}>
-              {Object.entries(COLOR_PALETTES).map(([name, color]) => (
-                <Grid item key={name}>
-                  <Box
-                    onClick={() => handlePrimaryColorChange(color)}
-                    sx={{
-                      width: 40,
-                      height: 40,
-                      bgcolor: color,
-                      borderRadius: '8px',
-                      cursor: 'pointer',
-                      border:
-                        primaryColor === color
-                          ? '3px solid #000'
-                          : '1px solid #ddd',
-                      transition: 'all 0.2s ease',
-                      '&:hover': {
-                        transform: 'scale(1.05)',
-                      },
-                    }}
-                  />
-                </Grid>
-              ))}
+              {Object.entries(COLOR_PALETTES).map(([name, color]) => {
+                const textColor = getContrastTextColor(color);
+                const displayText = language === 'ko' ? '가' : 'Aa';
+                return (
+                  <Grid item key={name}>
+                    <Box
+                      onClick={() => handlePrimaryColorChange(color)}
+                      sx={{
+                        width: 50,
+                        height: 50,
+                        bgcolor: color,
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        border:
+                          primaryColor === color
+                            ? '3px solid #000'
+                            : '1px solid #ddd',
+                        transition: 'all 0.2s ease',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        '&:hover': {
+                          transform: 'scale(1.05)',
+                        },
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          color: textColor,
+                          fontWeight: 'bold',
+                          fontSize: '0.875rem',
+                        }}
+                      >
+                        {displayText}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                );
+              })}
             </Grid>
           </Card>
 
