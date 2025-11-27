@@ -11,6 +11,7 @@ import {
   Button,
   TextField,
   Stack,
+  useTheme,
 } from '@mui/material';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
@@ -34,6 +35,7 @@ function MemoCard({
   onDelete,
   onUpdate,
 }: MemoCardProps) {
+  const theme = useTheme();
   const [isHovered, setIsHovered] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(memo.content);
@@ -105,7 +107,7 @@ function MemoCard({
         sx={{
           width: '250px',
           height: '300px',
-          bgcolor: '#fffef0',
+          bgcolor: 'primary.lighter',
           borderRadius: 1,
           boxShadow: '0 1px 4px rgba(0,0,0,0.1)',
           padding: '12px',
@@ -121,7 +123,7 @@ function MemoCard({
           },
         }}
       >
-        {/* Absolute 오버레이: Checkbox (좌측 상단) */}
+        {/* Absolute 오버���이: Checkbox (좌측 상단) */}
         {(isHovered || isSelected) && !isEditing && (
           <Checkbox
             checked={isSelected}

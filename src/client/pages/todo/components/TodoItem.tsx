@@ -59,14 +59,14 @@ function TodoItem({
           : 'background.paper',
         borderRadius: 1,
         border: isSelected
-          ? `2px solid ${getCategoryColor(task.category)}`
+          ? `2px solid ${(theme.palette.primary as any).border}`
           : `1px solid ${theme.palette.divider}`,
         cursor: 'pointer',
         transition: 'background-color 0.2s ease, border-color 0.2s ease',
         position: 'relative', // Added for absolute positioning context
         minWidth: 0, // Allow flex item to shrink
         '&:hover': {
-          bgcolor: getCategoryLightColor(task.category),
+          bgcolor: 'primary.lightest',
         },
       }}
     >
@@ -97,7 +97,15 @@ function TodoItem({
           onClick={(e) => e.stopPropagation()}
         />
       ) : (
-        <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between', minWidth: 0 }}>
+        <Box
+          sx={{
+            flexGrow: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            minWidth: 0,
+          }}
+        >
           <Box sx={{ minWidth: 0, mr: 1 }}>
             <Typography
               sx={{
@@ -112,7 +120,11 @@ function TodoItem({
             </Typography>
           </Box>
           {task.due_date && (
-            <Typography variant="caption" color="text.secondary" sx={{ flexShrink: 0 }}>
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ flexShrink: 0 }}
+            >
               {formatDate(task.due_date, 'MMM d')}
             </Typography>
           )}

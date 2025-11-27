@@ -1,55 +1,21 @@
 import { createTheme } from '@mui/material/styles';
-import { COLOR_PALETTES } from 'client/store/themeStore'; // Import COLOR_PALETTES
+import { lightenColor, darkenColor, getContrastTextColor, getSidebarBackgroundColor } from 'client/utils/colors';
 
-// Function to get light, dark, and text colors based on the main color
+// Function to get comprehensive color palette based on the main color
 const getDerivedColors = (mainColor: string) => {
-  // Find the matching palette entry
-  const paletteEntry = Object.entries(COLOR_PALETTES).find(([, color]) => color === mainColor);
-
-  if (paletteEntry) {
-    const [name] = paletteEntry;
-    // Assuming COLOR_PALETTES has a structure that allows deriving light, dark, and text
-    // For now, I'll hardcode some values based on the existing theme structure
-    // This part might need more sophisticated color manipulation if the palette is more complex
-    switch (name) {
-      case 'emerald': // Assuming '#8FE3CD' is 'emerald'
-        return {
-          light: '#B2F0E0',
-          dark: '#6ACDAF',
-          text: '#4A8C7B',
-        };
-      case 'mint': // Placeholder for mint
-        return {
-          light: '#C8F7DC',
-          dark: '#7AD9B2',
-          text: '#3D8C6A',
-        };
-      case 'lavender': // Placeholder for lavender
-        return {
-          light: '#E0C8F7',
-          dark: '#B27AD9',
-          text: '#6A3D8C',
-        };
-      case 'coral': // Placeholder for coral
-        return {
-          light: '#F7D0C8',
-          dark: '#D97A7A',
-          text: '#8C3D3D',
-        };
-      default:
-        return {
-          light: mainColor, // Fallback
-          dark: mainColor, // Fallback
-          text: '#1E293B', // Fallback
-        };
-    }
-  }
-
-  // Default fallback if color not found in palette
   return {
-    light: mainColor,
-    dark: mainColor,
-    text: '#1E293B',
+    // Very light background (barely visible) - for Sidebar
+    light: getSidebarBackgroundColor(mainColor),
+    // Light hover (15% lighter) - for Tab, Category filter selection
+    lighter: lightenColor(mainColor, 0.15),
+    // Extra light (20% lighter) - for TaskItem hover
+    lightest: lightenColor(mainColor, 0.20),
+    // Border color (10% darker than main)
+    border: darkenColor(mainColor, 0.10),
+    // Dark color (30% darker)
+    dark: darkenColor(mainColor, 0.3),
+    // Contrast text color
+    text: getContrastTextColor(mainColor),
   };
 };
 
@@ -61,14 +27,17 @@ const getTheme = (primaryColor: string) => {
       primary: {
         main: primaryColor,
         light: derivedColors.light,
+        lighter: derivedColors.lighter as any,
+        lightest: derivedColors.lightest as any,
+        border: derivedColors.border as any,
         dark: derivedColors.dark,
-        text: derivedColors.text,
+        contrastText: derivedColors.text,
       },
       secondary: {
-        main: '#64748B', // A neutral gray
+        main: '#64748B',
       },
       background: {
-        default: '#F8FAFC', // The main content background
+        default: '#F8FAFC',
         paper: '#FFFFFF',
       },
       text: {
@@ -88,7 +57,7 @@ const getTheme = (primaryColor: string) => {
     components: {
       MuiContainer: {
         defaultProps: {
-          disableGutters: true, // 좌우여백 제거
+          disableGutters: true,
         },
       },
       MuiButton: {
@@ -96,6 +65,9 @@ const getTheme = (primaryColor: string) => {
           root: {
             textTransform: 'none',
             borderRadius: '8px',
+          },
+          contained: {
+            color: derivedColors.text,
           },
         },
       },
@@ -129,7 +101,7 @@ const getTheme = (primaryColor: string) => {
             height: '44px',
             '&.active': {
               backgroundColor: theme.palette.primary.light,
-              color: theme.palette.primary.text,
+              color: derivedColors.text,
             },
           }),
         },

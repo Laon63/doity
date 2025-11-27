@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Box, TextField, Button, Stack } from '@mui/material';
+import { Box, TextField, Button, Stack, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 interface NewMemoCardProps {
@@ -8,6 +8,7 @@ interface NewMemoCardProps {
 }
 
 function NewMemoCard({ onSave, isLoading = false }: NewMemoCardProps) {
+  const theme = useTheme();
   const { t } = useTranslation(['memo', 'common']); // Initialize useTranslation
   const [content, setContent] = useState('');
   const [isEditing, setIsEditing] = useState(false);
@@ -60,7 +61,7 @@ function NewMemoCard({ onSave, isLoading = false }: NewMemoCardProps) {
       sx={{
         width: '250px',
         height: '300px',
-        bgcolor: '#fffef0',
+        bgcolor: 'primary.lighter',
         borderRadius: 1,
         boxShadow: '0 1px 4px rgba(0,0,0,0.1)',
         padding: '12px',

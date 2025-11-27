@@ -13,6 +13,7 @@ import {
   Menu,
   MenuItem,
   Divider,
+  useTheme,
 } from '@mui/material';
 import { NavLink, useNavigate } from 'react-router-dom';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
@@ -41,6 +42,7 @@ const SIDEBAR_WIDTH_EXPANDED = 240;
 const SIDEBAR_WIDTH_COLLAPSED = 80;
 
 function Sidebar() {
+  const theme = useTheme();
   const navigate = useNavigate();
   const session = useAuthStore((state) => state.session);
   const [collapsed, setCollapsed] = useState(false);
@@ -77,7 +79,7 @@ function Sidebar() {
       sx={{
         width: sidebarWidth,
         flexShrink: 0,
-        bgcolor: 'background.paper',
+        bgcolor: 'primary.light',
         borderRight: '1px solid',
         borderColor: 'divider',
         display: 'flex',
@@ -119,6 +121,7 @@ function Sidebar() {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
+                color: 'text.primary',
               }}
             >
               {APP_NAME}
@@ -140,7 +143,7 @@ function Sidebar() {
       </Box>
 
       {/* Main Navigation */}
-      <List sx={{ flexGrow: 1, px: collapsed ? 1 : 1 }}>
+      <List sx={{ flexGrow: 1, px: collapsed ? 1 : 1, color: 'text.primary' }}>
         {mainNavItems.map((item) => (
           <Tooltip
             key={item.text}
@@ -155,6 +158,13 @@ function Sidebar() {
                   justifyContent: collapsed ? 'center' : 'flex-start',
                   minHeight: 44,
                   px: 1,
+                  color: 'text.primary',
+                  '&:hover': {
+                    backgroundColor: 'primary.main',
+                  },
+                  '&.active': {
+                    backgroundColor: 'primary.main',
+                  },
                 }}
               >
                 <ListItemIcon
@@ -176,7 +186,7 @@ function Sidebar() {
       {/* Settings & Profile Section */}
       <Box sx={{ display: 'flex', flexDirection: 'column', px: 1, pb: 0.5 }}>
         {/* Settings Menu */}
-        <List>
+        <List sx={{ color: 'text.primary' }}>
           {secondaryNavItems.map((item) => (
             <Tooltip
               key={item.text}
@@ -191,6 +201,13 @@ function Sidebar() {
                     justifyContent: collapsed ? 'center' : 'flex-start',
                     minHeight: 44,
                     px: 1,
+                    color: 'text.primary',
+                    '&:hover': {
+                      backgroundColor: 'primary.main',
+                    },
+                    '&.active': {
+                      backgroundColor: 'primary.main',
+                    },
                   }}
                 >
                   <ListItemIcon
@@ -213,7 +230,6 @@ function Sidebar() {
         <Divider
           sx={{
             my: 0.5,
-            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.08)',
           }}
         />
 
@@ -236,7 +252,7 @@ function Sidebar() {
                 width: 40,
                 height: 40,
                 bgcolor: 'primary.main',
-                color: '#fff',
+                color: theme.palette.primary.contrastText,
                 fontSize: '1rem',
                 cursor: 'pointer',
                 transition: 'transform 0.2s ease',

@@ -1,5 +1,12 @@
 import React, { useMemo, useState } from 'react';
-import { Box, Typography, IconButton, Button, Paper } from '@mui/material';
+import {
+  Box,
+  Typography,
+  IconButton,
+  Button,
+  Paper,
+  useTheme,
+} from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'; // Corrected import
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'; // Import CalendarMonthIcon
@@ -21,6 +28,7 @@ function MonthlyCalendar({
   onDateChange,
   tasks,
 }: MonthlyCalendarProps) {
+  const theme = useTheme();
   const { t, i18n } = useTranslation('common'); // Initialize useTranslation and get i18n instance
   const today = new Date();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -110,12 +118,21 @@ function MonthlyCalendar({
     }
   };
 
-  const monthName = new Intl.DateTimeFormat(i18n.language, { // Use i18n.language for locale
+  const monthName = new Intl.DateTimeFormat(i18n.language, {
+    // Use i18n.language for locale
     month: 'long',
     year: 'numeric',
   }).format(currentDate);
 
-  const dayLabels = [t('sun'), t('mon'), t('tue'), t('wed'), t('thu'), t('fri'), t('sat')]; // Translate day labels
+  const dayLabels = [
+    t('sun'),
+    t('mon'),
+    t('tue'),
+    t('wed'),
+    t('thu'),
+    t('fri'),
+    t('sat'),
+  ]; // Translate day labels
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -241,7 +258,7 @@ function MonthlyCalendar({
                 sx={{
                   p: 1.5,
                   textAlign: 'center',
-                  bgcolor: '#2c3e50',
+                  bgcolor: 'primary.main',
                   borderRight: idx === 6 ? 'none' : '0.5px solid #bbb',
                 }}
               >
@@ -249,7 +266,7 @@ function MonthlyCalendar({
                   sx={{
                     fontSize: '0.75rem',
                     fontWeight: '700',
-                    color: '#ffffff',
+                    color: 'primary.contrastText',
                     textTransform: 'uppercase',
                     letterSpacing: '0.5px',
                   }}

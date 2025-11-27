@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Box, Typography, Tooltip, Stack } from '@mui/material';
+import { Box, Typography, Tooltip, Stack, useTheme } from '@mui/material';
 import { Task } from 'client/types';
 import { useNavigate } from 'react-router-dom';
 import { getCategoryColor, getCategoryLightColor } from 'client/utils/colors';
@@ -24,6 +24,7 @@ function CalendarDay({
   tasks,
   date,
 }: CalendarDayProps) {
+  const theme = useTheme();
   const navigate = useNavigate();
   const [hoveredTaskId, setHoveredTaskId] = useState<string | null>(null);
   const stackRef = useRef<HTMLDivElement>(null);
@@ -130,8 +131,8 @@ function CalendarDay({
               width: '24px',
               height: '24px',
               borderRadius: '50%',
-              bgcolor: '#1976d2',
-              color: '#fff',
+              bgcolor: 'primary.main',
+              color: 'primary.contrastText',
               mb: 0,
             }),
           }}

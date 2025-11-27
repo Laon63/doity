@@ -3,14 +3,16 @@ import { create } from 'zustand';
 export type Language = 'en' | 'ko';
 
 export const COLOR_PALETTES = {
-  emerald: '#8FE3CD',
-  blue: '#60A5FA',
-  purple: '#A78BFA',
-  pink: '#F472B6',
-  orange: '#FB923C',
-  teal: '#14B8A6',
-  rose: '#F43F5E',
-  indigo: '#6366F1',
+  skyBlue: '#BAE1FF',
+  peach: '#FFCAB0',
+  lemonChiffon: '#FFFACD',
+  softMint: '#9FE9D9',
+  lavender: '#DCC9E8',
+  rose: '#FFD9E8',
+  sage: '#D9EAD3',
+  coral: '#FFCCB3',
+  lilac: '#E6CCFF',
+  softPink: '#F5A3D0',
 };
 
 interface ThemeState {
@@ -21,7 +23,7 @@ interface ThemeState {
 }
 
 const useThemeStore = create<ThemeState>((set) => ({
-  primaryColor: COLOR_PALETTES.emerald,
+  primaryColor: COLOR_PALETTES.skyBlue,
   language: 'ko',
   setPrimaryColor: (color) => set({ primaryColor: color }),
   setLanguage: (language) => set({ language }),

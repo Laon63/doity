@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Chip, Stack } from '@mui/material';
+import { Box, Chip, Stack, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 interface TabFilterProps {
@@ -8,23 +8,13 @@ interface TabFilterProps {
 }
 
 function TabFilter({ selectedTab, setTab }: TabFilterProps) {
+  const theme = useTheme();
   const { t } = useTranslation('memo'); // Initialize useTranslation
 
   const tabs = [
-    {
-      name: 'All',
-      label: t('all'),
-      bgcolor: '#c0ccd5',
-      textColor: '#000000de',
-    },
-    {
-      name: 'Pinned',
-      label: t('pinned'),
-      bgcolor: '#FFD700',
-      textColor: '#5f6d7b',
-    },
+    { name: 'All', label: t('all') },
+    { name: 'Pinned', label: t('pinned') },
   ];
-
   const handleTabClick = (tabName: string) => {
     setTab(tabName);
   };
@@ -43,17 +33,14 @@ function TabFilter({ selectedTab, setTab }: TabFilterProps) {
               fontWeight: 600,
               px: 1,
               bgcolor:
-                selectedTab === tabItem.name ? tabItem.bgcolor : 'default',
-              color:
-                selectedTab === tabItem.name
-                  ? tabItem.textColor
-                  : 'text.primary',
+                selectedTab === tabItem.name ? 'primary.lighter' : 'default',
+              color: selectedTab === tabItem.name ? '#000000' : 'text.primary',
               borderColor:
-                selectedTab === tabItem.name ? tabItem.bgcolor : 'divider',
+                selectedTab === tabItem.name ? 'primary.lighter' : 'divider',
               '&:hover': {
                 bgcolor:
                   selectedTab === tabItem.name
-                    ? tabItem.bgcolor
+                    ? 'primary.lighter'
                     : 'action.hover',
               },
             }}

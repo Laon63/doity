@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Chip, Stack } from '@mui/material';
+import { Box, Chip, Stack, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 interface TodoCategoryFilterProps {
@@ -11,33 +11,14 @@ function TodoCategoryFilter({
   selectedCategory,
   setCategory,
 }: TodoCategoryFilterProps) {
+  const theme = useTheme();
   const { t } = useTranslation('common'); // Initialize useTranslation
 
   const categories = [
-    {
-      name: 'All',
-      label: t('all'),
-      bgcolor: '#c0ccd5',
-      textColor: '#000000de',
-    },
-    {
-      name: 'personal',
-      label: t('personal'),
-      bgcolor: '#bed9ff',
-      textColor: '#4a8ae2',
-    },
-    {
-      name: 'work',
-      label: t('work'),
-      bgcolor: '#C4B5E0',
-      textColor: '#6b21a8',
-    },
-    {
-      name: 'other',
-      label: t('other'),
-      bgcolor: '#E8A5C0',
-      textColor: '#831843',
-    },
+    { name: 'All', label: t('all') },
+    { name: 'personal', label: t('personal') },
+    { name: 'work', label: t('work') },
+    { name: 'other', label: t('other') },
   ];
 
   const handleChipClick = (categoryName: string) => {
@@ -59,20 +40,20 @@ function TodoCategoryFilter({
               px: 1,
               bgcolor:
                 selectedCategory === categoryItem.name
-                  ? categoryItem.bgcolor
+                  ? 'primary.lighter'
                   : 'default',
               color:
                 selectedCategory === categoryItem.name
-                  ? categoryItem.textColor
+                  ? '#000000'
                   : 'text.primary',
               borderColor:
                 selectedCategory === categoryItem.name
-                  ? categoryItem.bgcolor
+                  ? 'primary.lighter'
                   : 'divider',
               '&:hover': {
                 bgcolor:
                   selectedCategory === categoryItem.name
-                    ? categoryItem.bgcolor
+                    ? 'primary.lighter'
                     : 'action.hover',
               },
             }}
