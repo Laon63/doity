@@ -130,8 +130,8 @@ function CalendarDay({
               width: '24px',
               height: '24px',
               borderRadius: '50%',
-              bgcolor: '#1976d2',
-              color: '#fff',
+              bgcolor: 'primary.main',
+              color: 'primary.contrastText',
               mb: 0,
             }),
           }}
