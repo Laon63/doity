@@ -67,7 +67,7 @@ function TaskItem({
         cursor: 'pointer',
         transition: 'background-color 0.2s ease, border-color 0.2s ease',
         '&:hover': {
-          bgcolor: getCategoryLightColor(task.category),
+          bgcolor: hoverBgColor,
         },
       }}
     >
