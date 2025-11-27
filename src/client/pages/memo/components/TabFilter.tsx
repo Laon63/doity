@@ -1,27 +1,32 @@
 import React from 'react';
-import { Box, Chip, Stack } from '@mui/material';
+import { Box, Chip, Stack, useTheme } from '@mui/material';
+import { getSidebarBackgroundColor, getContrastTextColor } from 'client/utils/colors';
+import useThemeStore from 'client/store/themeStore';
 
 interface TabFilterProps {
   selectedTab: string;
   setTab: (tab: string) => void;
 }
 
-const tabs = [
+const getTabConfig = (primaryColor: string) => [
   {
     name: 'All',
     label: 'All',
-    bgcolor: '#c0ccd5',
-    textColor: '#000000de',
+    bgcolor: getSidebarBackgroundColor(primaryColor),
+    textColor: getContrastTextColor(primaryColor),
   },
   {
     name: 'Pinned',
     label: 'Pinned',
-    bgcolor: '#FFD700',
-    textColor: '#5f6d7b',
+    bgcolor: getSidebarBackgroundColor(primaryColor),
+    textColor: getContrastTextColor(primaryColor),
   },
 ];
 
 function TabFilter({ selectedTab, setTab }: TabFilterProps) {
+  const theme = useTheme();
+  const primaryColor = useThemeStore((state) => state.primaryColor);
+  const tabs = getTabConfig(primaryColor);
   const handleTabClick = (tabName: string) => {
     setTab(tabName);
   };
