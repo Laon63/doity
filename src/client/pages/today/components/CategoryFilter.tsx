@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, Chip, Stack, useTheme } from '@mui/material';
-import { lightenColor, getContrastTextColor } from 'client/utils/colors';
 import useThemeStore from 'client/store/themeStore';
 
 interface CategoryFilterProps {
@@ -8,40 +7,18 @@ interface CategoryFilterProps {
   setCategory: (category: string) => void;
 }
 
-const getCategoryConfig = (primaryColor: string) => [
-  {
-    name: 'All',
-    label: 'All',
-    bgcolor: lightenColor(primaryColor, 0.15),
-    textColor: getContrastTextColor(primaryColor),
-  },
-  {
-    name: 'personal',
-    label: 'Personal',
-    bgcolor: lightenColor(primaryColor, 0.15),
-    textColor: getContrastTextColor(primaryColor),
-  },
-  {
-    name: 'work',
-    label: 'Work',
-    bgcolor: lightenColor(primaryColor, 0.15),
-    textColor: getContrastTextColor(primaryColor),
-  },
-  {
-    name: 'other',
-    label: 'Other',
-    bgcolor: lightenColor(primaryColor, 0.15),
-    textColor: getContrastTextColor(primaryColor),
-  },
-];
-
 function CategoryFilter({
   selectedCategory,
   setCategory,
 }: CategoryFilterProps) {
   const theme = useTheme();
-  const primaryColor = useThemeStore((state) => state.primaryColor);
-  const categories = getCategoryConfig(primaryColor);
+
+  const categories = [
+    { name: 'All', label: 'All' },
+    { name: 'personal', label: 'Personal' },
+    { name: 'work', label: 'Work' },
+    { name: 'other', label: 'Other' },
+  ];
 
   const handleChipClick = (categoryName: string) => {
     setCategory(categoryName);
