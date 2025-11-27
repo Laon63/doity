@@ -228,7 +228,6 @@ function Sidebar() {
         <Divider
           sx={{
             my: 0.5,
-            borderColor: 'primary.dark',
           }}
         />
 
