@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Box, Typography, Tooltip, Stack } from '@mui/material';
+import { Box, Typography, Tooltip, Stack, useTheme } from '@mui/material';
 import { Task } from 'client/types';
 import { useNavigate } from 'react-router-dom';
 import { getCategoryColor, getCategoryLightColor } from 'client/utils/colors';
