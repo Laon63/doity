@@ -41,6 +41,7 @@ const SIDEBAR_WIDTH_EXPANDED = 240;
 const SIDEBAR_WIDTH_COLLAPSED = 80;
 
 function Sidebar() {
+  const theme = useTheme();
   const navigate = useNavigate();
   const session = useAuthStore((state) => state.session);
   const [collapsed, setCollapsed] = useState(false);
