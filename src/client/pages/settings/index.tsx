@@ -296,6 +296,7 @@ function SettingsPage() {
             <Grid container spacing={1}>
               {Object.entries(COLOR_PALETTES).map(([name, color]) => {
                 const displayText = language === 'ko' ? '가' : 'Aa';
+                const textColor = getContrastTextColor(color);
                 return (
                   <Grid item key={name}>
                     <Box
@@ -321,7 +322,7 @@ function SettingsPage() {
                     >
                       <Typography
                         sx={{
-                          color: 'rgb(113, 113, 113)',
+                          color: textColor,
                           fontWeight: 'bold',
                           fontSize: '0.875rem',
                         }}
