@@ -7,6 +7,7 @@ interface NewMemoCardProps {
 }
 
 function NewMemoCard({ onSave, isLoading = false }: NewMemoCardProps) {
+  const theme = useTheme();
   const [content, setContent] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [isComposing, setIsComposing] = useState(false); // IME composition state
