@@ -4,7 +4,7 @@ import { lightenColor, darkenColor, getContrastTextColor, getSidebarBackgroundCo
 // Function to get light, dark, and text colors based on the main color
 const getDerivedColors = (mainColor: string) => {
   return {
-    light: lightenColor(mainColor, 0.3),
+    light: getSidebarBackgroundColor(mainColor),
     dark: darkenColor(mainColor, 0.3),
     text: getContrastTextColor(mainColor),
   };
