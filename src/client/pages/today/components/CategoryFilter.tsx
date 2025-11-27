@@ -39,6 +39,10 @@ function CategoryFilter({
   selectedCategory,
   setCategory,
 }: CategoryFilterProps) {
+  const theme = useTheme();
+  const primaryColor = useThemeStore((state) => state.primaryColor);
+  const categories = getCategoryConfig(primaryColor);
+
   const handleChipClick = (categoryName: string) => {
     setCategory(categoryName);
   };
