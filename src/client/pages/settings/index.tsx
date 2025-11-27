@@ -294,11 +294,8 @@ function SettingsPage() {
               {t('primaryColor')}
             </Typography>
             <Grid container spacing={1}>
-              {Object.entries(COLOR_PALETTES).map(([name, color], index) => {
+              {Object.entries(COLOR_PALETTES).map(([name, color]) => {
                 const displayText = language === 'ko' ? '가' : 'Aa';
-                // Generate text color from white to black across 10 colors
-                const textColorValue = Math.round((index / 9) * 255);
-                const textColor = `rgb(${textColorValue}, ${textColorValue}, ${textColorValue})`;
                 return (
                   <Grid item key={name}>
                     <Box
@@ -324,7 +321,7 @@ function SettingsPage() {
                     >
                       <Typography
                         sx={{
-                          color: textColor,
+                          color: 'rgb(113, 113, 113)',
                           fontWeight: 'bold',
                           fontSize: '0.875rem',
                         }}
