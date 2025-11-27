@@ -135,9 +135,8 @@ export const darkenColor = (hex: string, percent: number): string => {
 
 // Get the best text color (light or dark) based on background color
 export const getContrastTextColor = (bgColor: string): string => {
-  const luminance = getLuminance(bgColor);
-  // If luminance is high (light background), use dark text, otherwise use light text
-  return luminance > 0.5 ? '#1E293B' : '#F8FAFC';
+  // Always return the middle gray color for consistent text appearance
+  return 'rgb(113, 113, 113)';
 };
 
 // Create a very light background color from primary color (for sidebar)
