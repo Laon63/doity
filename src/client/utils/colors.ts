@@ -140,17 +140,15 @@ export const getContrastTextColor = (bgColor: string): string => {
   return luminance > 0.5 ? '#1E293B' : '#F8FAFC';
 };
 
-// Create a very light background color from primary color
-export const getLightBackgroundColor = (hex: string): string => {
+// Create a very light background color from primary color (for sidebar)
+export const getSidebarBackgroundColor = (hex: string): string => {
   const rgb = hexToRgb(hex);
   if (!rgb) return '#F8FAFC';
 
   const { r, g, b } = rgb;
-  const [h, s, l] = rgbToHsl(r, g, b);
-  // Set lightness to 95% for a very light background
-  const newL = 95;
-
-  const [newR, newG, newB] = hslToRgb(h, s, newL);
+  const [h, s] = rgbToHsl(r, g, b);
+  // Set lightness to 96% and saturation to 25% for a very subtle background
+  const [newR, newG, newB] = hslToRgb(h, Math.min(s, 25), 96);
   return rgbToHex(newR, newG, newB);
 };
 
