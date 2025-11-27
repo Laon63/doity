@@ -59,7 +59,7 @@ function NewMemoCard({ onSave, isLoading = false }: NewMemoCardProps) {
       sx={{
         width: '250px',
         height: '300px',
-        bgcolor: '#fffef0',
+        bgcolor: theme.palette.primary.light,
         borderRadius: 1,
         boxShadow: '0 1px 4px rgba(0,0,0,0.1)',
         padding: '12px',
