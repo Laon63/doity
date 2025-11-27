@@ -23,6 +23,7 @@ function CalendarDay({
   tasks,
   date,
 }: CalendarDayProps) {
+  const theme = useTheme();
   const navigate = useNavigate();
   const [hoveredTaskId, setHoveredTaskId] = useState<string | null>(null);
   const stackRef = useRef<HTMLDivElement>(null);
