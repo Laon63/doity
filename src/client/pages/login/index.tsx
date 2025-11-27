@@ -35,7 +35,7 @@ function LoginPage() {
       setError(authError.message);
     } else if (data.session) {
       setSession(data.session);
-      navigate('/today');
+      navigate('/todo');
     }
     setLoading(false);
   };

@@ -8,7 +8,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next'; // Import useTranslation
 
-interface DateNavigatorProps {
+interface TodoDateNavigatorProps {
   selectedDate: Date;
   onPreviousDay: () => void;
   onNextDay: () => void;
@@ -18,7 +18,7 @@ interface DateNavigatorProps {
   onDateChange: (date: Date | null) => void;
 }
 
-function DateNavigator({
+function TodoDateNavigator({
   selectedDate,
   onPreviousDay,
   onNextDay,
@@ -26,7 +26,7 @@ function DateNavigator({
   isCalendarOpen,
   setIsCalendarOpen,
   onDateChange,
-}: DateNavigatorProps) {
+}: TodoDateNavigatorProps) {
   const { t, i18n } = useTranslation('common'); // Initialize useTranslation and get i18n instance
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -111,4 +111,4 @@ function DateNavigator({
   );
 }
 
-export default DateNavigator;
+export default TodoDateNavigator;

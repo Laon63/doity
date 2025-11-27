@@ -3,11 +3,11 @@ import { TextField, IconButton, Paper } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useTranslation } from 'react-i18next'; // Import useTranslation
 
-interface TaskQuickAddProps {
+interface TodoTaskQuickAddProps {
   onAddTask: (title: string) => void;
 }
 
-function TaskQuickAdd({ onAddTask }: TaskQuickAddProps) {
+function TodoTaskQuickAdd({ onAddTask }: TodoTaskQuickAddProps) {
   const { t } = useTranslation('common'); // Initialize useTranslation
   const [title, setTitle] = useState('');
 
@@ -65,4 +65,4 @@ function TaskQuickAdd({ onAddTask }: TaskQuickAddProps) {
   );
 }
 
-export default TaskQuickAdd;
+export default TodoTaskQuickAdd;

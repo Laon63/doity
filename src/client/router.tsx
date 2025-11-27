@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from 'client/App';
-import TodayPage from 'client/pages/today';
+import TodoPage from 'client/pages/todo';
 import CalendarPage from 'client/pages/calendar';
 import MemoPage from 'client/pages/memo';
 import SettingsPage from 'client/pages/settings';
@@ -48,8 +48,8 @@ const router = createBrowserRouter([
         element: <RootRedirect />,
       },
       {
-        path: 'today',
-        element: <TodayPage />,
+        path: 'todo',
+        element: <TodoPage />,
       },
       {
         path: 'calendar',

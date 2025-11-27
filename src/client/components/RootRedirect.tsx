@@ -6,7 +6,7 @@ const RootRedirect: React.FC = () => {
   const session = useAuthStore((state) => state.session);
 
   if (session) {
-    return <Navigate to="/today" replace />;
+    return <Navigate to="/todo" replace />;
   } else {
     return <Navigate to="/login" replace />;
   }

@@ -2,15 +2,15 @@ import React from 'react';
 import { Box, Chip, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next'; // Import useTranslation
 
-interface CategoryFilterProps {
+interface TodoCategoryFilterProps {
   selectedCategory: string;
   setCategory: (category: string) => void;
 }
 
-function CategoryFilter({
+function TodoCategoryFilter({
   selectedCategory,
   setCategory,
-}: CategoryFilterProps) {
+}: TodoCategoryFilterProps) {
   const { t } = useTranslation('common'); // Initialize useTranslation
 
   const categories = [
@@ -86,4 +86,4 @@ function CategoryFilter({
   );
 }
 
-export default CategoryFilter;
+export default TodoCategoryFilter;

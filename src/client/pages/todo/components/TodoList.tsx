@@ -1,9 +1,9 @@
 import React from 'react';
 import { Task } from 'client/types';
 import Scrollable from 'client/components/Scrollable';
-import TaskItem from 'client/pages/today/components/TaskItem';
+import TodoItem from 'client/pages/todo/components/TodoItem';
 
-interface TaskListProps {
+interface TodoListProps {
   tasks: Task[];
 
   focusedIndex: number;
@@ -19,7 +19,7 @@ interface TaskListProps {
   onTaskClick: (id: string) => void;
 }
 
-function TaskList({
+function TodoList({
   tasks,
 
   focusedIndex,
@@ -33,11 +33,11 @@ function TaskList({
   onDeleteTask,
 
   onTaskClick,
-}: TaskListProps) {
+}: TodoListProps) {
   return (
     <Scrollable sx={{ flex: 1, minHeight: 0, pr: 1 }}>
       {tasks.map((task, index) => (
-        <TaskItem
+        <TodoItem
           key={task.id}
           task={task}
           isFocused={index === focusedIndex}
@@ -52,4 +52,4 @@ function TaskList({
   );
 }
 
-export default TaskList;
+export default TodoList;

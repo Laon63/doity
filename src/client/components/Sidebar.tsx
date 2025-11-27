@@ -28,7 +28,7 @@ import { useProfileQuery } from 'client/hooks/queries/useProfileQuery';
 import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 const mainNavItems = [
-  { text: 'Today', icon: <CheckCircleOutlineIcon />, to: '/today' },
+  { text: 'Todo', icon: <CheckCircleOutlineIcon />, to: '/todo' },
   { text: 'Calendar', icon: <CalendarTodayIcon />, to: '/calendar' },
   { text: 'Memo', icon: <NotesIcon />, to: '/memo' },
 ];

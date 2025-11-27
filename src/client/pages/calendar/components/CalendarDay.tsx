@@ -68,7 +68,7 @@ function CalendarDay({
 
   const handleTaskClick = (taskId: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    navigate(`/today?taskId=${taskId}`, {
+    navigate(`/todo?taskId=${taskId}`, {
       state: { selectedDate: date },
     });
   };
@@ -78,7 +78,7 @@ function CalendarDay({
     tasks.length > maxTasksToShow ? tasks.length - maxTasksToShow : 0;
 
   const handleDayClick = () => {
-    navigate('/today', {
+    navigate('/todo', {
       state: { selectedDate: date },
     });
   };

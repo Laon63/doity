@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
-import DateNavigator from './components/DateNavigator';
-import CategoryFilter from './components/CategoryFilter';
-import TaskQuickAdd from './components/TaskQuickAdd';
-import TaskList from './components/TaskList';
+import TodoDateNavigator from './components/TodoDateNavigator';
+import TodoCategoryFilter from './components/TodoCategoryFilter';
+import TodoTaskQuickAdd from './components/TodoTaskQuickAdd';
+import TodoList from './components/TodoList';
 import { supabase } from 'client/lib/supabaseClient';
 import useAuthStore from 'client/store/authStore';
 import { useSearchParams, useLocation } from 'react-router-dom';
@@ -17,7 +17,7 @@ import {
 } from 'client/hooks/mutations/useTaskMutations';
 import { useTranslation } from 'react-i18next'; // Import useTranslation
 
-function TodayPage() {
+function TodoPage() {
   const { t } = useTranslation('common'); // Initialize useTranslation
   const session = useAuthStore((state) => state.session);
   const queryClient = useQueryClient();
@@ -25,7 +25,7 @@ function TodayPage() {
   const taskId = searchParams.get('taskId');
   const location = useLocation();
 
-  const [category, setCategory] = useState<string>('All');
+  const [category, setCategory] = useState<string>('all');
   const [focusedIndex, setFocusedIndex] = useState<number>(-1);
   const [selectedDate, setSelectedDate] = useState<Date>(() => {
     const state = location.state as { selectedDate?: Date } | null;
@@ -201,7 +201,7 @@ function TodayPage() {
         }}
       >
         <Box sx={{ pb: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
-          <DateNavigator
+          <TodoDateNavigator
             selectedDate={selectedDate}
             onPreviousDay={handlePreviousDay}
             onNextDay={handleNextDay}
@@ -213,19 +213,19 @@ function TodayPage() {
         </Box>
 
         <Box sx={{ py: 2.5 }}>
-          <CategoryFilter
+          <TodoCategoryFilter
             selectedCategory={category}
             setCategory={setCategory}
           />
           <Box sx={{ mt: 1.5 }}>
-            <TaskQuickAdd onAddTask={handleAddTask} />
+            <TodoTaskQuickAdd onAddTask={handleAddTask} />
           </Box>
         </Box>
 
         {loadingTasks ? (
           <LoadingSpinner />
         ) : (
-          <TaskList
+          <TodoList
             tasks={filteredTasks}
             focusedIndex={focusedIndex}
             selectedTaskId={taskId}
@@ -278,4 +278,4 @@ function TodayPage() {
   );
 }
 
-export default TodayPage;
+export default TodoPage;

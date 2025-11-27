@@ -3,7 +3,7 @@
   "cancel": "Cancel",
   "delete": "Delete",
   "saveChanges": "Save Changes",
-  "today": "Today",
+  "todo": "Todo",
   "calendar": "Calendar",
   "memo": "Memo",
   "settings": "Settings",
@@ -59,8 +59,7 @@
   "sun": "Sun",
   "mon": "Mon",
   "tue": "Tue",
-  "wed": "Wed",
-  "thu": "Thu",
+  "wed": "Thu",
   "fri": "Fri",
   "sat": "Sat"
 }
