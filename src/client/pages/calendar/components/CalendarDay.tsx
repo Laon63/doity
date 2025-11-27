@@ -3,6 +3,7 @@ import { Box, Typography, Tooltip, Stack, useTheme } from '@mui/material';
 import { Task } from 'client/types';
 import { useNavigate } from 'react-router-dom';
 import { getCategoryColor, getCategoryLightColor } from 'client/utils/colors';
+import { formatDate } from 'client/utils/date';
 
 interface CalendarDayProps {
   day: number;
@@ -148,8 +149,18 @@ function CalendarDay({
         {displayedTasks.map((task) => (
           <Tooltip
             key={task.id}
-            title={task.title}
+            title={
+              <React.Fragment>
+                <Typography color="inherit">{task.title}</Typography>
+                {task.due_date && (
+                  <Typography variant="caption" color="inherit">
+                    Due: {formatDate(task.due_date, 'MMM d, yyyy')}
+                  </Typography>
+                )}
+              </React.Fragment>
+            }
             arrow
+            placement="right"
             slotProps={{
               tooltip: {
                 sx: {

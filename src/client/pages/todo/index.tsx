@@ -9,7 +9,7 @@ import useAuthStore from 'client/store/authStore';
 import { useSearchParams, useLocation } from 'react-router-dom';
 import TaskDetailPage from 'client/pages/task-detail';
 import LoadingSpinner from 'client/components/LoadingSpinner';
-import { useTasksQuery } from 'client/hooks/queries/useTasksQuery';
+import { useUncompletedTasksQuery } from 'client/hooks/queries/useUncompletedTasksQuery';
 import { useQueryClient } from '@tanstack/react-query';
 import {
   useToggleTaskMutation,
@@ -40,7 +40,7 @@ function TodoPage() {
   // and subsequent changes are handled by internal navigation.
 
   const { data: tasks = [], isLoading: loadingTasks } =
-    useTasksQuery(selectedDate);
+    useUncompletedTasksQuery();
 
   const handlePreviousDay = () => {
     setSelectedDate((prevDate) => {
@@ -81,7 +81,7 @@ function TodoPage() {
   }, [setSearchParams]);
 
   const filteredTasks = useMemo(() => {
-    if (category === 'All') {
+    if (category === 'all') {
       return tasks;
     } else {
       return tasks.filter((task) => task.category === category);
@@ -116,9 +116,8 @@ function TodoPage() {
     if (error) {
       console.error('Error adding task:', error);
     } else if (data) {
-      const newTask = data[0];
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
-      setSearchParams({ taskId: newTask.id });
+                const newTask = data[0];
+                queryClient.invalidateQueries({ queryKey: ['uncompletedTasks'] });      setSearchParams({ taskId: newTask.id });
     }
   };
 
@@ -152,8 +151,7 @@ function TodoPage() {
       if (error) {
         console.error('Error deleting task:', error);
       } else {
-        queryClient.invalidateQueries({ queryKey: ['tasks'] });
-      }
+                  queryClient.invalidateQueries({ queryKey: ['uncompletedTasks'] });      }
     },
     [queryClient]
   );
@@ -193,7 +191,7 @@ function TodoPage() {
         sx={{
           outline: 'none',
           flex: 1,
-          maxWidth: '620px',
+          minWidth: 0, // Allow flex item to shrink
           display: 'flex',
           flexDirection: 'column',
           transition: 'width 0.3s ease-in-out',

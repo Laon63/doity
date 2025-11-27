@@ -286,6 +286,7 @@ function MonthlyCalendar({
                     borderBottom: isLastRow ? 'none' : '0.5px solid #ddd',
                     display: 'flex',
                     minHeight: 0,
+                    minWidth: 0, // Allow grid item to shrink
                   }}
                 >
                   <CalendarDay
