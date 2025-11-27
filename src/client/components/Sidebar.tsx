@@ -119,6 +119,7 @@ function Sidebar() {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
+                color: 'primary.contrastText',
               }}
             >
               {APP_NAME}
