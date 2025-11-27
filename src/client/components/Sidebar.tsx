@@ -25,6 +25,7 @@ import { APP_NAME } from 'client/contants';
 import Logo from 'client/components/Logo';
 import useAuthStore from 'client/store/authStore';
 import { useProfileQuery } from 'client/hooks/queries/useProfileQuery';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 const mainNavItems = [
   { text: 'Today', icon: <CheckCircleOutlineIcon />, to: '/today' },
@@ -44,6 +45,7 @@ function Sidebar() {
   const session = useAuthStore((state) => state.session);
   const [collapsed, setCollapsed] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { t } = useTranslation('common'); // Initialize useTranslation
 
   const { data: profile } = useProfileQuery(session?.user?.id);
   const displayName = profile?.display_name || '';
@@ -123,7 +125,7 @@ function Sidebar() {
             </Typography>
           </Box>
         )}
-        <Tooltip title={collapsed ? 'Expand' : 'Collapse'}>
+        <Tooltip title={collapsed ? t('expand') : t('collapse')}>
           <IconButton
             size="small"
             onClick={(e) => {
@@ -142,7 +144,7 @@ function Sidebar() {
         {mainNavItems.map((item) => (
           <Tooltip
             key={item.text}
-            title={collapsed ? item.text : ''}
+            title={collapsed ? t(item.text.toLowerCase()) : ''}
             placement="right"
           >
             <ListItem disablePadding>
@@ -164,7 +166,7 @@ function Sidebar() {
                 >
                   {item.icon}
                 </ListItemIcon>
-                {!collapsed && <ListItemText primary={item.text} />}
+                {!collapsed && <ListItemText primary={t(item.text.toLowerCase())} />}
               </ListItemButton>
             </ListItem>
           </Tooltip>
@@ -178,7 +180,7 @@ function Sidebar() {
           {secondaryNavItems.map((item) => (
             <Tooltip
               key={item.text}
-              title={collapsed ? item.text : ''}
+              title={collapsed ? t(item.text.toLowerCase()) : ''}
               placement="right"
             >
               <ListItem disablePadding>
@@ -200,7 +202,7 @@ function Sidebar() {
                   >
                     {item.icon}
                   </ListItemIcon>
-                  {!collapsed && <ListItemText primary={item.text} />}
+                  {!collapsed && <ListItemText primary={t(item.text.toLowerCase())} />}
                 </ListItemButton>
               </ListItem>
             </Tooltip>
@@ -226,7 +228,7 @@ function Sidebar() {
           }}
         >
           <Tooltip
-            title={collapsed ? displayName || 'Profile' : ''}
+            title={collapsed ? displayName || t('profile') : ''}
             placement="right"
           >
             <Avatar
@@ -252,7 +254,7 @@ function Sidebar() {
           </Tooltip>
 
           {!collapsed && (
-            <Tooltip title="Logout">
+            <Tooltip title={t('logout')}>
               <IconButton
                 size="small"
                 onClick={handleLogout}
@@ -296,7 +298,7 @@ function Sidebar() {
         </MenuItem>
         <MenuItem onClick={handleLogout}>
           <LogoutIcon sx={{ mr: 1, fontSize: 20 }} />
-          <Typography variant="body2">Logout</Typography>
+          <Typography variant="body2">{t('logout')}</Typography>
         </MenuItem>
       </Menu>
     </Box>

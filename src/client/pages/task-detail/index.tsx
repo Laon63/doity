@@ -25,6 +25,7 @@ import {
   useDeleteTaskMutation,
 } from 'client/hooks/mutations/useTaskMutations';
 import { useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 // New Inner Form Component
 function TaskDetailForm({
@@ -36,6 +37,7 @@ function TaskDetailForm({
   onClose: () => void;
   onToggleTask: (id: string) => void;
 }) {
+  const { t } = useTranslation('common'); // Initialize useTranslation
   const queryClient = useQueryClient();
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description || '');
@@ -99,7 +101,7 @@ function TaskDetailForm({
             component="h2"
             sx={{ fontWeight: 600, fontSize: '1rem' }}
           >
-            Details
+            {t('details')}
           </Typography>
           <IconButton
             onClick={onClose}
@@ -115,7 +117,7 @@ function TaskDetailForm({
           {/* Title Section */}
           <Box sx={{ mb: 2 }}>
             <TextField
-              label="Title"
+              label={t('title')}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               fullWidth
@@ -135,24 +137,24 @@ function TaskDetailForm({
             }}
           >
             <FormControl fullWidth size="small">
-              <InputLabel id="category-select-label">Category</InputLabel>
+              <InputLabel id="category-select-label">{t('category')}</InputLabel>
               <Select
                 labelId="category-select-label"
                 value={category}
-                label="Category"
+                label={t('category')}
                 onChange={(e) => setCategory(e.target.value as string)}
                 sx={{ bgcolor: 'background.default', borderRadius: 1 }}
               >
                 {categoryOptions.map((option) => (
                   <MenuItem key={option} value={option}>
-                    {option.charAt(0).toUpperCase() + option.slice(1)}
+                    {t(option)}
                   </MenuItem>
                 ))}
               </Select>
             </FormControl>
 
             <DatePicker
-              label="Due Date"
+              label={t('dueDate')}
               value={dueDate}
               onChange={(newValue) => setDueDate(newValue)}
               slotProps={{
@@ -176,7 +178,7 @@ function TaskDetailForm({
                 fontWeight: 500,
               }}
             >
-              Description
+              {t('description')}
             </Typography>
             <TextField
               value={description}
@@ -186,7 +188,7 @@ function TaskDetailForm({
               rows={4}
               variant="outlined"
               size="small"
-              placeholder="Add notes, details, or context..."
+              placeholder={t('addNotesPlaceholder')}
               sx={{ bgcolor: 'background.default', borderRadius: 1 }}
             />
           </Box>
@@ -201,7 +203,7 @@ function TaskDetailForm({
                   size="small"
                 />
               }
-              label={<Typography variant="body2">Mark as completed</Typography>}
+              label={<Typography variant="body2">{t('markAsCompleted')}</Typography>}
             />
           </Box>
         </Box>
@@ -222,7 +224,7 @@ function TaskDetailForm({
             sx={{ fontWeight: 500 }}
             disabled={updateTaskMutation.isPending}
           >
-            {updateTaskMutation.isPending ? 'Saving...' : 'Save'}
+            {updateTaskMutation.isPending ? t('saving') : t('save')}
           </Button>
           <Button
             variant="outlined"
@@ -233,7 +235,7 @@ function TaskDetailForm({
             sx={{ fontWeight: 500 }}
             disabled={deleteTaskMutation.isPending}
           >
-            {deleteTaskMutation.isPending ? 'Deleting...' : 'Delete'}
+            {deleteTaskMutation.isPending ? t('deleting') : t('delete')}
           </Button>
         </Box>
       </Box>
@@ -253,6 +255,7 @@ function TaskDetailPage({
   onClose,
   onToggleTask,
 }: TaskDetailPageProps) {
+  const { t } = useTranslation('common'); // Initialize useTranslation
   const { data: task, isLoading, isError, error } = useTaskQuery(taskId);
 
   if (isLoading) {
@@ -262,8 +265,8 @@ function TaskDetailPage({
   if (isError) {
     return (
       <Box sx={{ p: 3 }}>
-        <Typography color="error">Error: {error?.message}</Typography>
-        <Button onClick={onClose}>Close</Button>
+        <Typography color="error">{t('error')}: {error?.message}</Typography>
+        <Button onClick={onClose}>{t('close')}</Button>
       </Box>
     );
   }
@@ -272,7 +275,7 @@ function TaskDetailPage({
     // This can happen if the query is disabled or if it returns no data
     return (
       <Box sx={{ p: 3 }}>
-        <Typography>Select a task to view details.</Typography>
+        <Typography>{t('selectTaskToViewDetails')}</Typography>
       </Box>
     );
   }

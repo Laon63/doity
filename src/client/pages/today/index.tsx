@@ -15,8 +15,10 @@ import {
   useToggleTaskMutation,
   useUpdateTaskTitleMutation,
 } from 'client/hooks/mutations/useTaskMutations';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 function TodayPage() {
+  const { t } = useTranslation('common'); // Initialize useTranslation
   const session = useAuthStore((state) => state.session);
   const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -267,7 +269,7 @@ function TodayPage() {
               variant="body2"
               sx={{ color: 'text.secondary', textAlign: 'center' }}
             >
-              Select a task to view details
+              {t('selectTaskToViewDetails')}
             </Typography>
           </Box>
         )}

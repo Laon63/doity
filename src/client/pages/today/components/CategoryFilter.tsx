@@ -1,42 +1,45 @@
 import React from 'react';
 import { Box, Chip, Stack } from '@mui/material';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 interface CategoryFilterProps {
   selectedCategory: string;
   setCategory: (category: string) => void;
 }
 
-const categories = [
-  {
-    name: 'All',
-    label: 'All',
-    bgcolor: '#c0ccd5',
-    textColor: '#000000de',
-  },
-  {
-    name: 'personal',
-    label: 'Personal',
-    bgcolor: '#bed9ff',
-    textColor: '#4a8ae2',
-  },
-  {
-    name: 'work',
-    label: 'Work',
-    bgcolor: '#C4B5E0',
-    textColor: '#6b21a8',
-  },
-  {
-    name: 'other',
-    label: 'Other',
-    bgcolor: '#E8A5C0',
-    textColor: '#831843',
-  },
-];
-
 function CategoryFilter({
   selectedCategory,
   setCategory,
 }: CategoryFilterProps) {
+  const { t } = useTranslation('common'); // Initialize useTranslation
+
+  const categories = [
+    {
+      name: 'All',
+      label: t('all'),
+      bgcolor: '#c0ccd5',
+      textColor: '#000000de',
+    },
+    {
+      name: 'personal',
+      label: t('personal'),
+      bgcolor: '#bed9ff',
+      textColor: '#4a8ae2',
+    },
+    {
+      name: 'work',
+      label: t('work'),
+      bgcolor: '#C4B5E0',
+      textColor: '#6b21a8',
+    },
+    {
+      name: 'other',
+      label: t('other'),
+      bgcolor: '#E8A5C0',
+      textColor: '#831843',
+    },
+  ];
+
   const handleChipClick = (categoryName: string) => {
     setCategory(categoryName);
   };

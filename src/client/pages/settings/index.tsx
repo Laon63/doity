@@ -76,7 +76,7 @@ function SettingsPage() {
         onSuccess: (data) => {
           setMessage({ type: 'success', text: t('nameUpdated') });
           // Update Zustand store with the new values
-          if (data) { // Ensure data is not null
+          if (data) {
             setPrimaryColor(data.theme_color);
             setLanguage(data.language as Language);
           }
@@ -335,8 +335,8 @@ function SettingsPage() {
               size="small"
               sx={{ minWidth: 150 }}
             >
-              <MenuItem value="en">English</MenuItem>
-              <MenuItem value="ko">한국어</MenuItem>
+              <MenuItem value="en">{t('english')}</MenuItem>
+              <MenuItem value="ko">{t('korean')}</MenuItem>
             </Select>
           </Card>
 

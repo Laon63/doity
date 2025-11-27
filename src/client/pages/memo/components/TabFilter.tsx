@@ -1,27 +1,30 @@
 import React from 'react';
 import { Box, Chip, Stack } from '@mui/material';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 interface TabFilterProps {
   selectedTab: string;
   setTab: (tab: string) => void;
 }
 
-const tabs = [
-  {
-    name: 'All',
-    label: 'All',
-    bgcolor: '#c0ccd5',
-    textColor: '#000000de',
-  },
-  {
-    name: 'Pinned',
-    label: 'Pinned',
-    bgcolor: '#FFD700',
-    textColor: '#5f6d7b',
-  },
-];
-
 function TabFilter({ selectedTab, setTab }: TabFilterProps) {
+  const { t } = useTranslation('memo'); // Initialize useTranslation
+
+  const tabs = [
+    {
+      name: 'All',
+      label: t('all'),
+      bgcolor: '#c0ccd5',
+      textColor: '#000000de',
+    },
+    {
+      name: 'Pinned',
+      label: t('pinned'),
+      bgcolor: '#FFD700',
+      textColor: '#5f6d7b',
+    },
+  ];
+
   const handleTabClick = (tabName: string) => {
     setTab(tabName);
   };

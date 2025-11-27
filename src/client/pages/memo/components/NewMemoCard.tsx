@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Box, TextField, Button, Stack } from '@mui/material';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 interface NewMemoCardProps {
   onSave: (content: string) => void;
@@ -7,6 +8,7 @@ interface NewMemoCardProps {
 }
 
 function NewMemoCard({ onSave, isLoading = false }: NewMemoCardProps) {
+  const { t } = useTranslation(['memo', 'common']); // Initialize useTranslation
   const [content, setContent] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [isComposing, setIsComposing] = useState(false); // IME composition state
@@ -78,7 +80,7 @@ function NewMemoCard({ onSave, isLoading = false }: NewMemoCardProps) {
         multiline
         maxRows={10}
         fullWidth
-        placeholder="새 메모를 작성하세요..."
+        placeholder={t('newMemoPlaceholder')}
         value={content}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
@@ -123,7 +125,7 @@ function NewMemoCard({ onSave, isLoading = false }: NewMemoCardProps) {
             disabled={isLoading}
             sx={{ textTransform: 'none' }}
           >
-            취소
+            {t('common:cancel')}
           </Button>
           <Button
             size="small"
@@ -132,7 +134,7 @@ function NewMemoCard({ onSave, isLoading = false }: NewMemoCardProps) {
             disabled={!content.trim() || isLoading}
             sx={{ textTransform: 'none' }}
           >
-            저장
+            {t('common:save')}
           </Button>
         </Stack>
       )}

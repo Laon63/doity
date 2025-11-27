@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { TextField, IconButton, Paper } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 interface TaskQuickAddProps {
   onAddTask: (title: string) => void;
 }
 
 function TaskQuickAdd({ onAddTask }: TaskQuickAddProps) {
+  const { t } = useTranslation('common'); // Initialize useTranslation
   const [title, setTitle] = useState('');
 
   const handleAddTask = () => {
@@ -39,7 +41,7 @@ function TaskQuickAdd({ onAddTask }: TaskQuickAddProps) {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="Add a new task..."
+        placeholder={t('addTaskPlaceholder')}
         variant="standard"
         fullWidth
         sx={{ ml: 2, flex: 1 }}
@@ -54,7 +56,7 @@ function TaskQuickAdd({ onAddTask }: TaskQuickAddProps) {
           color: 'white',
           '&:hover': { bgcolor: 'primary.dark' },
         }}
-        aria-label="add task"
+        aria-label={t('addTask')}
         onClick={handleAddTask}
       >
         <AddIcon />

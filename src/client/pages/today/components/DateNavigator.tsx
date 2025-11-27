@@ -6,6 +6,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 interface DateNavigatorProps {
   selectedDate: Date;
@@ -26,6 +27,7 @@ function DateNavigator({
   setIsCalendarOpen,
   onDateChange,
 }: DateNavigatorProps) {
+  const { t, i18n } = useTranslation('common'); // Initialize useTranslation and get i18n instance
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -41,7 +43,7 @@ function DateNavigator({
   };
 
   const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('en-US', {
+    return new Intl.DateTimeFormat(i18n.language, { // Use i18n.language for locale
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -76,7 +78,7 @@ function DateNavigator({
             onClick={onTodayClick}
             sx={{ mr: 1, color: 'text.secondary', borderColor: 'divider' }}
           >
-            Today
+            {t('today')}
           </Button>
           <IconButton
             size="small"

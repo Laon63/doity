@@ -8,6 +8,7 @@ import CalendarDay from './CalendarDay';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 interface MonthlyCalendarProps {
   currentDate: Date;
@@ -20,6 +21,7 @@ function MonthlyCalendar({
   onDateChange,
   tasks,
 }: MonthlyCalendarProps) {
+  const { t, i18n } = useTranslation('common'); // Initialize useTranslation and get i18n instance
   const today = new Date();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
@@ -108,12 +110,12 @@ function MonthlyCalendar({
     }
   };
 
-  const monthName = new Intl.DateTimeFormat('en-US', {
+  const monthName = new Intl.DateTimeFormat(i18n.language, { // Use i18n.language for locale
     month: 'long',
     year: 'numeric',
   }).format(currentDate);
 
-  const dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const dayLabels = [t('sun'), t('mon'), t('tue'), t('wed'), t('thu'), t('fri'), t('sat')]; // Translate day labels
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -169,7 +171,7 @@ function MonthlyCalendar({
                 },
               }}
             >
-              Today
+              {t('today')}
             </Button>
             <IconButton
               onClick={handleCalendarOpen}
