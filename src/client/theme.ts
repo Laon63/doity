@@ -1,5 +1,5 @@
 import { createTheme } from '@mui/material/styles';
-import { lightenColor, darkenColor, getContrastTextColor, getLightBackgroundColor } from 'client/utils/colors';
+import { lightenColor, darkenColor, getContrastTextColor, getSidebarBackgroundColor } from 'client/utils/colors';
 
 // Function to get light, dark, and text colors based on the main color
 const getDerivedColors = (mainColor: string) => {
