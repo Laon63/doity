@@ -184,7 +184,7 @@ function Sidebar() {
       {/* Settings & Profile Section */}
       <Box sx={{ display: 'flex', flexDirection: 'column', px: 1, pb: 0.5 }}>
         {/* Settings Menu */}
-        <List>
+        <List sx={{ color: 'primary.contrastText' }}>
           {secondaryNavItems.map((item) => (
             <Tooltip
               key={item.text}
@@ -199,6 +199,13 @@ function Sidebar() {
                     justifyContent: collapsed ? 'center' : 'flex-start',
                     minHeight: 44,
                     px: 1,
+                    color: 'primary.contrastText',
+                    '&:hover': {
+                      backgroundColor: 'primary.dark',
+                    },
+                    '&.active': {
+                      backgroundColor: 'primary.dark',
+                    },
                   }}
                 >
                   <ListItemIcon
