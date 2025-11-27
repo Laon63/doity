@@ -11,7 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { formatDate } from 'client/utils/date';
 import { useTheme } from '@mui/material';
 import { getCategoryColor, getCategoryLightColor, lightenColor } from 'client/utils/colors';
-import useThemeStore from 'client/store/authStore';
+import useThemeStore from 'client/store/themeStore';
 
 interface TaskItemProps {
   task: Task;
@@ -99,7 +99,7 @@ function TaskItem({
         <Box
           sx={{ flexGrow: 1 }}
           onClick={() => {
-            // 임시제거. TODO: history (undo redo) 구축 후 작업
+            // 임시제거. TODO: history (undo redo) 구��� 후 작업
             // setIsEditing(true);
           }}
         >
