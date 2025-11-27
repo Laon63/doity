@@ -25,7 +25,7 @@ const getTheme = (primaryColor: string) => {
         main: '#64748B',
       },
       background: {
-        default: getLightBackgroundColor(primaryColor),
+        default: '#F8FAFC',
         paper: '#FFFFFF',
       },
       text: {
