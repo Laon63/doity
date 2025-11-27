@@ -1,11 +1,20 @@
 import { createTheme } from '@mui/material/styles';
 import { lightenColor, darkenColor, getContrastTextColor, getSidebarBackgroundColor } from 'client/utils/colors';
 
-// Function to get light, dark, and text colors based on the main color
+// Function to get comprehensive color palette based on the main color
 const getDerivedColors = (mainColor: string) => {
   return {
+    // Very light background (barely visible) - for Sidebar
     light: getSidebarBackgroundColor(mainColor),
+    // Light hover (15% lighter) - for Tab, Category filter selection
+    lighter: lightenColor(mainColor, 0.15),
+    // Extra light (20% lighter) - for TaskItem hover
+    lightest: lightenColor(mainColor, 0.20),
+    // Border color (10% darker than main)
+    border: darkenColor(mainColor, 0.10),
+    // Dark color (30% darker)
     dark: darkenColor(mainColor, 0.3),
+    // Contrast text color
     text: getContrastTextColor(mainColor),
   };
 };
@@ -18,6 +27,9 @@ const getTheme = (primaryColor: string) => {
       primary: {
         main: primaryColor,
         light: derivedColors.light,
+        lighter: derivedColors.lighter as any,
+        lightest: derivedColors.lightest as any,
+        border: derivedColors.border as any,
         dark: derivedColors.dark,
         contrastText: derivedColors.text,
       },
