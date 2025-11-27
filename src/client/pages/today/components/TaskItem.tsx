@@ -59,12 +59,12 @@ function TaskItem({
           : 'background.paper',
         borderRadius: 1,
         border: isSelected // Changed
-          ? `2px solid ${getCategoryColor(task.category)}`
+          ? `2px solid ${(theme.palette.primary as any).border}`
           : `1px solid ${theme.palette.divider}`,
         cursor: 'pointer',
         transition: 'background-color 0.2s ease, border-color 0.2s ease',
         '&:hover': {
-          bgcolor: hoverBgColor,
+          bgcolor: 'primary.lightest',
         },
       }}
     >
