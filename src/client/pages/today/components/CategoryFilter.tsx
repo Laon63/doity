@@ -1,14 +1,12 @@
 import React from 'react';
 import { Box, Chip, Stack, useTheme } from '@mui/material';
-import { getSidebarBackgroundColor, getContrastTextColor } from 'client/utils/colors';
+import { lightenColor, getContrastTextColor } from 'client/utils/colors';
 import useThemeStore from 'client/store/themeStore';
 
 interface CategoryFilterProps {
   selectedCategory: string;
   setCategory: (category: string) => void;
 }
-
-import { lightenColor } from 'client/utils/colors';
 
 const getCategoryConfig = (primaryColor: string) => [
   {
