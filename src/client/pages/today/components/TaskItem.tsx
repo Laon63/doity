@@ -36,6 +36,8 @@ function TaskItem({
   const [title, setTitle] = useState(task.title);
   const [isHovered, setIsHovered] = useState(false);
   const theme = useTheme();
+  const primaryColor = useThemeStore((state) => state.primaryColor);
+  const hoverBgColor = lightenColor(primaryColor, 0.20);
 
   const handleUpdate = () => {
     if (title.trim() && title !== task.title) {
@@ -99,7 +101,7 @@ function TaskItem({
         <Box
           sx={{ flexGrow: 1 }}
           onClick={() => {
-            // 임시제거. TODO: history (undo redo) 구��� 후 작업
+            // 임시제거. TODO: history (undo redo) 구축 후 작업
             // setIsEditing(true);
           }}
         >
