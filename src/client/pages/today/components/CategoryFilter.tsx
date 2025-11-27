@@ -66,7 +66,7 @@ function CategoryFilter({
                   : 'default',
               color:
                 selectedCategory === categoryItem.name
-                  ? categoryItem.textColor
+                  ? '#000000'
                   : 'text.primary',
               borderColor:
                 selectedCategory === categoryItem.name
