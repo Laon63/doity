@@ -3,16 +3,16 @@ import { create } from 'zustand';
 export type Language = 'en' | 'ko';
 
 export const COLOR_PALETTES = {
-  blush: '#FFB3D9',
+  skyBlue: '#BAE1FF',
   peach: '#FFCAB0',
   lemonChiffon: '#FFFACD',
-  mint: '#BAFFC9',
-  skyBlue: '#BAE1FF',
+  softMint: '#9FE9D9',
   lavender: '#DCC9E8',
   rose: '#FFD9E8',
   sage: '#D9EAD3',
   coral: '#FFCCB3',
   lilac: '#E6CCFF',
+  softPink: '#F5A3D0',
 };
 
 interface ThemeState {
