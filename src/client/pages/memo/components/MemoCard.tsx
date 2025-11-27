@@ -35,6 +35,7 @@ function MemoCard({
   onDelete,
   onUpdate,
 }: MemoCardProps) {
+  const theme = useTheme();
   const [isHovered, setIsHovered] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(memo.content);
