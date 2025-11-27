@@ -8,29 +8,31 @@ interface CategoryFilterProps {
   setCategory: (category: string) => void;
 }
 
+import { lightenColor } from 'client/utils/colors';
+
 const getCategoryConfig = (primaryColor: string) => [
   {
     name: 'All',
     label: 'All',
-    bgcolor: getSidebarBackgroundColor(primaryColor),
+    bgcolor: lightenColor(primaryColor, 0.15),
     textColor: getContrastTextColor(primaryColor),
   },
   {
     name: 'personal',
     label: 'Personal',
-    bgcolor: getSidebarBackgroundColor(primaryColor),
+    bgcolor: lightenColor(primaryColor, 0.15),
     textColor: getContrastTextColor(primaryColor),
   },
   {
     name: 'work',
     label: 'Work',
-    bgcolor: getSidebarBackgroundColor(primaryColor),
+    bgcolor: lightenColor(primaryColor, 0.15),
     textColor: getContrastTextColor(primaryColor),
   },
   {
     name: 'other',
     label: 'Other',
-    bgcolor: getSidebarBackgroundColor(primaryColor),
+    bgcolor: lightenColor(primaryColor, 0.15),
     textColor: getContrastTextColor(primaryColor),
   },
 ];
