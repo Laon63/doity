@@ -199,7 +199,7 @@ function SettingsPage() {
                     width: 90,
                     height: 90,
                     bgcolor: primaryColor,
-                    color: '#fff',
+                    color: getContrastTextColor(primaryColor),
                     fontSize: '2.5rem',
                   }}
                 >
