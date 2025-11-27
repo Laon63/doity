@@ -140,6 +140,20 @@ export const getContrastTextColor = (bgColor: string): string => {
   return luminance > 0.5 ? '#1E293B' : '#F8FAFC';
 };
 
+// Create a very light background color from primary color
+export const getLightBackgroundColor = (hex: string): string => {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return '#F8FAFC';
+
+  const { r, g, b } = rgb;
+  const [h, s, l] = rgbToHsl(r, g, b);
+  // Set lightness to 95% for a very light background
+  const newL = 95;
+
+  const [newR, newG, newB] = hslToRgb(h, s, newL);
+  return rgbToHex(newR, newG, newB);
+};
+
 export const getCategoryColor = (category?: string) => {
   switch (category) {
     case 'personal':
