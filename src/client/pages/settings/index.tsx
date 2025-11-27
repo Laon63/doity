@@ -12,6 +12,7 @@ import {
   Avatar,
   Grid,
   Divider,
+  useTheme,
 } from '@mui/material';
 import { supabase } from 'client/lib/supabaseClient';
 import useAuthStore from 'client/store/authStore';
@@ -22,6 +23,7 @@ import useThemeStore, {
 import { useTranslation } from 'react-i18next';
 import { useProfileQuery } from 'client/hooks/queries/useProfileQuery';
 import { useUpdateProfileMutation } from 'client/hooks/mutations/useProfileMutations';
+import { getContrastTextColor } from 'client/utils/colors';
 
 function SettingsPage() {
   const { t } = useTranslation('common');
