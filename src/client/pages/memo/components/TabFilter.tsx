@@ -48,7 +48,7 @@ function TabFilter({ selectedTab, setTab }: TabFilterProps) {
                 selectedTab === tabItem.name ? tabItem.bgcolor : 'default',
               color:
                 selectedTab === tabItem.name
-                  ? tabItem.textColor
+                  ? '#000000'
                   : 'text.primary',
               borderColor:
                 selectedTab === tabItem.name ? tabItem.bgcolor : 'divider',
