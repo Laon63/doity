@@ -236,7 +236,7 @@ function Sidebar() {
                 width: 40,
                 height: 40,
                 bgcolor: 'primary.main',
-                color: '#fff',
+                color: theme.palette.primary.contrastText,
                 fontSize: '1rem',
                 cursor: 'pointer',
                 transition: 'transform 0.2s ease',
