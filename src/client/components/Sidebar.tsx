@@ -272,7 +272,7 @@ function Sidebar() {
               <IconButton
                 size="small"
                 onClick={handleLogout}
-                sx={{ color: 'primary.contrastText' }}
+                sx={{ color: 'text.primary' }}
               >
                 <LogoutIcon />
               </IconButton>
