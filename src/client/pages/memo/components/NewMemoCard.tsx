@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Box, TextField, Button, Stack } from '@mui/material';
+import { Box, TextField, Button, Stack, useTheme } from '@mui/material';
 
 interface NewMemoCardProps {
   onSave: (content: string) => void;
