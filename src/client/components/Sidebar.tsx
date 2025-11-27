@@ -156,6 +156,13 @@ function Sidebar() {
                   justifyContent: collapsed ? 'center' : 'flex-start',
                   minHeight: 44,
                   px: 1,
+                  color: 'primary.contrastText',
+                  '&:hover': {
+                    backgroundColor: 'primary.dark',
+                  },
+                  '&.active': {
+                    backgroundColor: 'primary.dark',
+                  },
                 }}
               >
                 <ListItemIcon
