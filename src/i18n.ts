@@ -17,16 +17,20 @@ const resources = {
   },
 };
 
-i18n
-  .use(initReactI18next) // Pass i18n down to react-i18next
-  .init({
+// Initialize i18next and export the function to be awaited
+export const initializeI18n = () =>
+  i18n.use(initReactI18next).init({
     resources,
-    fallbackLng: 'en', // Use English if detected language is not available
+    fallbackLng: 'en',
     supportedLngs: ['en', 'ko'],
-    ns: ['common', 'memo'], // Namespaces
+    ns: ['common', 'memo'],
     defaultNS: 'common',
     interpolation: {
       escapeValue: false, // React already safes from xss
+    },
+    // We are awaiting init, so we don't need suspense for translations
+    react: {
+      useSuspense: false,
     },
   });
 

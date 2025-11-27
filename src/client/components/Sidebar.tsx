@@ -280,9 +280,18 @@ function Sidebar() {
           horizontal: 'right',
         }}
       >
-        <MenuItem disabled>
+        <MenuItem
+          disabled
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 0.5,
+          }}
+        >
+          <Typography variant="body2">{`${displayName}`}</Typography>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-            {`${displayName} ${session?.user?.email || ''}`}
+            {`(${session?.user?.email || ''})`}
           </Typography>
         </MenuItem>
         <MenuItem onClick={handleLogout}>

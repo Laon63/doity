@@ -7,7 +7,12 @@ import SettingsPage from 'client/pages/settings';
 import LogoutPage from 'client/pages/logout';
 import LoginPage from 'client/pages/login';
 import SignupPage from 'client/pages/signup';
-import RootRedirect from 'client/components/RootRedirect'; // Import RootRedirect
+import RootRedirect from 'client/components/RootRedirect';
+import { queryClient } from 'client/lib/queryClient';
+import { supabase } from 'client/lib/supabaseClient';
+import { profileQueryOptions } from 'client/hooks/queries/useProfileQuery';
+import { Profile } from 'client/types';
+import LoadingSpinner from './components/LoadingSpinner';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +26,22 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    hydrateFallbackElement: <LoadingSpinner fullScreen={true} />,
+    loader: async (): Promise<Profile | object> => {
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        if (session) {
+          return await queryClient.ensureQueryData(
+            profileQueryOptions(session.user.id)
+          );
+        }
+      } catch (error) {
+        console.error('Error in root loader:', error);
+      }
+      return {}; // Return an empty object instead of null
+    },
     children: [
       {
         path: '/',

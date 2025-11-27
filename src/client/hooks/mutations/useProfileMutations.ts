@@ -10,15 +10,18 @@ const updateProfile = async ({
 }: {
   userId: string;
   payload: ProfileUpdatePayload;
-}) => {
-  const { error } = await supabase
+}): Promise<Profile> => {
+  const { data, error } = await supabase
     .from('profiles')
     .update(payload)
-    .eq('id', userId);
+    .eq('id', userId)
+    .select()
+    .single();
 
   if (error) {
     throw new Error(error.message);
   }
+  return data;
 };
 
 export const useUpdateProfileMutation = (userId: string | undefined) => {
@@ -31,9 +34,9 @@ export const useUpdateProfileMutation = (userId: string | undefined) => {
       }
       return updateProfile({ userId, payload });
     },
-    onSuccess: () => {
-      // Invalidate and refetch the profile query to get fresh data
-      queryClient.invalidateQueries({ queryKey: ['profile', userId] });
+    onSuccess: (updatedProfile) => {
+      // Directly update the cache with the new data
+      queryClient.setQueryData(['profile', userId], updatedProfile);
     },
   });
 };

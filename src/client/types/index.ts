@@ -1,3 +1,5 @@
+import { Language } from 'client/store/themeStore';
+
 export interface Task {
   id: string;
   user_id: string;
@@ -15,5 +17,5 @@ export interface Profile {
   display_name: string;
   profile_picture_url: string | null;
   theme_color: string;
-  language: string;
+  language: Language;
 }

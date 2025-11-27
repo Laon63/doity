@@ -73,8 +73,13 @@ function SettingsPage() {
         language: language,
       },
       {
-        onSuccess: () => {
+        onSuccess: (data) => {
           setMessage({ type: 'success', text: t('nameUpdated') });
+          // Update Zustand store with the new values
+          if (data) { // Ensure data is not null
+            setPrimaryColor(data.theme_color);
+            setLanguage(data.language as Language);
+          }
         },
         onError: (error) => {
           setMessage({ type: 'error', text: error.message });
