@@ -39,7 +39,7 @@ function CategoryFilter({
               px: 1,
               bgcolor:
                 selectedCategory === categoryItem.name
-                  ? categoryItem.bgcolor
+                  ? 'primary.lighter'
                   : 'default',
               color:
                 selectedCategory === categoryItem.name
@@ -47,12 +47,12 @@ function CategoryFilter({
                   : 'text.primary',
               borderColor:
                 selectedCategory === categoryItem.name
-                  ? categoryItem.bgcolor
+                  ? 'primary.lighter'
                   : 'divider',
               '&:hover': {
                 bgcolor:
                   selectedCategory === categoryItem.name
-                    ? categoryItem.bgcolor
+                    ? 'primary.lighter'
                     : 'action.hover',
               },
             }}
