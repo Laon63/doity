@@ -31,17 +31,17 @@ function TabFilter({ selectedTab, setTab }: TabFilterProps) {
               fontWeight: 600,
               px: 1,
               bgcolor:
-                selectedTab === tabItem.name ? tabItem.bgcolor : 'default',
+                selectedTab === tabItem.name ? 'primary.lighter' : 'default',
               color:
                 selectedTab === tabItem.name
                   ? '#000000'
                   : 'text.primary',
               borderColor:
-                selectedTab === tabItem.name ? tabItem.bgcolor : 'divider',
+                selectedTab === tabItem.name ? 'primary.lighter' : 'divider',
               '&:hover': {
                 bgcolor:
                   selectedTab === tabItem.name
-                    ? tabItem.bgcolor
+                    ? 'primary.lighter'
                     : 'action.hover',
               },
             }}
