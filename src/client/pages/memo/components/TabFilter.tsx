@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Chip, Stack, useTheme } from '@mui/material';
-import { getSidebarBackgroundColor, getContrastTextColor } from 'client/utils/colors';
+import { lightenColor, getContrastTextColor } from 'client/utils/colors';
 import useThemeStore from 'client/store/themeStore';
 
 interface TabFilterProps {
@@ -12,13 +12,13 @@ const getTabConfig = (primaryColor: string) => [
   {
     name: 'All',
     label: 'All',
-    bgcolor: getSidebarBackgroundColor(primaryColor),
+    bgcolor: lightenColor(primaryColor, 0.15),
     textColor: getContrastTextColor(primaryColor),
   },
   {
     name: 'Pinned',
     label: 'Pinned',
-    bgcolor: getSidebarBackgroundColor(primaryColor),
+    bgcolor: lightenColor(primaryColor, 0.15),
     textColor: getContrastTextColor(primaryColor),
   },
 ];
