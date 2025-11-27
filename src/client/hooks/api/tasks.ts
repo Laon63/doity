@@ -104,3 +104,18 @@ export const toggleTask = async ({
     throw new Error(error.message);
   }
 };
+
+export const fetchUncompletedTasks = async (userId: string): Promise<Task[]> => {
+  const { data, error } = await supabase
+    .from('tasks')
+    .select('*')
+    .eq('user_id', userId)
+    .eq('is_completed', false)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data || [];
+};

@@ -51,15 +51,22 @@ function TaskDetailForm({
   const deleteTaskMutation = useDeleteTaskMutation();
 
   const handleUpdateTask = () => {
-    updateTaskMutation.mutate({
-      taskId: task.id,
-      payload: {
-        title,
-        description,
-        category,
-        due_date: dueDate ? formatDate(dueDate, 'yyyy-MM-dd') : null,
+    updateTaskMutation.mutate(
+      {
+        taskId: task.id,
+        payload: {
+          title,
+          description,
+          category,
+          due_date: dueDate ? formatDate(dueDate, 'yyyy-MM-dd') : null,
+        },
       },
-    });
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['uncompletedTasks'] });
+        },
+      }
+    );
   };
 
   const handleDeleteTask = () => {

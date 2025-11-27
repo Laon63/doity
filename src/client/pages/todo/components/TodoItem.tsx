@@ -63,6 +63,8 @@ function TodoItem({
           : `1px solid ${theme.palette.divider}`,
         cursor: 'pointer',
         transition: 'background-color 0.2s ease, border-color 0.2s ease',
+        position: 'relative', // Added for absolute positioning context
+        minWidth: 0, // Allow flex item to shrink
         '&:hover': {
           bgcolor: getCategoryLightColor(task.category),
         },
@@ -95,37 +97,45 @@ function TodoItem({
           onClick={(e) => e.stopPropagation()}
         />
       ) : (
-        <Box
-          sx={{ flexGrow: 1 }}
-          onClick={() => {
-            // 임시제거. TODO: history (undo redo) 구축 후 작업
-            // setIsEditing(true);
-          }}
-        >
-          <Typography
-            sx={{
-              textDecoration: task.is_completed ? 'line-through' : 'none',
-              color: task.is_completed ? 'text.secondary' : 'text.primary',
-            }}
-          >
-            {task.title}
-          </Typography>
+        <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between', minWidth: 0 }}>
+          <Box sx={{ minWidth: 0, mr: 1 }}>
+            <Typography
+              sx={{
+                textDecoration: task.is_completed ? 'line-through' : 'none',
+                color: task.is_completed ? 'text.secondary' : 'text.primary',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+            >
+              {task.title}
+            </Typography>
+          </Box>
           {task.due_date && (
-            <Typography variant="caption" color="text.secondary">
+            <Typography variant="caption" color="text.secondary" sx={{ flexShrink: 0 }}>
               {formatDate(task.due_date, 'MMM d')}
             </Typography>
           )}
         </Box>
       )}
       {(isHovered || isFocused) && !isEditing && (
-        <Box sx={{ display: 'flex', gap: 0.5 }}>
+        <Box
+          sx={{
+            position: 'absolute', // Absolute positioning
+            right: 8, // Adjust as needed
+            top: 8, // Adjust as needed
+            opacity: isHovered ? 1 : 0.3, // Slightly visible when not hovered
+            transition: 'opacity 0.2s ease', // Smooth transition
+            zIndex: 1, // Ensure it's above other content if necessary
+          }}
+        >
           <IconButton
             onClick={(e) => {
               e.stopPropagation();
               onDeleteTask(task.id);
             }}
             size="small"
-            sx={{ color: 'text.secondary' }}
+            sx={{ color: 'text.secondary', p: 0.5 }} // Added padding
           >
             <DeleteIcon fontSize="small" />
           </IconButton>
