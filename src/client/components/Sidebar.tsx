@@ -141,7 +141,7 @@ function Sidebar() {
       </Box>
 
       {/* Main Navigation */}
-      <List sx={{ flexGrow: 1, px: collapsed ? 1 : 1, color: 'primary.contrastText' }}>
+      <List sx={{ flexGrow: 1, px: collapsed ? 1 : 1, color: 'text.primary' }}>
         {mainNavItems.map((item) => (
           <Tooltip
             key={item.text}
@@ -156,12 +156,12 @@ function Sidebar() {
                   justifyContent: collapsed ? 'center' : 'flex-start',
                   minHeight: 44,
                   px: 1,
-                  color: 'primary.contrastText',
+                  color: 'text.primary',
                   '&:hover': {
-                    backgroundColor: 'primary.dark',
+                    backgroundColor: 'primary.main',
                   },
                   '&.active': {
-                    backgroundColor: 'primary.dark',
+                    backgroundColor: 'primary.main',
                   },
                 }}
               >
