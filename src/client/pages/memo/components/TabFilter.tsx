@@ -34,10 +34,7 @@ function TabFilter({ selectedTab, setTab }: TabFilterProps) {
               px: 1,
               bgcolor:
                 selectedTab === tabItem.name ? 'primary.lighter' : 'default',
-              color:
-                selectedTab === tabItem.name
-                  ? '#000000'
-                  : 'text.primary',
+              color: selectedTab === tabItem.name ? '#000000' : 'text.primary',
               borderColor:
                 selectedTab === tabItem.name ? 'primary.lighter' : 'divider',
               '&:hover': {

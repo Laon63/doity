@@ -1,5 +1,12 @@
 import React, { useMemo, useState } from 'react';
-import { Box, Typography, IconButton, Button, Paper, useTheme } from '@mui/material';
+import {
+  Box,
+  Typography,
+  IconButton,
+  Button,
+  Paper,
+  useTheme,
+} from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'; // Corrected import
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'; // Import CalendarMonthIcon
@@ -111,12 +118,21 @@ function MonthlyCalendar({
     }
   };
 
-  const monthName = new Intl.DateTimeFormat(i18n.language, { // Use i18n.language for locale
+  const monthName = new Intl.DateTimeFormat(i18n.language, {
+    // Use i18n.language for locale
     month: 'long',
     year: 'numeric',
   }).format(currentDate);
 
-  const dayLabels = [t('sun'), t('mon'), t('tue'), t('wed'), t('thu'), t('fri'), t('sat')]; // Translate day labels
+  const dayLabels = [
+    t('sun'),
+    t('mon'),
+    t('tue'),
+    t('wed'),
+    t('thu'),
+    t('fri'),
+    t('sat'),
+  ]; // Translate day labels
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>

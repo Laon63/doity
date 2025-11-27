@@ -97,7 +97,15 @@ function TodoItem({
           onClick={(e) => e.stopPropagation()}
         />
       ) : (
-        <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between', minWidth: 0 }}>
+        <Box
+          sx={{
+            flexGrow: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            minWidth: 0,
+          }}
+        >
           <Box sx={{ minWidth: 0, mr: 1 }}>
             <Typography
               sx={{
@@ -112,7 +120,11 @@ function TodoItem({
             </Typography>
           </Box>
           {task.due_date && (
-            <Typography variant="caption" color="text.secondary" sx={{ flexShrink: 0 }}>
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ flexShrink: 0 }}
+            >
               {formatDate(task.due_date, 'MMM d')}
             </Typography>
           )}
