@@ -1,35 +1,37 @@
 import React from 'react';
-import { Box, Chip, Stack } from '@mui/material';
+import { Box, Chip, Stack, useTheme } from '@mui/material';
+import { getSidebarBackgroundColor, getContrastTextColor } from 'client/utils/colors';
+import useThemeStore from 'client/store/themeStore';
 
 interface CategoryFilterProps {
   selectedCategory: string;
   setCategory: (category: string) => void;
 }
 
-const categories = [
+const getCategoryConfig = (primaryColor: string) => [
   {
     name: 'All',
     label: 'All',
-    bgcolor: '#c0ccd5',
-    textColor: '#000000de',
+    bgcolor: getSidebarBackgroundColor(primaryColor),
+    textColor: getContrastTextColor(primaryColor),
   },
   {
     name: 'personal',
     label: 'Personal',
-    bgcolor: '#bed9ff',
-    textColor: '#4a8ae2',
+    bgcolor: getSidebarBackgroundColor(primaryColor),
+    textColor: getContrastTextColor(primaryColor),
   },
   {
     name: 'work',
     label: 'Work',
-    bgcolor: '#C4B5E0',
-    textColor: '#6b21a8',
+    bgcolor: getSidebarBackgroundColor(primaryColor),
+    textColor: getContrastTextColor(primaryColor),
   },
   {
     name: 'other',
     label: 'Other',
-    bgcolor: '#E8A5C0',
-    textColor: '#831843',
+    bgcolor: getSidebarBackgroundColor(primaryColor),
+    textColor: getContrastTextColor(primaryColor),
   },
 ];
 
