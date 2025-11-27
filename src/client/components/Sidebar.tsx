@@ -141,7 +141,7 @@ function Sidebar() {
       </Box>
 
       {/* Main Navigation */}
-      <List sx={{ flexGrow: 1, px: collapsed ? 1 : 1 }}>
+      <List sx={{ flexGrow: 1, px: collapsed ? 1 : 1, color: 'primary.contrastText' }}>
         {mainNavItems.map((item) => (
           <Tooltip
             key={item.text}
