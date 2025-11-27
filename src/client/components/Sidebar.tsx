@@ -133,7 +133,7 @@ function Sidebar() {
               e.stopPropagation();
               setCollapsed(!collapsed);
             }}
-            sx={{ color: 'primary.contrastText' }}
+            sx={{ color: 'text.primary' }}
           >
             <MenuIcon />
           </IconButton>
